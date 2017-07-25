@@ -6,7 +6,7 @@ MageHost Performance Dashboard Extension for Magento 2
 # Install #
 
 ```
-composer config repositories.magehost_performance-dashboard vcs https://github.com/magehost/performance-dashboard
+composer config repositories.magehost_performance-dashboard vcs git@github.com:magehost/performance-dashboard.git
 composer require magehost/performance-dashboard:^1.0 --no-update
 composer update magehost/performance-dashboard
 php bin/magento module:enable MageHost_PerformanceDashboard
