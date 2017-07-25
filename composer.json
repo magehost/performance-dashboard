@@ -1,0 +1,22 @@
+{
+    "name": "magehost/helloworld",
+    "type": "magento2-module",
+    "version": "1.1.1",
+    "description": "Composer package for Hello World Extension",
+    "authors": [
+        {
+            "name": "MageHost.pro - Jeroen Vermeulen",
+            "email": "jeroen@magehost.pro"
+        }
+    ],
+    "minimum-stability": "beta",
+    "require": {},
+    "autoload": {
+        "files": [
+            "app/code/MageHost/HelloWorld/registration.php"
+        ],
+        "psr-4": {
+            "MageHost\\HelloWorld\\": "app/code/MageHost/HelloWorld"
+        }
+    }
+}
