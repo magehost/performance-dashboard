@@ -1,3 +1,8 @@
+MageHost Performance Dashboard Extension for Magento 2
+=====================
+# State #
+**Warning: This software is in 'Alpha' state. Do not use.**
+
 # Install #
 
 ```

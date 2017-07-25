@@ -1,22 +1,23 @@
 {
-    "name": "magehost/helloworld",
+    "name": "magehost/performance-dashboard",
+    "description": "MageHost.pro Performance Dashboard",
     "type": "magento2-module",
-    "version": "1.1.1",
-    "description": "Composer package for Hello World Extension",
-    "authors": [
+    "version": "0.0.2",
+    "minimum-stability": "beta",
+    "license": "MIT",
+    "authors":[
         {
-            "name": "MageHost.pro - Jeroen Vermeulen",
-            "email": "jeroen@magehost.pro"
+            "name":"MageHost.pro - Jeroen Vermeulen",
+            "email":"jeroen@magehost.pro"
         }
     ],
-    "minimum-stability": "beta",
     "require": {},
     "autoload": {
         "files": [
-            "app/code/MageHost/HelloWorld/registration.php"
+            "app/code/MageHost/PerformanceDashboard/registration.php"
         ],
         "psr-4": {
-            "MageHost\\HelloWorld\\": "app/code/MageHost/HelloWorld"
+            "Magehost\\PerformanceDashboard\\": "app/code/MageHost/PerformanceDashboard"
         }
     }
 }
