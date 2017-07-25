@@ -2,15 +2,15 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <add id="MageHost_PerformanceDashboard::dashboard"
-             title="MageHost Performance Dashboard"
+        <add id="MageHost_PerformanceDashboard::greetings_dashboard"
+             title="MH Performance Dashboard"
              translate="title"
              module="MageHost_PerformanceDashboard"
              parent="Magento_Backend::system_tools"
-             sortOrder="20"
+             sortOrder="99"
              dependsOnModule="MageHost_PerformanceDashboard"
-             action="magehost_performance_dashboard/dashboard"
-             resource="MageHost_PerformanceDashboard::dashboard"/>
+             action="magehost_performance/dashboard"
+             resource="Magento_Backend::system_tools"/>
     </menu>
 </config>
   

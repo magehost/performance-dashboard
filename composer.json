@@ -17,7 +17,7 @@
             "app/code/MageHost/PerformanceDashboard/registration.php"
         ],
         "psr-4": {
-            "Magehost\\PerformanceDashboard\\": "app/code/MageHost/PerformanceDashboard"
+            "MageHost\\PerformanceDashboard\\": "app/code/MageHost/PerformanceDashboard"
         }
     }
 }

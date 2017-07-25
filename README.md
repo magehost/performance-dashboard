@@ -15,7 +15,7 @@ php bin/magento setup:di:compile
 ```
 # Usage #
 
-* In Admin go to _System > Tools > Performance Dashboard_.
+* In Admin go to _System > Tools > MH Performance Dashboard_.
 
 # Uninstall #
 ```
