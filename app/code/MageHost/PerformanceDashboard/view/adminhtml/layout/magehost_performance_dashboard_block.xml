@@ -41,7 +41,7 @@
                                     <item name="value" xsi:type="string">2</item>
                                     <item name="label" xsi:type="string" translate="true">Problem</item>
                                 </item>
-                                <item name="problem" xsi:type="array">
+                                <item name="unknown" xsi:type="array">
                                     <item name="value" xsi:type="string">3</item>
                                     <item name="label" xsi:type="string" translate="true">Unknown</item>
                                 </item>
@@ -54,14 +54,16 @@
                             <argument name="index" xsi:type="string">info</argument>
                             <argument name="type" xsi:type="string">text</argument>
                             <argument name="align" xsi:type="string">left</argument>
+                            <argument name="nl_2br" xsi:type="boolean">true</argument>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="action">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true">Improvement</argument>
+                            <argument name="header" xsi:type="string" translate="true">Recommended Action</argument>
                             <argument name="index" xsi:type="string">action</argument>
                             <argument name="type" xsi:type="string">text</argument>
                             <argument name="align" xsi:type="string">left</argument>
+                            <argument name="nl_2br" xsi:type="boolean">true</argument>
                         </arguments>
                     </block>
                 </block>
