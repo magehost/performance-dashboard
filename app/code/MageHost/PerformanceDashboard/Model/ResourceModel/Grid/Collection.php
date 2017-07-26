@@ -42,6 +42,8 @@ class Collection extends \Magento\Framework\Data\Collection
             $this->addItem( $this->getConfigSettingRow('Minify CSS Files','dev/css/minify_files',true) );
             $this->addItem( $this->getConfigSettingRow('Merge JavaScript Files','dev/js/merge_files',true) );
             $this->addItem( $this->getConfigSettingRow('Minify JavaScript Files','dev/js/minify_files',true) );
+            // Idea: FPC hit / miss percentage
+            // Idea: Cache flushes per hour
             $this->_setIsLoaded(true);
         }
         return $this;
