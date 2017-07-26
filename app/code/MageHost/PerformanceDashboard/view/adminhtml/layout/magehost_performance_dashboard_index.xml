@@ -6,10 +6,11 @@
             MageHost.pro Performance Dashboard
         </title>
     </head>
+    <update handle="formkey"/>
+    <update handle="magehost_performance_dashboard_block"/>
     <body>
         <referenceContainer name="content">
-            <block class="Magento\Backend\Block\Template"
-                   template="MageHost_PerformanceDashboard::dashboard.phtml"/>
+            <block class="MageHost\PerformanceDashboard\Block\Backend\Dashboard" name="magehost_performance.dashboard.container"/>
         </referenceContainer>
     </body>
 </page>
