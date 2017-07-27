@@ -24,4 +24,4 @@ php bin/magento setup:di:compile
 ```
 
 # Screenshot #
-![screenshot](https://raw.githubusercontent.com/magehost/performance-dashboard/master/docs/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/magehost/performance-dashboard/master/doc/screenshot.png)
