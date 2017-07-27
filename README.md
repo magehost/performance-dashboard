@@ -1,7 +1,7 @@
 MageHost Performance Dashboard Extension for Magento 2
 =====================
 # State #
-**Warning: This software is in 'Alpha' state. Do not use.**
+Version 1.3.0 is the first stable version.
 
 # Install #
 
