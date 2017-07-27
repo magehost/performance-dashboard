@@ -4,17 +4,23 @@ namespace MageHost\PerformanceDashboard\Model\ResourceModel\Grid;
 
 class Collection extends \Magento\Framework\Data\Collection
 {
-    /** @var  \Magento\Framework\App\Cache\Frontend\Pool */
+    /** @var \Magento\Framework\App\Cache\Frontend\Pool */
     protected $_cacheFrontendPool;
 
-    /** @var  \Magento\Framework\App\Config\ScopeConfigInterface */
+    /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
     protected $_scopeConfig;
 
-    /** @var  \Magento\Store\Model\StoreManagerInterface */
+    /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $_storeManager;
 
-    /** @var  \Magento\Framework\App\State */
+    /** @var \Magento\Framework\App\State */
     protected $_appState;
+
+    /** @var \Magento\Framework\App\Cache\TypeListInterface */
+    protected $_cacheTypeList;
+
+    /** @var \Magento\Framework\App\DeploymentConfig */
+    protected $_deploymentConfig;
 
     /**
      * @param \Magento\Framework\Data\Collection\EntityFactory $entityFactory
@@ -24,12 +30,16 @@ class Collection extends \Magento\Framework\Data\Collection
         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\State $appState
+        \Magento\Framework\App\State $appState,
+        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
+        \Magento\Framework\App\DeploymentConfig $deploymentConfig
     ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_appState = $appState;
+        $this->_cacheTypeList = $cacheTypeList;
+        $this->_deploymentConfig = $deploymentConfig;
         parent::__construct($entityFactory);
     }
 
@@ -68,12 +78,17 @@ class Collection extends \Magento\Framework\Data\Collection
         $result = new \Magento\Framework\DataObject;
         $result->setTitle( sprintf(__('%s Storage'),$name) );
         $currentBackend = $this->_cacheFrontendPool->get($identifier)->getBackend();
-        $result->setInfo( sprintf(__('%s'), get_class($currentBackend)) );
+        $currentBackendClass = get_class($currentBackend);
+        $result->setInfo( sprintf(__('%s'),$currentBackendClass) );
         if ( is_a($currentBackend,'Cm_Cache_Backend_Redis') ) {
             $result->setStatus(0);
+        } elseif ( 'Zend_Cache_Backend_File' == $currentBackendClass ) {
+            $result->setStatus(2);
+            $result->setAction( sprintf( __('%s is slow!'), $currentBackendClass ) . "\n" .
+                sprintf( __('Store in Redis using Cm_Cache_Backend_Redis'), $name) );
         } elseif ( is_a($currentBackend,'Cm_Cache_Backend_File') ) {
             $result->setStatus(1);
-            $result->setAction( sprintf(__('Switch to storing %s in Redis'),$name) );
+            $result->setAction( sprintf(__('Store in Redis using Cm_Cache_Backend_Redis'),$name) );
         } else {
             $result->setStatus(3);
             $result->setInfo( sprintf(__("Unknown cache storage: '%s'"), get_class($currentBackend)) );
@@ -100,8 +115,22 @@ class Collection extends \Magento\Framework\Data\Collection
     {
         $result = new \Magento\Framework\DataObject;
         $result->setTitle( 'Cache Enabled' );
-        $result->setInfo( 'TODO' );
-        $result->setStatus(3);
+        $info = array();
+        $action = array();
+        foreach ($this->_cacheTypeList->getTypes() as $type) {
+            if ( ! $type->getStatus() ) {
+                $info[] = sprintf( __('Cache is disabled: %s'), $type->getCacheType() );
+                $action[] = sprintf( __("Enable %s cache"), $type->getCacheType() );
+            }
+        }
+        if ( empty($action) ) {
+            $result->setInfo( __('All cache is enabled') );
+            $result->setStatus(0);
+        } else {
+            $result->setInfo( implode("\n",$info) );
+            $result->setAction( implode("\n",$action) );
+            $result->setStatus(2);
+        }
         return $result;
     }
 
@@ -109,8 +138,27 @@ class Collection extends \Magento\Framework\Data\Collection
     {
         $result = new \Magento\Framework\DataObject;
         $result->setTitle( 'Session Storage' );
-        $result->setInfo( 'TODO' );
-        $result->setStatus(3);
+
+        /** @see \Magento\Framework\Session\SaveHandler::__construct() */
+        $defaultSaveHandler = ini_get('session.save_handler') ?: \Magento\Framework\Session\SaveHandlerInterface::DEFAULT_HANDLER;
+        $saveHandler = $this->_deploymentConfig->get(\Magento\Framework\Session\Config::PARAM_SESSION_SAVE_METHOD, $defaultSaveHandler);
+
+        switch($saveHandler) {
+            case 'redis':
+            case 'memcache':
+            case 'memcached':
+                $result->setStatus(0);
+                $result->setInfo( sprintf(__('Sessions are saved in %s'),ucfirst($saveHandler)) );
+                break;
+            case 'files':
+                $result->setStatus(2);
+                $result->setInfo( sprintf(__('Sessions are saved in %s'),ucfirst($saveHandler)) );
+                $result->setAction('Save sessions in Redis or Memcached');
+                break;
+            default:
+                $result->setInfo( sprintf(__('Unknown session save handler: %s'),$saveHandler) );
+                $result->setStatus(3);
+        }
         return $result;
     }
 
@@ -198,8 +246,8 @@ class Collection extends \Magento\Framework\Data\Collection
 
         $result->setValue( $this->_scopeConfig->getValue($path, $scopeType, $scopeCode) );
 
-        $result->setInfo( sprintf( __("Is %s %s"),
-            $this->getShowValue($result->getValue(),gettype($recommended)),
+        $result->setInfo( sprintf( __("%s %s"),
+            ucfirst($this->getShowValue($result->getValue(),gettype($recommended))),
             $showScope) );
         if ($recommended == $result->getValue()) {
             $result->setStatus(0);
