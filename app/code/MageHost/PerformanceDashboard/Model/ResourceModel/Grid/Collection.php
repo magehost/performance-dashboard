@@ -177,23 +177,18 @@ class Collection extends \Magento\Framework\Data\Collection
             $result->setStatus(3);
             return $result;
         }
-        $findBinary = trim( shell_exec('which find') );
-        if ( empty($findBinary) || ! is_executable($findBinary) ) {
-            $result->setInfo( __("Can't execute the 'find' command via 'shell_exec'") );
-            $result->setStatus(3);
-            return $result;
-        }
-        $xargsBinary = trim( shell_exec('which xargs') );
-        if ( empty($xargsBinary) || ! is_executable($xargsBinary) ) {
-            $result->setInfo( __("Can't execute the 'xargs' command via 'shell_exec'") );
-            $result->setStatus(3);
-            return $result;
-        }
-        $grepBinary = trim( shell_exec('which grep') );
-        if ( empty($grepBinary) || ! is_executable($grepBinary) ) {
-            $result->setInfo( __("Can't execute the 'grep' command via 'shell_exec'") );
-            $result->setStatus(3);
-            return $result;
+        $binaries = [
+            'find'=>null,
+            'xargs'=>null,
+            'grep'=>null,
+        ];
+        foreach( $binaries as $key => $dummy ) {
+            $binaries[$key] = trim( shell_exec( sprintf('which %s',escapeshellarg($key)) ) );
+            if ( empty($binaries[$key]) || ! is_executable($binaries[$key]) ) {
+                $result->setInfo( sprintf( __("Can't execute the '%s' command via 'shell_exec'"), $key) );
+                $result->setStatus(3);
+                return $result;
+            }
         }
 
         $layoutXmlRegex = '.*/layout/.*\.xml';
@@ -201,13 +196,13 @@ class Collection extends \Magento\Framework\Data\Collection
         $findInXml = 'cacheable="false"';
         /** @TODO This is a bit slow, about 7 seconds on my Vagrant box. A pure PHP solution would probably be even slower. */
         $command = sprintf( "%s %s %s -regextype 'egrep' -type f -regex %s -not -regex %s | %s %s -n -e %s",
-            $findBinary,
+            $binaries['find'],
             escapeshellarg($this->_directoryList->getPath('app')),
             escapeshellarg($this->_directoryList->getRoot().'/vendor'),
             escapeshellarg($layoutXmlRegex),
             escapeshellarg($skipRegex),
-            $xargsBinary,
-            $grepBinary,
+            $binaries['xargs'],
+            $binaries['grep'],
             $findInXml);
         $output = shell_exec($command);
         if ( empty($output) ) {
