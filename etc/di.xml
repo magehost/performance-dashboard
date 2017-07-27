@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+
+    <!-- <type name="Magento\Framework\App\Cache\Type\AccessProxy"> == Max function nesting -->
+    <!-- <type name="Magento\Framework\Cache\FrontendInterface"> == Circular-->
+    <!-- <type name="Magento\Framework\Cache\Frontend\Adapter\Zend"> == Circular-->
+    <!-- <type name="Magento\Framework\Cache\Frontend\Decorator\Bare"> == Circular -->
+    <!-- <type name="Magento\Framework\Cache\Frontend\Decorator\TagScope"> == Circular -->
+
+
+    <!-- -->
+
+    <type name="Magento\Framework\Cache\Core">
+        <plugin name="mh_clean_cache" type="MageHost\PerformanceDashboard\Model\Plugin\CacheClean" sortOrder="1000"/>
+    </type>
+
+    <type name="Magento\Framework\App\Cache">
+        <plugin name="mh_clean_cache" type="MageHost\PerformanceDashboard\Model\Plugin\CacheClean" sortOrder="1000"/>
+    </type>
+
+    <!--<type name="Magento\Framework\App\Cache\TypeListInterface">-->
+        <!--<plugin name="mh_clean_cache" type="MageHost\PerformanceDashboard\Model\Plugin\CacheClean" sortOrder="1000"/>-->
+    <!--</type>-->
+
+    <type name="Magento\Framework\App\Cache\TypeList">
+        <plugin name="mh_clean_cache" type="MageHost\PerformanceDashboard\Model\Plugin\CacheClean" sortOrder="1000"/>
+    </type>
+
+    <!--<type name="Zend_Cache_Core">-->
+        <!--<plugin name="mh_clean_cache" type="MageHost\PerformanceDashboard\Model\Plugin\CacheClean" sortOrder="1000"/>-->
+    <!--</type>-->
+
+    <!--<type name="Cm_Cache_Backend_Redis">-->
+        <!--<plugin name="mh_clean_cache" type="MageHost\PerformanceDashboard\Model\Plugin\CacheClean" sortOrder="1000"/>-->
+    <!--</type>-->
+
+    <type name="\Magento\Framework\View\Layout">
+        <plugin name="mh_clean_cache" type="MageHost\PerformanceDashboard\Model\Plugin\CacheClean" sortOrder="1000"/>
+    </type>
+
+</config>
