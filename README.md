@@ -1,7 +1,5 @@
 MageHost Performance Dashboard Extension for Magento 2
 =====================
-# State #
-Version 1.3.0 is the first stable version.
 
 # Install #
 
@@ -13,6 +11,7 @@ php bin/magento module:enable MageHost_PerformanceDashboard
 php bin/magento setup:upgrade
 php bin/magento setup:di:compile
 ```
+
 # Usage #
 
 * In Admin go to _System > Tools > MH Performance Dashboard_.
