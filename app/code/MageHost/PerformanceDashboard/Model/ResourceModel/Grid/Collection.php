@@ -22,6 +22,9 @@ class Collection extends \Magento\Framework\Data\Collection
     /** @var \Magento\Framework\App\DeploymentConfig */
     protected $_deploymentConfig;
 
+    /** @var \Magento\Framework\Filesystem\DirectoryList */
+    protected $_directoryList;
+
     /**
      * @param \Magento\Framework\Data\Collection\EntityFactory $entityFactory
      */
@@ -32,7 +35,8 @@ class Collection extends \Magento\Framework\Data\Collection
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
-        \Magento\Framework\App\DeploymentConfig $deploymentConfig
+        \Magento\Framework\App\DeploymentConfig $deploymentConfig,
+        \Magento\Framework\Filesystem\DirectoryList $directoryList
     ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_scopeConfig = $scopeConfig;
@@ -40,6 +44,7 @@ class Collection extends \Magento\Framework\Data\Collection
         $this->_appState = $appState;
         $this->_cacheTypeList = $cacheTypeList;
         $this->_deploymentConfig = $deploymentConfig;
+        $this->_directoryList = $directoryList;
         parent::__construct($entityFactory);
     }
 
@@ -166,8 +171,52 @@ class Collection extends \Magento\Framework\Data\Collection
     {
         $result = new \Magento\Framework\DataObject;
         $result->setTitle( 'Non Cachable Templates' );
-        $result->setInfo( 'TODO' );
-        $result->setStatus(3);
+
+        if ( ! function_exists('shell_exec') ) {
+            $result->setInfo( __("Can't use the 'shell_exec' function") );
+            $result->setStatus(3);
+            return $result;
+        }
+        $findBinary = trim( shell_exec('which find') );
+        if ( empty($findBinary) || ! is_executable($findBinary) ) {
+            $result->setInfo( __("Can't execute the 'find' command via 'shell_exec'") );
+            $result->setStatus(3);
+            return $result;
+        }
+        $xargsBinary = trim( shell_exec('which xargs') );
+        if ( empty($xargsBinary) || ! is_executable($xargsBinary) ) {
+            $result->setInfo( __("Can't execute the 'xargs' command via 'shell_exec'") );
+            $result->setStatus(3);
+            return $result;
+        }
+        $grepBinary = trim( shell_exec('which grep') );
+        if ( empty($grepBinary) || ! is_executable($grepBinary) ) {
+            $result->setInfo( __("Can't execute the 'grep' command via 'shell_exec'") );
+            $result->setStatus(3);
+            return $result;
+        }
+
+        $layoutXmlRegex = '.*/layout/.*\.xml';
+        $skipRegex = '.*(vendor/magento/|/checkout_|/catalogsearch_result_).*';
+        $findInXml = 'cacheable="false"';
+        /** @TODO This is a bit slow, about 7 seconds on my Vagrant box. A pure PHP solution would probably be even slower. */
+        $command = sprintf( "%s %s %s -regextype 'egrep' -type f -regex %s -not -regex %s | %s %s -n -e %s",
+            $findBinary,
+            escapeshellarg($this->_directoryList->getPath('app')),
+            escapeshellarg($this->_directoryList->getRoot().'/vendor'),
+            escapeshellarg($layoutXmlRegex),
+            escapeshellarg($skipRegex),
+            $xargsBinary,
+            $grepBinary,
+            $findInXml);
+        $output = shell_exec($command);
+        if ( empty($output) ) {
+            $result->setInfo('No problems found');
+            $result->setStatus(0);
+        } else {
+            $result->setInfo($output);
+            $result->setStatus(2);
+        }
         return $result;
     }
 
