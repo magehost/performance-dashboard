@@ -23,3 +23,6 @@ composer remove magehost/performance-dashboard
 php bin/magento setup:upgrade
 php bin/magento setup:di:compile
 ```
+
+# Screenshot #
+![screenshot](https://raw.githubusercontent.com/magehost/performance-dashboard/master/docs/screenshot.png)
