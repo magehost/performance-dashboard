@@ -2,6 +2,10 @@
 
 namespace MageHost\PerformanceDashboard\Controller\Adminhtml\Dashboard;
 
+/**
+ * Performance Dashboard Index Controller
+ * @package MageHost\PerformanceDashboard\Controller\Adminhtml\Dashboard
+ */
 class Index extends \Magento\Backend\App\Action
 {
     /** @var \Magento\Framework\View\Result\PageFactory */
@@ -29,7 +33,7 @@ class Index extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        return $resultPage = $this->_resultPageFactory->create();
+        return $this->_resultPageFactory->create();
     }
 }
   

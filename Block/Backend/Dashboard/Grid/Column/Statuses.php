@@ -2,9 +2,15 @@
 
 namespace MageHost\PerformanceDashboard\Block\Backend\Dashboard\Grid\Column;
 
+/**
+ * Class Statuses
+ * @package MageHost\PerformanceDashboard\Block\Backend\Dashboard\Grid\Column
+ */
 class Statuses extends \Magento\Backend\Block\Widget\Grid\Column
 {
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */

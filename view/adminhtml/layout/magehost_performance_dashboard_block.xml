@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<!--suppress XmlUnboundNsPrefix -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="magehost_performance.dashboard.container">
@@ -12,9 +13,9 @@
                     <arguments>
                         <argument name="filter_visibility" xsi:type="string">0</argument>
                     </arguments>
-                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="optimalisation">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="title">
                         <arguments>
-                            <argument name="header" xsi:type="string" translate="true">Optimalisation</argument>
+                            <argument name="header" xsi:type="string" translate="true">Optimization</argument>
                             <argument name="index" xsi:type="string">title</argument>
                             <argument name="type" xsi:type="string">text</argument>
                             <argument name="width" xsi:type="string">180</argument>

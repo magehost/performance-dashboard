@@ -1,10 +1,15 @@
 <?php
+
 namespace MageHost\PerformanceDashboard\Block\Backend;
 
+/**
+ * Class Dashboard
+ * @package MageHost\PerformanceDashboard\Block\Backend
+ */
 class Dashboard extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
-     * Class constructor
+     * Initialize object state
      *
      * @return void
      */
