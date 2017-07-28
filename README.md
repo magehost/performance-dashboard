@@ -1,4 +1,4 @@
-MageHost Performance Dashboard Extension for Magento 2
+Performance Dashboard Extension for Magento 2 - by MageHost.pro
 =====================
 
 # Install #
