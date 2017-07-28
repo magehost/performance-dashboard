@@ -16,20 +16,20 @@ class AppStateMode extends \Magento\Framework\DataObject implements \MageHost\Pe
     public function __construct(
         \Magento\Framework\App\State $appState,
         array $data = []
-    )
-    {
+    ) {
         $this->_appState = $appState;
-
         parent::__construct($data);
 
-        $this->setTitle( 'Magento Mode' );
-        $this->setInfo( sprintf( __("Magento is running in '%s' mode"),
-            $this->_appState->getMode() ) );
-        if ( \Magento\Framework\App\State::MODE_PRODUCTION == $this->_appState->getMode() ) {
+        $this->setTitle('Magento Mode');
+        $this->setInfo(sprintf(
+            __("Magento is running in '%s' mode"),
+            $this->_appState->getMode()
+        ));
+        if (\Magento\Framework\App\State::MODE_PRODUCTION == $this->_appState->getMode()) {
             $this->setStatus(0);
         } else {
             $this->setStatus(2);
-            $this->setAction( __("Switch mode to Production") );
+            $this->setAction(__("Switch mode to Production"));
         }
     }
 }

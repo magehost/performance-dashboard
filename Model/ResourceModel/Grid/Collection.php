@@ -15,8 +15,7 @@ class Collection extends \Magento\Framework\Data\Collection
     public function __construct(
         \Magento\Framework\Data\Collection\EntityFactory $entityFactory,
         \MageHost\PerformanceDashboard\Model\DashboardRowFactory $rowFactory
-    )
-    {
+    ) {
         $this->_rowFactory = $rowFactory;
         parent::__construct($entityFactory);
     }
@@ -33,30 +32,45 @@ class Collection extends \Magento\Framework\Data\Collection
     {
         if (!$this->isLoaded()) {
             $this->addItem($this->_rowFactory->create('AppStateMode'));
-            $this->addItem($this->_rowFactory->create('CacheStorage',
-                ['identifier' => 'default', 'name' => 'Magento Cache']));
-            $this->addItem($this->_rowFactory->create('CacheStorage',
-                ['identifier' => 'page_cache', 'name' => 'Full Page Cache']));
+            $this->addItem($this->_rowFactory->create(
+                'CacheStorage',
+                ['identifier' => 'default', 'name' => 'Magento Cache']
+            ));
+            $this->addItem($this->_rowFactory->create(
+                'CacheStorage',
+                ['identifier' => 'page_cache', 'name' => 'Full Page Cache']
+            ));
             $this->addItem($this->_rowFactory->create('CacheEnabled'));
             $this->addItem($this->_rowFactory->create('SessionStorage'));
             $this->addItem($this->_rowFactory->create('NonCacheableTemplates'));
-            $this->addItem($this->_rowFactory->create('ConfigSetting',
-                ['title' => 'Use Flat Catalog Categories', 'path' => 'catalog/frontend/flat_catalog_category', 'recommended' => true]));
-            $this->addItem($this->_rowFactory->create('ConfigSetting',
-                ['title' => 'Use Flat Catalog Products', 'path' => 'catalog/frontend/flat_catalog_product', 'recommended' => true]));
-            $this->addItem($this->_rowFactory->create('ConfigSetting',
-                ['title' => 'Merge JavaScript Files', 'path' => 'dev/js/merge_files', 'recommended' => true]));
-            $this->addItem($this->_rowFactory->create('ConfigSetting',
-                ['title' => 'Minify JavaScript Files', 'path' => 'dev/js/minify_files', 'recommended' => true]));
-            $this->addItem($this->_rowFactory->create('ConfigSetting',
-                ['title' => 'Merge CSS Files', 'path' => 'dev/css/merge_css_files', 'recommended' => true]));
-            $this->addItem($this->_rowFactory->create('ConfigSetting',
-                ['title' => 'Minify CSS Files', 'path' => 'dev/css/minify_files', 'recommended' => true]));
+            $this->addItem($this->_rowFactory->create(
+                'ConfigSetting',
+                ['title' => 'Use Flat Catalog Categories', 'path' => 'catalog/frontend/flat_catalog_category', 'recommended' => true]
+            ));
+            $this->addItem($this->_rowFactory->create(
+                'ConfigSetting',
+                ['title' => 'Use Flat Catalog Products', 'path' => 'catalog/frontend/flat_catalog_product', 'recommended' => true]
+            ));
+            $this->addItem($this->_rowFactory->create(
+                'ConfigSetting',
+                ['title' => 'Merge JavaScript Files', 'path' => 'dev/js/merge_files', 'recommended' => true]
+            ));
+            $this->addItem($this->_rowFactory->create(
+                'ConfigSetting',
+                ['title' => 'Minify JavaScript Files', 'path' => 'dev/js/minify_files', 'recommended' => true]
+            ));
+            $this->addItem($this->_rowFactory->create(
+                'ConfigSetting',
+                ['title' => 'Merge CSS Files', 'path' => 'dev/css/merge_css_files', 'recommended' => true]
+            ));
+            $this->addItem($this->_rowFactory->create(
+                'ConfigSetting',
+                ['title' => 'Minify CSS Files', 'path' => 'dev/css/minify_files', 'recommended' => true]
+            ));
             // Idea: FPC hit / miss percentage
             // Idea: Cache flushes per hour
             $this->_setIsLoaded(true);
         }
         return $this;
     }
-
 }

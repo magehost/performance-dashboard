@@ -24,10 +24,10 @@ class DashboardRowFactory
      * @param array $data
      * @return \Magento\Framework\DataObject
      */
-    public function create($instanceName, array $data=[])
+    public function create($instanceName, array $data = [])
     {
         $instanceName = 'MageHost\PerformanceDashboard\Model\DashboardRow\\' . $instanceName;
-        $instance = $this->_objectManager->create($instanceName, ['data'=>$data] );
+        $instance = $this->_objectManager->create($instanceName, ['data'=>$data]);
         if (!$instance instanceof \MageHost\PerformanceDashboard\Model\DashboardRowInterface) {
             throw new \UnexpectedValueException("Row class '{$instanceName}' has to be a Dashboard Row.");
         }

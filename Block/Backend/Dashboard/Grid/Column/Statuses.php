@@ -45,12 +45,14 @@ class Statuses extends \Magento\Backend\Block\Widget\Grid\Column
     {
         $cell = htmlentities($value);
         $severity = [0 => 'notice', 1 => 'minor', 2 => 'critical', 3 => 'minor' ];
-        if ( isset($severity[$row->getStatus()]) ) {
-            $cell = sprintf( '<span class="grid-severity-%s"><span>%s</span></span>',
-                             $severity[$row->getStatus()],
-                             $cell );
+        if (isset($severity[$row->getStatus()])) {
+            $cell = sprintf(
+                '<span class="grid-severity-%s"><span>%s</span></span>',
+                $severity[$row->getStatus()],
+                $cell
+            );
         } else {
-            $cell = sprintf( __("Unknown status: %s"), json_encode($value) );
+            $cell = sprintf(__("Unknown status: %s"), json_encode($value));
         }
         return $cell;
     }

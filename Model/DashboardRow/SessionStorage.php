@@ -16,31 +16,30 @@ class SessionStorage extends \Magento\Framework\DataObject implements \MageHost\
     public function __construct(
         \Magento\Framework\App\DeploymentConfig $deploymentConfig,
         array $data = []
-    )
-    {
+    ) {
         $this->_deploymentConfig = $deploymentConfig;
         parent::__construct($data);
 
-        $this->setTitle( 'Session Storage' );
+        $this->setTitle('Session Storage');
 
         /** @see \Magento\Framework\Session\SaveHandler::__construct() */
         $defaultSaveHandler = ini_get('session.save_handler') ?: \Magento\Framework\Session\SaveHandlerInterface::DEFAULT_HANDLER;
         $saveHandler = $this->_deploymentConfig->get(\Magento\Framework\Session\Config::PARAM_SESSION_SAVE_METHOD, $defaultSaveHandler);
 
-        switch($saveHandler) {
+        switch ($saveHandler) {
             case 'redis':
             case 'memcache':
             case 'memcached':
                 $this->setStatus(0);
-                $this->setInfo( sprintf(__('Sessions are saved in %s'),ucfirst($saveHandler)) );
+                $this->setInfo(sprintf(__('Sessions are saved in %s'), ucfirst($saveHandler)));
                 break;
             case 'files':
                 $this->setStatus(2);
-                $this->setInfo( sprintf(__('Sessions are saved in %s'),ucfirst($saveHandler)) );
+                $this->setInfo(sprintf(__('Sessions are saved in %s'), ucfirst($saveHandler)));
                 $this->setAction('Save sessions in Redis or Memcached');
                 break;
             default:
-                $this->setInfo( sprintf(__('Unknown session save handler: %s'),$saveHandler) );
+                $this->setInfo(sprintf(__('Unknown session save handler: %s'), $saveHandler));
                 $this->setStatus(3);
         }
     }

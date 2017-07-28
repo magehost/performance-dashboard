@@ -16,31 +16,26 @@ class CacheStorage extends \Magento\Framework\DataObject implements \MageHost\Pe
     public function __construct(
         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
         array $data
-    )
-    {
+    ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
         parent::__construct($data);
 
-        $identifier = $this->getIdentifier();
-        $name = $this->getName();
-
-        $this->setTitle( sprintf(__('%s Storage'),$name) );
-        $currentBackend = $this->_cacheFrontendPool->get($identifier)->getBackend();
+        $this->setTitle(sprintf(__('%s Storage'), $this->getName()));
+        $currentBackend = $this->_cacheFrontendPool->get($this->getIdentifier())->getBackend();
         $currentBackendClass = get_class($currentBackend);
-        $this->setInfo( sprintf(__('%s'),$currentBackendClass) );
-        if ( is_a($currentBackend,'Cm_Cache_Backend_Redis') ) {
+        $this->setInfo(sprintf(__('%s'), $currentBackendClass));
+        if (is_a($currentBackend, 'Cm_Cache_Backend_Redis')) {
             $this->setStatus(0);
-        } elseif ( 'Zend_Cache_Backend_File' == $currentBackendClass ) {
+        } elseif ('Zend_Cache_Backend_File' == $currentBackendClass) {
             $this->setStatus(2);
-            $this->setAction( sprintf( __('%s is slow!'), $currentBackendClass ) . "\n" .
-                sprintf( __('Store in Redis using Cm_Cache_Backend_Redis'), $name) );
-        } elseif ( is_a($currentBackend,'Cm_Cache_Backend_File') ) {
+            $this->setAction(sprintf(__('%s is slow!'), $currentBackendClass) . "\n" .
+                sprintf(__('Store in Redis using Cm_Cache_Backend_Redis'), $this->getName()));
+        } elseif (is_a($currentBackend, 'Cm_Cache_Backend_File')) {
             $this->setStatus(1);
-            $this->setAction( sprintf(__('Store in Redis using Cm_Cache_Backend_Redis'),$name) );
+            $this->setAction(sprintf(__('Store in Redis using Cm_Cache_Backend_Redis'), $this->getName()));
         } else {
             $this->setStatus(3);
-            $this->setInfo( sprintf(__("Unknown cache storage: '%s'"), get_class($currentBackend)) );
+            $this->setInfo(sprintf(__("Unknown cache storage: '%s'"), get_class($currentBackend)));
         }
-
     }
 }
