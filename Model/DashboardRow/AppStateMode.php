@@ -2,10 +2,11 @@
 
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
 
-class AppStateMode extends \Magento\Framework\DataObject implements \MageHost\PerformanceDashboard\Model\DashboardRowInterface
+class AppStateMode extends \Magento\Framework\DataObject implements
+    \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {
     /** @var \Magento\Framework\App\State */
-    protected $_appState;
+    protected $appState;
 
     /**
      * Constructor.
@@ -17,15 +18,22 @@ class AppStateMode extends \Magento\Framework\DataObject implements \MageHost\Pe
         \Magento\Framework\App\State $appState,
         array $data = []
     ) {
-        $this->_appState = $appState;
+    
+        $this->appState = $appState;
         parent::__construct($data);
+    }
 
+    /**
+     * Load Row, is called by AbstractRow
+     */
+    public function load()
+    {
         $this->setTitle('Magento Mode');
         $this->setInfo(sprintf(
             __("Magento is running in '%s' mode"),
-            $this->_appState->getMode()
+            $this->appState->getMode()
         ));
-        if (\Magento\Framework\App\State::MODE_PRODUCTION == $this->_appState->getMode()) {
+        if (\Magento\Framework\App\State::MODE_PRODUCTION == $this->appState->getMode()) {
             $this->setStatus(0);
         } else {
             $this->setStatus(2);

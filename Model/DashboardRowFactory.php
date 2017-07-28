@@ -5,7 +5,7 @@ namespace MageHost\PerformanceDashboard\Model;
 class DashboardRowFactory
 {
     /** @var \Magento\Framework\ObjectManagerInterface */
-    protected $_objectManager;
+    protected $objectManager;
 
     /**
      * Constructor
@@ -14,7 +14,7 @@ class DashboardRowFactory
      */
     public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager)
     {
-        $this->_objectManager = $objectManager;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -27,11 +27,11 @@ class DashboardRowFactory
     public function create($instanceName, array $data = [])
     {
         $instanceName = 'MageHost\PerformanceDashboard\Model\DashboardRow\\' . $instanceName;
-        $instance = $this->_objectManager->create($instanceName, ['data'=>$data]);
+        $instance = $this->objectManager->create($instanceName, ['data'=>$data]);
         if (!$instance instanceof \MageHost\PerformanceDashboard\Model\DashboardRowInterface) {
             throw new \UnexpectedValueException("Row class '{$instanceName}' has to be a Dashboard Row.");
         }
-
+        $instance->load();
         return $instance;
     }
 }

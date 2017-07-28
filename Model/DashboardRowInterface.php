@@ -8,5 +8,5 @@ namespace MageHost\PerformanceDashboard\Model;
  */
 interface DashboardRowInterface
 {
-
+    public function load();
 }

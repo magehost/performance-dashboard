@@ -3,7 +3,7 @@
     "description": "MageHost.pro Performance Dashboard",
     "homepage": "https://github.com/magehost/performance-dashboard",
     "type": "magento2-module",
-    "version": "1.5.2",
+    "version": "1.5.4",
     "minimum-stability": "beta",
     "license": "MIT",
     "authors":[

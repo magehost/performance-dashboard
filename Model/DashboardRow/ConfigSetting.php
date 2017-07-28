@@ -2,13 +2,14 @@
 
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
 
-class ConfigSetting extends \Magento\Framework\DataObject implements \MageHost\PerformanceDashboard\Model\DashboardRowInterface
+class ConfigSetting extends \Magento\Framework\DataObject implements
+    \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
-    protected $_scopeConfig;
+    protected $scopeConfig;
 
     /** @var \Magento\Store\Model\StoreManagerInterface */
-    protected $_storeManager;
+    protected $storeManager;
 
     /**
      * Constructor.
@@ -22,41 +23,47 @@ class ConfigSetting extends \Magento\Framework\DataObject implements \MageHost\P
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data
     ) {
-        $this->_scopeConfig = $scopeConfig;
-        $this->_storeManager = $storeManager;
+        $this->scopeConfig = $scopeConfig;
+        $this->storeManager = $storeManager;
         parent::__construct($data);
+    }
 
+    /**
+     * Load Row, is called by AbstractRow
+     */
+    public function load()
+    {
         $info = [];
         $action = [];
-        $defaultResult = $this->checkConfigSetting($this->getPath(), $this->getRecommended());
-        $status = $defaultResult->getStatus();
-        if (0 < $defaultResult->getStatus()) {
-            $info[] = $defaultResult->getInfo();
-            $action[] = $defaultResult->getAction();
-        }
 
+        $defaultResult = $this->checkConfigSetting($this->getPath(), $this->getRecommended());
+        $status = $defaultResult['status'];
+        if (0 < $defaultResult['status']) {
+            $info[] = $defaultResult['info'];
+            $action[] = $defaultResult['action'];
+        }
         /** @var \Magento\Store\Api\Data\WebsiteInterface $website */
-        foreach ($this->_storeManager->getWebsites() as $website) {
+        foreach ($this->storeManager->getWebsites() as $website) {
             $websiteResult = $this->checkConfigSetting($this->getPath(), $this->getRecommended(), $website);
-            if ($websiteResult->getStatus() > $defaultResult->getStatus()) {
-                $status = $websiteResult->getStatus();
-                $info[] = $websiteResult->getInfo();
-                $action[] = $websiteResult->getAction();
+            if ($websiteResult['status'] > $defaultResult['status']) {
+                $status = $websiteResult['status'];
+                $info[] = $websiteResult['info'];
+                $action[] = $websiteResult['action'];
             }
-            foreach ($this->_storeManager->getStores() as $store) {
+            foreach ($this->storeManager->getStores() as $store) {
                 if ($store->getWebsiteId() == $website->getId()) {
                     $storeResult = $this->checkConfigSetting($this->getPath(), $this->getRecommended(), $store);
-                    if ($storeResult->getStatus() > $websiteResult->getStatus()) {
-                        $status = $storeResult->getStatus();
-                        $info[] = $storeResult->getInfo();
-                        $action[] = $storeResult->getAction();
+                    if ($storeResult['status'] > $websiteResult['status']) {
+                        $status = $storeResult['status'];
+                        $info[] = $storeResult['info'];
+                        $action[] = $storeResult['action'];
                     }
                 }
             }
         }
 
         if (0 == $status) {
-            $this->setInfo($defaultResult->getInfo());
+            $this->setInfo($defaultResult['info']);
         } else {
             $this->setInfo(implode("\n", $info));
             $this->setAction(implode("\n", $action));
@@ -77,10 +84,9 @@ class ConfigSetting extends \Magento\Framework\DataObject implements \MageHost\P
         $recommended,
         $scope = null
     ) {
-    
-        $result = new \Magento\Framework\DataObject;
+        $result = [];
 
-        if (is_null($scope)) {
+        if (null === $scope) {
             $scopeType = \Magento\Framework\App\Config\ScopeConfigInterface::SCOPE_TYPE_DEFAULT;
             $scopeCode = null;
             $showScope = __('in Default Config');
@@ -93,27 +99,27 @@ class ConfigSetting extends \Magento\Framework\DataObject implements \MageHost\P
             $scopeCode = $scope->getCode();
             $showScope = sprintf(__("for store '%s'"), $scope->getName());
         } else {
-            $result->setStatus(3);
-            $result->setInfo(sprintf(__("Unknown scope")));
+            $result['status'] = 3;
+            $result['info'] = sprintf(__("Unknown scope"));
             return $result;
         }
 
-        $result->setValue($this->_scopeConfig->getValue($path, $scopeType, $scopeCode));
+        $result['value'] = $this->scopeConfig->getValue($path, $scopeType, $scopeCode);
 
-        $result->setInfo(sprintf(
+        $result['info'] = sprintf(
             __("%s %s"),
-            ucfirst($this->getShowValue($result->getValue(), gettype($recommended))),
+            ucfirst($this->getShowValue($result['value'], $recommended)),
             $showScope
-        ));
-        if ($recommended == $result->getValue()) {
-            $result->setStatus(0);
+        );
+        if ($recommended == $result['value']) {
+            $result['status'] = 0;
         } else {
-            $result->setStatus(2);
-            $result->setAction(sprintf(
+            $result['status'] = 2;
+            $result['action'] = sprintf(
                 __("Switch to %s %s"),
-                ucfirst($this->getShowValue($recommended, gettype($recommended))),
+                ucfirst($this->getShowValue($recommended, $recommended)),
                 $showScope
-            ));
+            );
         }
 
         return $result;
@@ -123,14 +129,14 @@ class ConfigSetting extends \Magento\Framework\DataObject implements \MageHost\P
      * Format a value to show in frontend
      *
      * @param mixed $value
-     * @param string $type
+     * @param mixed $recommended
      * @return \Magento\Framework\Phrase|string
      */
-    protected function getShowValue($value, $type = 'string')
+    protected function getShowValue($value, $recommended)
     {
-        if ('boolean' == $type) {
+        if (is_bool($recommended)) {
             $showValue = $value ? __('enabled') : __('disabled');
-        } elseif ('string' == $type) {
+        } elseif (is_string($recommended)) {
             $showValue = $value;
         } else {
             $showValue = sprintf(__("Unsupported type: '%s'"), $type);

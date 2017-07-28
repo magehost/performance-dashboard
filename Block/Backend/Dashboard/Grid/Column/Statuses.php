@@ -9,19 +9,6 @@ namespace MageHost\PerformanceDashboard\Block\Backend\Dashboard\Grid\Column;
 class Statuses extends \Magento\Backend\Block\Widget\Grid\Column
 {
     /**
-     * Constructor
-     *
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        array $data = []
-    ) {
-        parent::__construct($context, $data);
-    }
-
-    /**
      * Add to column decorated status
      *
      * @return array

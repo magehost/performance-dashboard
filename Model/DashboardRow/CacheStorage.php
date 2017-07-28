@@ -2,10 +2,11 @@
 
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
 
-class CacheStorage extends \Magento\Framework\DataObject implements \MageHost\PerformanceDashboard\Model\DashboardRowInterface
+class CacheStorage extends \Magento\Framework\DataObject implements
+    \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {
     /** @var \Magento\Framework\App\Cache\Frontend\Pool */
-    protected $_cacheFrontendPool;
+    protected $cacheFrontendPool;
 
     /**
      * Constructor.
@@ -17,11 +18,17 @@ class CacheStorage extends \Magento\Framework\DataObject implements \MageHost\Pe
         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
         array $data
     ) {
-        $this->_cacheFrontendPool = $cacheFrontendPool;
+        $this->cacheFrontendPool = $cacheFrontendPool;
         parent::__construct($data);
+    }
 
+    /**
+     * Load Row, is called by AbstractRow
+     */
+    public function load()
+    {
         $this->setTitle(sprintf(__('%s Storage'), $this->getName()));
-        $currentBackend = $this->_cacheFrontendPool->get($this->getIdentifier())->getBackend();
+        $currentBackend = $this->cacheFrontendPool->get($this->getIdentifier())->getBackend();
         $currentBackendClass = get_class($currentBackend);
         $this->setInfo(sprintf(__('%s'), $currentBackendClass));
         if (is_a($currentBackend, 'Cm_Cache_Backend_Redis')) {

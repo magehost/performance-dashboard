@@ -2,10 +2,11 @@
 
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
 
-class NonCacheableTemplates extends \Magento\Framework\DataObject implements \MageHost\PerformanceDashboard\Model\DashboardRowInterface
+class NonCacheableTemplates extends \Magento\Framework\DataObject implements
+    \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {
     /** @var \Magento\Framework\Filesystem\DirectoryList */
-    protected $_directoryList;
+    protected $directoryList;
 
     /**
      * Constructor.
@@ -17,9 +18,15 @@ class NonCacheableTemplates extends \Magento\Framework\DataObject implements \Ma
         \Magento\Framework\Filesystem\DirectoryList $directoryList,
         array $data = []
     ) {
-        $this->_directoryList = $directoryList;
+        $this->directoryList = $directoryList;
         parent::__construct($data);
+    }
 
+    /**
+     * Load Row, is called by AbstractRow
+     */
+    public function load()
+    {
         $this->setTitle('Non Cacheable Templates');
 
         if (! function_exists('shell_exec')) {
@@ -44,12 +51,12 @@ class NonCacheableTemplates extends \Magento\Framework\DataObject implements \Ma
         $layoutXmlRegex = '.*/layout/.*\.xml';
         $skipRegex = '.*(vendor/magento/|/checkout_|/catalogsearch_result_).*';
         $findInXml = 'cacheable="false"';
-        /** @TODO This is a bit slow, about 7 seconds on my Vagrant box. A pure PHP solution would probably be even slower. */
+        /** This is a bit slow, about 7 seconds on my Vagrant box. A pure PHP solution would probably be even slower. */
         $command = sprintf(
             "%s %s %s -regextype 'egrep' -type f -regex %s -not -regex %s | %s %s -n -e %s",
             $binaries['find'],
-            escapeshellarg($this->_directoryList->getPath('app')),
-            escapeshellarg($this->_directoryList->getRoot().'/vendor'),
+            escapeshellarg($this->directoryList->getPath('app')),
+            escapeshellarg($this->directoryList->getRoot().'/vendor'),
             escapeshellarg($layoutXmlRegex),
             escapeshellarg($skipRegex),
             $binaries['xargs'],
