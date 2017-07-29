@@ -89,5 +89,6 @@ class NonCacheableTemplates extends \Magento\Framework\DataObject implements
                 $info .= sprintf("%s\n", $line);
             }
         }
+        return $info;
     }
 }
