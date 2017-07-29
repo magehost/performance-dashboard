@@ -56,6 +56,7 @@
                             <argument name="type" xsi:type="string">text</argument>
                             <argument name="align" xsi:type="string">left</argument>
                             <argument name="nl_2br" xsi:type="boolean">true</argument>
+                            <argument name="truncate" xsi:type="number">2048</argument>
                         </arguments>
                     </block>
                     <block class="Magento\Backend\Block\Widget\Grid\Column" as="action">
@@ -65,6 +66,7 @@
                             <argument name="type" xsi:type="string">text</argument>
                             <argument name="align" xsi:type="string">left</argument>
                             <argument name="nl_2br" xsi:type="boolean">true</argument>
+                            <argument name="truncate" xsi:type="number">2048</argument>
                         </arguments>
                     </block>
                 </block>
