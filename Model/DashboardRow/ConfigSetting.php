@@ -29,7 +29,7 @@ class ConfigSetting extends \Magento\Framework\DataObject implements
     }
 
     /**
-     * Load Row, is called by AbstractRow
+     * Load Row, is called by DashboardRowFactory
      */
     public function load()
     {

@@ -23,7 +23,7 @@ class NonCacheableTemplates extends \Magento\Framework\DataObject implements
     }
 
     /**
-     * Load Row, is called by AbstractRow
+     * Load Row, is called by DashboardRowFactory
      */
     public function load()
     {
@@ -61,16 +61,33 @@ class NonCacheableTemplates extends \Magento\Framework\DataObject implements
             escapeshellarg($skipRegex),
             $binaries['xargs'],
             $binaries['grep'],
-            $findInXml
+            escapeshellarg($findInXml)
         );
         $output = shell_exec($command);
         if (empty($output)) {
             $this->setInfo('No problems found');
             $this->setStatus(0);
         } else {
-            $this->setInfo($output);
+            $this->setInfo($this->formatGrepOutput($output));
+            $this->setAction(
+                sprintf(__("Check if it is possible to remove '%s' or use another template."), $findInXml)
+            );
             $this->setStatus(2);
         }
         return $this;
+    }
+
+    private function formatGrepOutput($output)
+    {
+        $output = str_replace($this->directoryList->getRoot().'/', '', $output);
+        $info = '';
+        foreach (explode("\n", $output) as $line) {
+            $parts = explode(':', $line, 3);
+            if (!empty($parts[0]) && !empty($parts[1]) && !empty($parts[2])) {
+                $info .= sprintf(__("%s - line %d"), $parts[0], $parts[1])."\n";
+            } else {
+                $info .= sprintf("%s\n", $line);
+            }
+        }
     }
 }
