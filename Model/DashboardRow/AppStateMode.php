@@ -6,7 +6,7 @@ class AppStateMode extends \Magento\Framework\DataObject implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {
     /** @var \Magento\Framework\App\State */
-    protected $appState;
+    private $appState;
 
     /**
      * Constructor.

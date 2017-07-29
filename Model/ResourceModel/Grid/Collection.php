@@ -5,7 +5,7 @@ namespace MageHost\PerformanceDashboard\Model\ResourceModel\Grid;
 class Collection extends \Magento\Framework\Data\Collection
 {
     /** @var \MageHost\PerformanceDashboard\Model\DashboardRowFactory */
-    protected $rowFactory;
+    private $rowFactory;
 
     /**
      * Constructor

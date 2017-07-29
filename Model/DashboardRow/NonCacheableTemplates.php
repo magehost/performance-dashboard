@@ -6,7 +6,7 @@ class NonCacheableTemplates extends \Magento\Framework\DataObject implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {
     /** @var \Magento\Framework\Filesystem\DirectoryList */
-    protected $directoryList;
+    private $directoryList;
 
     /**
      * Constructor.

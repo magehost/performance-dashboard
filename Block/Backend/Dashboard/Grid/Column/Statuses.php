@@ -30,6 +30,10 @@ class Statuses extends \Magento\Backend\Block\Widget\Grid\Column
      */
     public function decorateStatus($value, $row, $column, $isExport)
     {
+        // Extra check but mostly to get rid of phpcs warning about unused parameters
+        if ($isExport || 'status' != $column->getId()) {
+            return $value;
+        }
         $cell = htmlentities($value);
         $severity = [0 => 'notice', 1 => 'minor', 2 => 'critical', 3 => 'minor' ];
         if (isset($severity[$row->getStatus()])) {

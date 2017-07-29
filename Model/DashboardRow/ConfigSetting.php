@@ -6,10 +6,10 @@ class ConfigSetting extends \Magento\Framework\DataObject implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
-    protected $scopeConfig;
+    private $scopeConfig;
 
     /** @var \Magento\Store\Model\StoreManagerInterface */
-    protected $storeManager;
+    private $storeManager;
 
     /**
      * Constructor.
@@ -77,9 +77,9 @@ class ConfigSetting extends \Magento\Framework\DataObject implements
      * @param string $path
      * @param mixed $recommended
      * @param string|null $scope -- null = default scope
-     * @return \Magento\Framework\DataObject
+     * @return array
      */
-    protected function checkConfigSetting(
+    private function checkConfigSetting(
         $path,
         $recommended,
         $scope = null
@@ -131,15 +131,16 @@ class ConfigSetting extends \Magento\Framework\DataObject implements
      * @param mixed $value
      * @param mixed $recommended
      * @return \Magento\Framework\Phrase|string
+     * @throws \InvalidArgumentException
      */
-    protected function getShowValue($value, $recommended)
+    private function getShowValue($value, $recommended)
     {
         if (is_bool($recommended)) {
             $showValue = $value ? __('enabled') : __('disabled');
         } elseif (is_string($recommended)) {
             $showValue = $value;
         } else {
-            $showValue = sprintf(__("Unsupported type: '%s'"), $type);
+            throw new \InvalidArgumentException('Unsupported type of recommended value');
         }
         return $showValue;
     }

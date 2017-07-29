@@ -6,7 +6,7 @@ class CacheEnabled extends \Magento\Framework\DataObject implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {
     /** @var \Magento\Framework\App\Cache\TypeListInterface */
-    protected $cacheTypeList;
+    private $cacheTypeList;
 
     /**
      * Constructor.

@@ -6,7 +6,7 @@ class SessionStorage extends \Magento\Framework\DataObject implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {
     /** @var \Magento\Framework\App\DeploymentConfig */
-    protected $deploymentConfig;
+    private $deploymentConfig;
 
     /**
      * Constructor

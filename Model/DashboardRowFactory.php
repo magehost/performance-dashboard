@@ -5,7 +5,7 @@ namespace MageHost\PerformanceDashboard\Model;
 class DashboardRowFactory
 {
     /** @var \Magento\Framework\ObjectManagerInterface */
-    protected $objectManager;
+    private $objectManager;
 
     /**
      * Constructor
@@ -23,6 +23,7 @@ class DashboardRowFactory
      * @param string $instanceName
      * @param array $data
      * @return \Magento\Framework\DataObject
+     * @throws \UnexpectedValueException
      */
     public function create($instanceName, array $data = [])
     {

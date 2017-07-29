@@ -6,7 +6,7 @@ class CacheStorage extends \Magento\Framework\DataObject implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {
     /** @var \Magento\Framework\App\Cache\Frontend\Pool */
-    protected $cacheFrontendPool;
+    private $cacheFrontendPool;
 
     /**
      * Constructor.

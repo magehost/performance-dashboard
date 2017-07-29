@@ -9,9 +9,7 @@ namespace MageHost\PerformanceDashboard\Block\Backend;
 class Dashboard extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
-     * Initialize object state
-     *
-     * @return void
+     * @inheritdoc
      */
     protected function _construct()
     {
