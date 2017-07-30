@@ -39,4 +39,19 @@
         <plugin name="mh_clean_cache" type="MageHost\PerformanceDashboard\Model\Plugin\CacheClean" sortOrder="1000"/>
     </type>
 
+    <type name="MageHost\PerformanceDashboard\Logger\Handler">
+        <arguments>
+            <argument name="filename" xsi:type="string">mh_noncacheable.log</argument>
+            <argument name="maxFiles" xsi:type="number">7</argument>
+        </arguments>
+    </type>
+    <type name="MageHost\PerformanceDashboard\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">mh_performance_dashboard</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">MageHost\PerformanceDashboard\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+
 </config>
