@@ -2,19 +2,12 @@
 
 namespace MageHost\PerformanceDashboard\Block\Backend\Dashboard\Grid\Column;
 
+/**
+ * Class Statuses
+ * @package MageHost\PerformanceDashboard\Block\Backend\Dashboard\Grid\Column
+ */
 class Statuses extends \Magento\Backend\Block\Widget\Grid\Column
 {
-    /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        array $data = []
-    ) {
-        parent::__construct($context, $data);
-    }
-
     /**
      * Add to column decorated status
      *
@@ -37,14 +30,20 @@ class Statuses extends \Magento\Backend\Block\Widget\Grid\Column
      */
     public function decorateStatus($value, $row, $column, $isExport)
     {
+        // Extra check but mostly to get rid of phpcs warning about unused parameters
+        if ($isExport || 'status' != $column->getId()) {
+            return $value;
+        }
         $cell = htmlentities($value);
         $severity = [0 => 'notice', 1 => 'minor', 2 => 'critical', 3 => 'minor' ];
-        if ( isset($severity[$row->getStatus()]) ) {
-            $cell = sprintf( '<span class="grid-severity-%s"><span>%s</span></span>',
-                             $severity[$row->getStatus()],
-                             $cell );
+        if (isset($severity[$row->getStatus()])) {
+            $cell = sprintf(
+                '<span class="grid-severity-%s"><span>%s</span></span>',
+                $severity[$row->getStatus()],
+                $cell
+            );
         } else {
-            $cell = sprintf( __("Unknown status: %s"), json_encode($value) );
+            $cell = sprintf(__("Unknown status: %s"), json_encode($value));
         }
         return $cell;
     }

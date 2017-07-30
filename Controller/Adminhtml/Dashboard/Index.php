@@ -2,10 +2,14 @@
 
 namespace MageHost\PerformanceDashboard\Controller\Adminhtml\Dashboard;
 
+/**
+ * Performance Dashboard Index Controller
+ * @package MageHost\PerformanceDashboard\Controller\Adminhtml\Dashboard
+ */
 class Index extends \Magento\Backend\App\Action
 {
     /** @var \Magento\Framework\View\Result\PageFactory */
-    protected $_resultPageFactory;
+    private $resultPageFactory;
 
     /**
      * Constructor
@@ -16,10 +20,10 @@ class Index extends \Magento\Backend\App\Action
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory
-    )
-    {
+    ) {
+    
         parent::__construct($context);
-        $this->_resultPageFactory = $resultPageFactory;
+        $this->resultPageFactory = $resultPageFactory;
     }
 
     /**
@@ -29,7 +33,6 @@ class Index extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        return $resultPage = $this->_resultPageFactory->create();
+        return $this->resultPageFactory->create();
     }
 }
-  
