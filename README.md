@@ -1,7 +1,7 @@
 Performance Dashboard Extension for Magento 2
 =====================
 
-The Performance Dashboard Extension by MageHost.pro adds a screen to the Magento Store Admin called "Performance Dashboard". In this screen you get a clear overview of areas where the performance of your Magento 2 can be improved.
+The free Performance Dashboard Extension by MageHost.pro adds a screen to the Magento Store Admin called "Performance Dashboard". In this screen you get a clear overview of areas where the performance of your Magento 2 can be improved.
 
 # Install #
 
@@ -29,6 +29,20 @@ php bin/magento setup:di:compile
 ![screenshot](https://raw.githubusercontent.com/magehost/performance-dashboard/master/doc/screenshot.png)
 
 # Description #
+**This extension is free, licence: [MIT](https://github.com/magehost/performance-dashboard/blob/master/LICENSE).**
+
 Using our experience as [Magento Hosting professionals](https://magehost.pro) we created a list of best-practises for a high performance Magento 2 setup.
-Based on this list we have created a dashboard which automatically tests these various config settings and other choices.
-One of the checks logs CMS and Catalog pages which can't be cached in full-page-cache because of `cacheable="false"`.
+Based on this list we have created a dashboard which automatically tests these various config settings and other setup choices.
+Checks executed:
+
+* Is Magento in Production mode?
+* Is the Magento Cache stored in Redis?
+* Is the Full Page Cache stored in Redis?
+* Are sessions stored in Redis or Memcached?
+* A check which logs CMS and Catalog pages which can't be cached in full-page-cache because of `cacheable="false"`.
+* Are Flat Catalog Categories enabled?
+* Are Flat Catalog Products enabled?
+* Is merging JavaScript files enabled?
+* Is minify of JavaScript files enabled?
+* Is merging CSS files enabled?
+* Is minify of CSS files enabled?
