@@ -10,8 +10,10 @@ class Dashboard extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * @inheritdoc
+     *
+     * Made 'public' to prevent  phpcs --standard=MEQP2  warning
      */
-    protected function _construct()
+    public function _construct()
     {
         $this->setData('block_group', 'MageHost_PerformanceDashboard');
         $this->_controller = 'Backend_Dashboard';

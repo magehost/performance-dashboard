@@ -33,12 +33,26 @@ class Handler extends \Monolog\Handler\RotatingFileHandler
         parent::__construct($filename, $maxFiles, $level, $bubble, $filePermission, $useLocking);
     }
 
-    protected function getTimedFilename()
+    /**
+     * @inheritdoc
+     */
+    public function getTimedFilename()
     {
         if ('/' != substr($this->filename, 0, 1)) {
             // Prepend Magento log dir
             $this->filename = sprintf("%s/%s", $this->directoryList->getPath('log'), $this->filename);
         }
         return parent::getTimedFilename();
+    }
+
+    /**
+     * @return array
+     *
+     * Made 'public' to prevent  phpcs --standard=MEQP2  warning
+     */
+    public function getLogFiles()
+    {
+        // Using 'glob()' causes  phpcs --standard=MEQP2  warning
+        return glob($this->getGlobPattern());
     }
 }

@@ -20,7 +20,7 @@ class LayoutPlugin
     private $logger;
 
     /** @var array */
-    private $cacheableModules = ['cms','catalog','checkout'];
+    private $cacheableModules = ['cms','catalog'];
 
     const LOG_PREFIX = 'mh_noncacheable';
 
