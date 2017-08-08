@@ -44,10 +44,13 @@ class Collection extends \Magento\Framework\Data\Collection
     {
         if ($printQuery || $logQuery) {
             $this->logger->debug(
-                sprintf("%s::%s does not get its data from direct database queries," .
-                "it is gathered from several internal Magento objects and logging.",
-                __CLASS__,
-                __FUNCTION__) );
+                sprintf(
+                    "%s::%s does not get its data from direct database queries," .
+                    "it is gathered from several internal Magento objects and logging.",
+                    __CLASS__,
+                    __FUNCTION__
+                )
+            );
         }
         if (!$this->isLoaded()) {
             $this->addItem($this->rowFactory->create('AppStateMode'));
