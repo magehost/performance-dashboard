@@ -2,21 +2,34 @@
 
 namespace MageHost\PerformanceDashboard\Model\ResourceModel\Grid;
 
+/**
+ * Class Collection
+ *
+ * Data provider for dashboard grid.
+ *
+ * @package MageHost\PerformanceDashboard\Model\ResourceModel\Grid
+ */
 class Collection extends \Magento\Framework\Data\Collection
 {
     /** @var \MageHost\PerformanceDashboard\Model\DashboardRowFactory */
     private $rowFactory;
 
+    /** @var \Psr\Log\LoggerInterface */
+    private $logger;
+
     /**
      * Constructor
      * @param \Magento\Framework\Data\Collection\EntityFactory $entityFactory
      * @param \MageHost\PerformanceDashboard\Model\DashboardRowFactory $rowFactory
+     * @param \Psr\Log\LoggerInterface $logger
      */
     public function __construct(
         \Magento\Framework\Data\Collection\EntityFactory $entityFactory,
-        \MageHost\PerformanceDashboard\Model\DashboardRowFactory $rowFactory
+        \MageHost\PerformanceDashboard\Model\DashboardRowFactory $rowFactory,
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->rowFactory = $rowFactory;
+        $this->logger = $logger;
         parent::__construct($entityFactory);
     }
 
@@ -26,10 +39,16 @@ class Collection extends \Magento\Framework\Data\Collection
      * @param bool $printQuery
      * @param bool $logQuery
      * @return $this
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function loadData($printQuery = false, $logQuery = false)
     {
+        if ($printQuery || $logQuery) {
+            $this->logger->debug(
+                sprintf("%s::%s does not get its data from direct database queries," .
+                "it is gathered from several internal Magento objects and logging.",
+                __CLASS__,
+                __FUNCTION__) );
+        }
         if (!$this->isLoaded()) {
             $this->addItem($this->rowFactory->create('AppStateMode'));
             $this->addItem($this->rowFactory->create(
@@ -44,7 +63,7 @@ class Collection extends \Magento\Framework\Data\Collection
             ));
             $this->addItem($this->rowFactory->create('CacheEnabled'));
             $this->addItem($this->rowFactory->create('SessionStorage'));
-            $this->addItem($this->rowFactory->create('NonCacheableTemplates'));
+            $this->addItem($this->rowFactory->create('NonCacheableLayouts'));
             $this->addItem($this->rowFactory->create(
                 'ConfigSetting',
                 [

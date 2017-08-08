@@ -4,6 +4,7 @@ namespace MageHost\PerformanceDashboard\Controller\Adminhtml\Dashboard;
 
 /**
  * Performance Dashboard Index Controller
+ *
  * @package MageHost\PerformanceDashboard\Controller\Adminhtml\Dashboard
  */
 class Index extends \Magento\Backend\App\Action

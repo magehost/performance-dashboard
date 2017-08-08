@@ -2,6 +2,13 @@
 
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
 
+/**
+ * Class CacheEnabled
+ *
+ * Dashboard row to check if all caches are enabled.
+ *
+ * @package MageHost\PerformanceDashboard\Model\DashboardRow
+ */
 class CacheEnabled extends \Magento\Framework\DataObject implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {

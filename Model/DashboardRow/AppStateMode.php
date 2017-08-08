@@ -2,6 +2,13 @@
 
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
 
+/**
+ * Class AppStateMode
+ *
+ * Dashboard row to show Magento Mode: developer / production / default
+ *
+ * @package MageHost\PerformanceDashboard\Model\DashboardRow
+ */
 class AppStateMode extends \Magento\Framework\DataObject implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {

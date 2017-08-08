@@ -2,6 +2,13 @@
 
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
 
+/**
+ * Class CacheStorage
+ *
+ * Dashboard row to check if optimal cache storage is used.
+ *
+ * @package MageHost\PerformanceDashboard\Model\DashboardRow
+ */
 class CacheStorage extends \Magento\Framework\DataObject implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {

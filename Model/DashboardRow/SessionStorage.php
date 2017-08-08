@@ -2,6 +2,13 @@
 
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
 
+/**
+ * Class SessionStorage
+ *
+ * Dashboard row to check if optimal session storage is used.
+ *
+ * @package MageHost\PerformanceDashboard\Model\DashboardRow
+ */
 class SessionStorage extends \Magento\Framework\DataObject implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {

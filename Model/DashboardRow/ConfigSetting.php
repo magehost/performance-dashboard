@@ -2,6 +2,13 @@
 
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
 
+/**
+ * Class ConfigSetting
+ *
+ * Dashboard rows to check optimal config settings.
+ *
+ * @package MageHost\PerformanceDashboard\Model\DashboardRow
+ */
 class ConfigSetting extends \Magento\Framework\DataObject implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {

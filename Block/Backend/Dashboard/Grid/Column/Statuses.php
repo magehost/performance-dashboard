@@ -4,6 +4,9 @@ namespace MageHost\PerformanceDashboard\Block\Backend\Dashboard\Grid\Column;
 
 /**
  * Class Statuses
+ *
+ * Column to show OK / WARNING / PROBLEM / UNKNOWN status in dashboard grid.
+ *
  * @package MageHost\PerformanceDashboard\Block\Backend\Dashboard\Grid\Column
  */
 class Statuses extends \Magento\Backend\Block\Widget\Grid\Column

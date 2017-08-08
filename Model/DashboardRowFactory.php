@@ -2,6 +2,13 @@
 
 namespace MageHost\PerformanceDashboard\Model;
 
+/**
+ * Class DashboardRowFactory
+ *
+ * Factory for dashboard row classes.
+ *
+ * @package MageHost\PerformanceDashboard\Model
+ */
 class DashboardRowFactory
 {
     /** @var \Magento\Framework\ObjectManagerInterface */
