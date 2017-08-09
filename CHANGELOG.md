@@ -1,3 +1,7 @@
+### 1.6.2 (2017-08-09)
+
+  * Updated installation instructions
+  
 ### 1.6.1 (2017-08-08)
 
   * First version submitted to the Magento Marketplace
