@@ -21,9 +21,11 @@ php bin/magento setup:static-content:deploy
 
 # Uninstall #
 ```
+php bin/magento module:disable MageHost_PerformanceDashboard
 composer remove magehost/performance-dashboard
 php bin/magento setup:upgrade
 php bin/magento setup:di:compile
+php bin/magento setup:static-content:deploy
 ```
 
 # Screenshot #
