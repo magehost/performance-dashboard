@@ -18,20 +18,26 @@ class ConfigSetting extends \Magento\Framework\DataObject implements
     /** @var \Magento\Store\Model\StoreManagerInterface */
     private $storeManager;
 
+    /** @var \Magento\Config\Model\Config\SourceFactory */
+    private $sourceFactory;
+
     /**
      * Constructor.
      *
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Config\Model\Config\SourceFactory $sourceFactory
      * @param array $data -- expects keys 'title', 'path' and 'recommended' to be set
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Config\Model\Config\SourceFactory $sourceFactory,
         array $data
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
+        $this->sourceFactory = $sourceFactory;
         parent::__construct($data);
     }
 
@@ -114,7 +120,7 @@ class ConfigSetting extends \Magento\Framework\DataObject implements
         $result['value'] = $this->scopeConfig->getValue($path, $scopeType, $scopeCode);
 
         $result['info'] = sprintf(
-            __("%s %s"),
+            __("'%s' %s"),
             ucfirst($this->getShowValue($result['value'], $recommended)),
             $showScope
         );
@@ -123,7 +129,7 @@ class ConfigSetting extends \Magento\Framework\DataObject implements
         } else {
             $result['status'] = 2;
             $result['action'] = sprintf(
-                __("Switch to %s %s"),
+                __("Switch to '%s' %s"),
                 ucfirst($this->getShowValue($recommended, $recommended)),
                 $showScope
             );
@@ -144,10 +150,17 @@ class ConfigSetting extends \Magento\Framework\DataObject implements
     {
         if (is_bool($recommended)) {
             $showValue = $value ? __('enabled') : __('disabled');
-        } elseif (is_string($recommended)) {
+        } elseif (is_string($recommended) || is_int($recommended)) {
             $showValue = $value;
         } else {
             throw new \InvalidArgumentException('Unsupported type of recommended value');
+        }
+        if ($this->getSource()) {
+            $sourceModel = $this->sourceFactory->create($this->getSource());
+            $sourceArray = $sourceModel->toArray();
+            if (isset($sourceArray[$showValue])) {
+                $showValue = $sourceArray[$showValue];
+            }
         }
         return $showValue;
     }

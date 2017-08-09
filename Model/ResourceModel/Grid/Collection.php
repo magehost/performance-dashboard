@@ -17,18 +17,24 @@ class Collection extends \Magento\Framework\Data\Collection
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
+    /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
+    private $scopeConfig;
+
     /**
      * Constructor
      * @param \Magento\Framework\Data\Collection\EntityFactory $entityFactory
      * @param \MageHost\PerformanceDashboard\Model\DashboardRowFactory $rowFactory
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Psr\Log\LoggerInterface $logger
      */
     public function __construct(
         \Magento\Framework\Data\Collection\EntityFactory $entityFactory,
         \MageHost\PerformanceDashboard\Model\DashboardRowFactory $rowFactory,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->rowFactory = $rowFactory;
+        $this->scopeConfig = $scopeConfig;
         $this->logger = $logger;
         parent::__construct($entityFactory);
     }
@@ -59,14 +65,26 @@ class Collection extends \Magento\Framework\Data\Collection
                 ['identifier' => 'default',
                     'name' => 'Magento Cache']
             ));
-            $this->addItem($this->rowFactory->create(
-                'CacheStorage',
-                ['identifier' => 'page_cache',
-                    'name' => 'Full Page Cache']
-            ));
+            if (\Magento\PageCache\Model\Config::BUILT_IN ==
+                $this->scopeConfig->getValue('system/full_page_cache/caching_application')) {
+                $this->addItem($this->rowFactory->create(
+                    'CacheStorage',
+                    ['identifier' => 'page_cache',
+                        'name' => 'Full Page Cache']
+                ));
+            }
             $this->addItem($this->rowFactory->create('CacheEnabled'));
             $this->addItem($this->rowFactory->create('SessionStorage'));
             $this->addItem($this->rowFactory->create('NonCacheableLayouts'));
+            $this->addItem($this->rowFactory->create(
+                'ConfigSetting',
+                [
+                    'title' => 'Full Page Caching Application',
+                    'path' => 'system/full_page_cache/caching_application',
+                    'recommended' => \Magento\PageCache\Model\Config::VARNISH,
+                    'source' => 'Magento\PageCache\Model\System\Config\Source\Application'
+                ]
+            ));
             $this->addItem($this->rowFactory->create(
                 'ConfigSetting',
                 [
