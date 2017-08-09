@@ -1,3 +1,8 @@
+### 1.7.0 (2017-08-09)
+
+  * Added check if Varnish FPC is enabled
+  * Config data checks can now use a source model
+
 ### 1.6.2 (2017-08-09)
 
   * Updated installation instructions
