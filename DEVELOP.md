@@ -8,3 +8,7 @@ composer update
     vendor/bin/phpcs   --standard=MEQP2  app/code/MageHost/PerformanceDashboard
 }
 ```
+
+* Update [CHANGELOG.md](https://github.com/magehost/performance-dashboard/blob/master/CHANGELOG.md)
+* Update [Install Guide](https://docs.google.com/document/d/1wN75IXYpYvBBMdMdVLDbbsNS5itp1SdNB0Eysf1zj2M/)
+* Update [User Guide](https://docs.google.com/document/d/1gLJVMtEORojexTtku7hn1PGVE1RRkGT2s6PoSZwYdZA/)
