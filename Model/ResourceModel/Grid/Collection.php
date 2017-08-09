@@ -17,7 +17,7 @@ class Collection extends \Magento\Framework\Data\Collection
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
-    /** @var \Magento\Framework\App\Config\ScopeConfigInterfacecd  */
+    /** @var \Magento\Framework\App\Config\ScopeConfigInterface  */
     private $scopeConfig;
 
     /**
