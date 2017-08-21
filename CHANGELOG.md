@@ -1,7 +1,12 @@
+### 1.7.1 (2017-08-21)
+
+  * Fixed issue #1 - Monolog error on Magento 2.1.8
+
 ### 1.7.0 (2017-08-09)
 
   * Added check if Varnish FPC is enabled
   * Config data checks can now use a source model
+  * Updated installation instructions
 
 ### 1.6.2 (2017-08-09)
 
