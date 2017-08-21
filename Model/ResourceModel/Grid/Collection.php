@@ -48,17 +48,22 @@ class Collection extends \Magento\Framework\Data\Collection
      */
     public function loadData($printQuery = false, $logQuery = false)
     {
-        if ($printQuery || $logQuery) {
-            $this->logger->debug(
-                sprintf(
-                    "%s::%s does not get its data from direct database queries," .
-                    "it is gathered from several internal Magento objects and logging.",
-                    __CLASS__,
-                    __FUNCTION__
-                )
-            );
-        }
         if (!$this->isLoaded()) {
+            if ($printQuery || $logQuery) {
+                $this->logger->debug(
+                    sprintf(
+                        "%s::%s does not get its data from direct database queries," .
+                        "it is gathered from several internal Magento objects and logging.",
+                        __CLASS__,
+                        __FUNCTION__
+                    )
+                );
+            }
+
+            // Idea: Check if Default Cache + Session + FPC are on different Redis instances
+            // Idea: FPC hit / miss percentage
+            // Idea: Cache flushes per hour
+
             $this->addItem($this->rowFactory->create('AppStateMode'));
             $this->addItem($this->rowFactory->create(
                 'CacheStorage',
@@ -138,8 +143,8 @@ class Collection extends \Magento\Framework\Data\Collection
                     'recommended' => true
                 ]
             ));
-            // Idea: FPC hit / miss percentage
-            // Idea: Cache flushes per hour
+            $this->addItem($this->rowFactory->create('PhpSettings'));
+
             $this->_setIsLoaded(true);
         }
         return $this;

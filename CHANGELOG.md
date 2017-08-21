@@ -1,3 +1,8 @@
+### 1.9.0 (2017-08-21)
+
+  * Added check for PHP Version and Settings
+  * Fixed some interface strings that were not translatable
+  
 ### 1.8.0 (2017-08-21)
 
   * Added check if Composer's autoloader is optimized
