@@ -9,7 +9,7 @@ namespace MageHost\PerformanceDashboard\Model\DashboardRow;
  *
  * @package MageHost\PerformanceDashboard\Model\DashboardRow
  */
-class AppStateMode extends \Magento\Framework\DataObject implements
+class AppStateMode extends \MageHost\PerformanceDashboard\Model\DashboardRow implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {
     /** @var \Magento\Framework\App\State */
@@ -41,9 +41,9 @@ class AppStateMode extends \Magento\Framework\DataObject implements
             $this->appState->getMode()
         ));
         if (\Magento\Framework\App\State::MODE_PRODUCTION == $this->appState->getMode()) {
-            $this->setStatus(0);
+            $this->setStatus(self::STATUS_OK);
         } else {
-            $this->setStatus(2);
+            $this->setStatus(self::STATUS_PROBLEM);
             $this->setAction(__("Switch mode to Production"));
         }
     }

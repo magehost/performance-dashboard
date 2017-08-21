@@ -9,7 +9,7 @@ namespace MageHost\PerformanceDashboard\Model\DashboardRow;
  *
  * @package MageHost\PerformanceDashboard\Model\DashboardRow
  */
-class NonCacheableLayouts extends \Magento\Framework\DataObject implements
+class NonCacheableLayouts extends \MageHost\PerformanceDashboard\Model\DashboardRow implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {
     /** @var \Magento\Framework\Filesystem\DirectoryList */
@@ -74,13 +74,13 @@ class NonCacheableLayouts extends \Magento\Framework\DataObject implements
 
         if (empty($output)) {
             $this->setInfo(__('Collecting data from frontend, no problems found (yet).'));
-            $this->setStatus(0);
+            $this->setStatus(self::STATUS_OK);
         } else {
             $this->setInfo($output);
             $this->setAction(
                 __("Search in frontend layout XML for: cacheable=\"false\"")
             );
-            $this->setStatus(2);
+            $this->setStatus(self::STATUS_PROBLEM);
         }
         return $this;
     }

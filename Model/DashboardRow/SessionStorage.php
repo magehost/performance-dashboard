@@ -9,7 +9,7 @@ namespace MageHost\PerformanceDashboard\Model\DashboardRow;
  *
  * @package MageHost\PerformanceDashboard\Model\DashboardRow
  */
-class SessionStorage extends \Magento\Framework\DataObject implements
+class SessionStorage extends \MageHost\PerformanceDashboard\Model\DashboardRow implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {
     /** @var \Magento\Framework\App\DeploymentConfig */
@@ -48,17 +48,17 @@ class SessionStorage extends \Magento\Framework\DataObject implements
             case 'redis':
             case 'memcache':
             case 'memcached':
-                $this->setStatus(0);
+                $this->setStatus(self::STATUS_OK);
                 $this->setInfo(sprintf(__('Sessions are saved in %s'), ucfirst($saveHandler)));
                 break;
             case 'files':
-                $this->setStatus(2);
+                $this->setStatus(self::STATUS_PROBLEM);
                 $this->setInfo(sprintf(__('Sessions are saved in %s'), ucfirst($saveHandler)));
                 $this->setAction('Save sessions in Redis or Memcached');
                 break;
             default:
                 $this->setInfo(sprintf(__('Unknown session save handler: %s'), $saveHandler));
-                $this->setStatus(3);
+                $this->setStatus(self::STATUS_UNKNOWN);
         }
     }
 }

@@ -62,20 +62,25 @@ class Collection extends \Magento\Framework\Data\Collection
             $this->addItem($this->rowFactory->create('AppStateMode'));
             $this->addItem($this->rowFactory->create(
                 'CacheStorage',
-                ['identifier' => 'default',
-                    'name' => 'Magento Cache']
+                [
+                    'identifier' => 'default',
+                    'name' => 'Magento Cache'
+                ]
             ));
             if (\Magento\PageCache\Model\Config::BUILT_IN ==
                 $this->scopeConfig->getValue('system/full_page_cache/caching_application')) {
                 $this->addItem($this->rowFactory->create(
                     'CacheStorage',
-                    ['identifier' => 'page_cache',
-                        'name' => 'Full Page Cache']
+                    [
+                        'identifier' => 'page_cache',
+                        'name' => 'Full Page Cache'
+                    ]
                 ));
             }
             $this->addItem($this->rowFactory->create('CacheEnabled'));
             $this->addItem($this->rowFactory->create('SessionStorage'));
             $this->addItem($this->rowFactory->create('NonCacheableLayouts'));
+            $this->addItem($this->rowFactory->create('ComposerAutoloader'));
             $this->addItem($this->rowFactory->create(
                 'ConfigSetting',
                 [

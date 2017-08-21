@@ -9,7 +9,7 @@ namespace MageHost\PerformanceDashboard\Model\DashboardRow;
  *
  * @package MageHost\PerformanceDashboard\Model\DashboardRow
  */
-class CacheEnabled extends \Magento\Framework\DataObject implements
+class CacheEnabled extends \MageHost\PerformanceDashboard\Model\DashboardRow implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {
     /** @var \Magento\Framework\App\Cache\TypeListInterface */
@@ -45,11 +45,11 @@ class CacheEnabled extends \Magento\Framework\DataObject implements
         }
         if (empty($action)) {
             $this->setInfo(__('All cache is enabled'));
-            $this->setStatus(0);
+            $this->setStatus(self::STATUS_OK);
         } else {
             $this->setInfo(implode("\n", $info));
             $this->setAction(implode("\n", $action));
-            $this->setStatus(2);
+            $this->setStatus(self::STATUS_PROBLEM);
         }
     }
 }

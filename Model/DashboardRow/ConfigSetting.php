@@ -9,7 +9,7 @@ namespace MageHost\PerformanceDashboard\Model\DashboardRow;
  *
  * @package MageHost\PerformanceDashboard\Model\DashboardRow
  */
-class ConfigSetting extends \Magento\Framework\DataObject implements
+class ConfigSetting extends \MageHost\PerformanceDashboard\Model\DashboardRow implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
@@ -112,7 +112,7 @@ class ConfigSetting extends \Magento\Framework\DataObject implements
             $scopeCode = $scope->getCode();
             $showScope = sprintf(__("for store '%s'"), $scope->getName());
         } else {
-            $result['status'] = 3;
+            $result['status'] = self::STATUS_UNKNOWN;
             $result['info'] = sprintf(__("Unknown scope"));
             return $result;
         }
@@ -125,9 +125,9 @@ class ConfigSetting extends \Magento\Framework\DataObject implements
             $showScope
         );
         if ($recommended == $result['value']) {
-            $result['status'] = 0;
+            $result['status'] = self::STATUS_OK;
         } else {
-            $result['status'] = 2;
+            $result['status'] = self::STATUS_PROBLEM;
             $result['action'] = sprintf(
                 __("Switch to '%s' %s"),
                 ucfirst($this->getShowValue($recommended, $recommended)),

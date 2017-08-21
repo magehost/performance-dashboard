@@ -9,7 +9,7 @@ namespace MageHost\PerformanceDashboard\Model\DashboardRow;
  *
  * @package MageHost\PerformanceDashboard\Model\DashboardRow
  */
-class CacheStorage extends \Magento\Framework\DataObject implements
+class CacheStorage extends \MageHost\PerformanceDashboard\Model\DashboardRow implements
     \MageHost\PerformanceDashboard\Model\DashboardRowInterface
 {
     /** @var \Magento\Framework\App\Cache\Frontend\Pool */
@@ -39,16 +39,16 @@ class CacheStorage extends \Magento\Framework\DataObject implements
         $currentBackendClass = get_class($currentBackend);
         $this->setInfo(sprintf(__('%s'), $currentBackendClass));
         if (is_a($currentBackend, 'Cm_Cache_Backend_Redis')) {
-            $this->setStatus(0);
+            $this->setStatus(self::STATUS_OK);
         } elseif ('Zend_Cache_Backend_File' == $currentBackendClass) {
-            $this->setStatus(2);
+            $this->setStatus(self::STATUS_PROBLEM);
             $this->setAction(sprintf(__('%s is slow!'), $currentBackendClass) . "\n" .
                 sprintf(__('Store in Redis using Cm_Cache_Backend_Redis'), $this->getName()));
         } elseif (is_a($currentBackend, 'Cm_Cache_Backend_File')) {
-            $this->setStatus(1);
+            $this->setStatus(self::STATUS_WARNING);
             $this->setAction(sprintf(__('Store in Redis using Cm_Cache_Backend_Redis'), $this->getName()));
         } else {
-            $this->setStatus(3);
+            $this->setStatus(self::STATUS_UNKNOWN);
             $this->setInfo(sprintf(__("Unknown cache storage: '%s'"), get_class($currentBackend)));
         }
     }

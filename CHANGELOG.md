@@ -1,3 +1,8 @@
+### 1.8.0 (2017-08-21)
+
+  * Added check if Composer's autoloader is optimized
+  * Used constants instead of status 0-3
+  
 ### 1.7.1 (2017-08-21)
 
   * Fixed issue #1 - Monolog error on Magento 2.1.8

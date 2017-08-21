@@ -38,7 +38,12 @@ class Statuses extends \Magento\Backend\Block\Widget\Grid\Column
             return $value;
         }
         $cell = htmlentities($value);
-        $severity = [0 => 'notice', 1 => 'minor', 2 => 'critical', 3 => 'minor' ];
+        $severity = [
+            \MageHost\PerformanceDashboard\Model\DashboardRow::STATUS_OK => 'notice',
+            \MageHost\PerformanceDashboard\Model\DashboardRow::STATUS_WARNING => 'minor',
+            \MageHost\PerformanceDashboard\Model\DashboardRow::STATUS_PROBLEM => 'critical',
+            \MageHost\PerformanceDashboard\Model\DashboardRow::STATUS_UNKNOWN => 'minor'
+        ];
         if (isset($severity[$row->getStatus()])) {
             $cell = sprintf(
                 '<span class="grid-severity-%s"><span>%s</span></span>',
