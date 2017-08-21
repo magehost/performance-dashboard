@@ -44,6 +44,7 @@ Checks executed:
 * Are all caches enabled?
 * Are sessions stored in Redis or Memcached?
 * A check which logs CMS and Catalog pages which can't be cached in full-page-cache because of `cacheable="false"`.
+* Is the Full Page Cache using Varnish?
 * Are Flat Catalog Categories enabled?
 * Are Flat Catalog Products enabled?
 * Is merging JavaScript files enabled?
