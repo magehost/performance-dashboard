@@ -40,7 +40,7 @@ class AsyncIndexes extends \MageHost\PerformanceDashboard\Model\DashboardRow imp
      */
     public function load()
     {
-        $this->setTitle('Indexes');
+        $this->setTitle(__("Asynchronous Indexing"));
 
         if (! $this->scopeConfig->getValue('dev/grid/async_indexing')) {
             $this->warnings .= __("'Asynchronous indexing' is not enabled");
