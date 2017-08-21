@@ -37,9 +37,11 @@ class ComposerAutoloader extends \MageHost\PerformanceDashboard\Model\DashboardR
     {
         $this->setTitle(__("Composer autoloader"));
 
+        /** @noinspection PhpUndefinedClassInspection */
         /** @var null|\Composer\Autoload\ClassLoader $classLoader */
         $classLoader = null;
         foreach (spl_autoload_functions() as $function) {
+            /** @noinspection PhpUndefinedClassInspection */
             if (is_array($function) &&
                 $function[0] instanceof \Composer\Autoload\ClassLoader ) {
                 $classLoader = $function[0];

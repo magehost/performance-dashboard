@@ -1,3 +1,11 @@
+### 1.10.0 (2017-08-21)
+
+  * Added check for Async Indexes
+  * Added check for Minify HTML
+  * Added check for Aync sending of sales emails
+  * Moved PHP check to top of list
+  * Moved 'grouped' processing of info/problems/warnings/actions to Abstract class
+  
 ### 1.9.0 (2017-08-21)
 
   * Added check for PHP Version and Settings

@@ -60,10 +60,12 @@ class Collection extends \Magento\Framework\Data\Collection
                 );
             }
 
+            // http://devdocs.magento.com/guides/v2.0/config-guide/prod/prod_perf-optimize.html
             // Idea: Check if Default Cache + Session + FPC are on different Redis instances
             // Idea: FPC hit / miss percentage
             // Idea: Cache flushes per hour
 
+            $this->addItem($this->rowFactory->create('PhpSettings'));
             $this->addItem($this->rowFactory->create('AppStateMode'));
             $this->addItem($this->rowFactory->create(
                 'CacheStorage',
@@ -114,6 +116,14 @@ class Collection extends \Magento\Framework\Data\Collection
             $this->addItem($this->rowFactory->create(
                 'ConfigSetting',
                 [
+                    'title' => 'Enable JavaScript Bundling',
+                    'path' => 'dev/js/enable_js_bundling',
+                    'recommended' => true
+                ]
+            ));
+            $this->addItem($this->rowFactory->create(
+                'ConfigSetting',
+                [
                     'title' => 'Merge JavaScript Files',
                     'path' => 'dev/js/merge_files',
                     'recommended' => true
@@ -143,7 +153,23 @@ class Collection extends \Magento\Framework\Data\Collection
                     'recommended' => true
                 ]
             ));
-            $this->addItem($this->rowFactory->create('PhpSettings'));
+            $this->addItem($this->rowFactory->create(
+                'ConfigSetting',
+                [
+                    'title' => 'Minify HTML',
+                    'path' => 'dev/template/minify_html',
+                    'recommended' => true
+                ]
+            ));
+            $this->addItem($this->rowFactory->create(
+                'ConfigSetting',
+                [
+                    'title' => 'Asynchronous sending of sales emails',
+                    'path' => 'sales_email/general/async_sending',
+                    'recommended' => true
+                ]
+            ));
+            $this->addItem($this->rowFactory->create('AsyncIndexes'));
 
             $this->_setIsLoaded(true);
         }

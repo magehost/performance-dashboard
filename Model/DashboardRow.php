@@ -14,4 +14,22 @@ abstract class DashboardRow extends \Magento\Framework\DataObject implements
     const STATUS_WARNING = 1;
     const STATUS_PROBLEM = 2;
     const STATUS_UNKNOWN = 3;
+
+    public $problems = '';
+    public $warnings = '';
+    public $info = '';
+    public $actions = '';
+
+    public function groupProcess()
+    {
+        if ($this->problems) {
+            $this->setStatus(self::STATUS_PROBLEM);
+        } elseif ($this->warnings) {
+            $this->setStatus(self::STATUS_WARNING);
+        } else {
+            $this->setStatus(self::STATUS_OK);
+        };
+        $this->setInfo($this->problems . $this->warnings . $this->info);
+        $this->setAction($this->actions);
+    }
 }
