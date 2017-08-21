@@ -11,5 +11,6 @@ namespace MageHost\PerformanceDashboard\Logger;
  */
 class Logger extends \Monolog\Logger
 {
+    // Fix for   phpcs --standard=MEQP2   warning
     const I_AM_NOT_EMPTY = true;
 }

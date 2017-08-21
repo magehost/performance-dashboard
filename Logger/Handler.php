@@ -2,8 +2,6 @@
 
 namespace MageHost\PerformanceDashboard\Logger;
 
-use Monolog\Logger;
-
 /**
  * Class Handler
  *
@@ -32,7 +30,7 @@ class Handler extends \Monolog\Handler\RotatingFileHandler
         \Magento\Framework\Filesystem\DirectoryList $directoryList,
         $filename,
         $maxFiles = 0,
-        $level = Logger::DEBUG,
+        $level = \MageHost\PerformanceDashboard\Logger\Logger::DEBUG,
         $bubble = true,
         $filePermission = null,
         $useLocking = false
