@@ -3,9 +3,10 @@ composer config repositories.magehost_performance-dashboard vcs https://github.c
 composer require --dev  squizlabs/php_codesniffer:2.6.2  magento/marketplace-eqp:1.0.5
 composer update
 {
-    vendor/bin/phpcbf  --standard=MEQP2  app/code/MageHost/PerformanceDashboard
+    vendor/bin/phpcbf  app/code/MageHost/PerformanceDashboard  --standard=MEQP2
     clear
-    vendor/bin/phpcs   --standard=MEQP2  app/code/MageHost/PerformanceDashboard
+    vendor/bin/phpcs   app/code/MageHost/PerformanceDashboard  --standard=MEQP2
+    printf "\e[31m%s\e[0m\n" "$( vendor/bin/phpcs   app/code/MageHost/PerformanceDashboard  --standard=MEQP2 --severity=10)"
 }
 ```
 
