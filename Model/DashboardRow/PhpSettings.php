@@ -3,7 +3,7 @@
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
 
 /**
- * Class AppStateMode
+ * Class PhpSettings
  *
  * Dashboard row to check PHP version and settings
  *

@@ -3,7 +3,7 @@
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
 
 /**
- * Class AppStateMode
+ * Class ComposerAutoloader
  *
  * Dashboard row to show if the Composer Autoloader is optimized
  *

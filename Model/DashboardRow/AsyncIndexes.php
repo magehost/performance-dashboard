@@ -3,9 +3,9 @@
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
 
 /**
- * Class AppStateMode
+ * Class AsyncIndexes
  *
- * Dashboard row to show Magento Mode: developer / production / default
+ * Dashboard row to check if Async Indexes are enabled
  *
  * @package MageHost\PerformanceDashboard\Model\DashboardRow
  */
