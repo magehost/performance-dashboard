@@ -46,42 +46,58 @@ class ConfigSetting extends \MageHost\PerformanceDashboard\Model\DashboardRow im
      */
     public function load()
     {
-        $info = [];
-        $action = [];
-
         $defaultResult = $this->checkConfigSetting($this->getPath(), $this->getRecommended());
-        $status = $defaultResult['status'];
+
+        $pathParts = explode('/', $this->getPath());
         if (0 < $defaultResult['status']) {
-            $info[] = $defaultResult['info'];
-            $action[] = $defaultResult['action'];
+            $this->warnings .= $defaultResult['info'] . "\n";
+            $this->actions .= $defaultResult['action'] . "\n";
+            $this->buttons[] = [
+                'label' => __('Default Config'),
+                'url' => sprintf('adminhtml/system_config/edit/section/%s', $pathParts[0]),
+                'url_params' => [ '_fragment'=> sprintf('%s_%s-link', $pathParts[0], $pathParts[1]) ]
+            ];
         }
         /** @var \Magento\Store\Api\Data\WebsiteInterface $website */
         foreach ($this->storeManager->getWebsites() as $website) {
             $websiteResult = $this->checkConfigSetting($this->getPath(), $this->getRecommended(), $website);
             if ($websiteResult['status'] > $defaultResult['status']) {
-                $status = $websiteResult['status'];
-                $info[] = $websiteResult['info'];
-                $action[] = $websiteResult['action'];
+                $this->warnings .= $websiteResult['info'] . "\n";
+                $this->actions .= $websiteResult['action'] . "\n";
+                $this->buttons[] = [
+                    'label' => sprintf(__('%s Config'), $website->getName()),
+                    'url' => sprintf(
+                        'adminhtml/system_config/edit/section/%s/website/%s',
+                        $pathParts[0],
+                        $website->getId()
+                    ),
+                    'url_params' => [ '_fragment'=> sprintf('%s_%s-link', $pathParts[0], $pathParts[1]) ]
+                ];
             }
             foreach ($this->storeManager->getStores() as $store) {
                 if ($store->getWebsiteId() == $website->getId()) {
                     $storeResult = $this->checkConfigSetting($this->getPath(), $this->getRecommended(), $store);
                     if ($storeResult['status'] > $websiteResult['status']) {
-                        $status = $storeResult['status'];
-                        $info[] = $storeResult['info'];
-                        $action[] = $storeResult['action'];
+                        $this->warnings .= $storeResult['info'] . "\n";
+                        $this->actions .= $storeResult['action'] . "\n";
+                        $this->buttons[] = [
+                            'label' => sprintf(__('%s Config'), $store->getName()),
+                            'url' => sprintf(
+                                'adminhtml/system_config/edit/section/%s/store/%s',
+                                $pathParts[0],
+                                $store->getId()
+                            ),
+                            'url_params' => [ '_fragment'=> sprintf('%s_%s-link', $pathParts[0], $pathParts[1]) ]
+                        ];
                     }
                 }
             }
         }
 
-        if (0 == $status) {
-            $this->setInfo($defaultResult['info']);
-        } else {
-            $this->setInfo(implode("\n", $info));
-            $this->setAction(implode("\n", $action));
+        if (empty($this->actions)) {
+            $this->info .= $defaultResult['info'] . "\n";
         }
-        $this->setStatus($status);
+        $this->groupProcess();
     }
 
     /**
@@ -127,7 +143,7 @@ class ConfigSetting extends \MageHost\PerformanceDashboard\Model\DashboardRow im
         if ($recommended == $result['value']) {
             $result['status'] = self::STATUS_OK;
         } else {
-            $result['status'] = self::STATUS_PROBLEM;
+            $result['status'] = self::STATUS_WARNING;
             $result['action'] = sprintf(
                 __("Switch to '%s' %s"),
                 ucfirst($this->getShowValue($recommended, $recommended)),

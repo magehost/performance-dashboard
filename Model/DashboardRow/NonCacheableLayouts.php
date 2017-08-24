@@ -41,35 +41,24 @@ class NonCacheableLayouts extends \MageHost\PerformanceDashboard\Model\Dashboard
     public function load()
     {
         $this->setTitle('Non Cacheable Layouts');
+        $this->setButtons('http://devdocs.magento.com/guides/v2.1/config-guide/cache/cache-priv-over.html'.
+            '#config-cache-over-cacheable');
 
         $output = '';
         $logFiles = $this->logHandler->getLogFiles();
+        $now = time();
         foreach ($logFiles as $logFile) {
-            $moduleCount = [];
             $fileMatches = [];
             preg_match('/-(\d\d\d\d-\d\d-\d\d)\./', $logFile, $fileMatches);
             if (empty($fileMatches[1])) {
                 continue;
             }
             $date = $fileMatches[1];
-            // Using 'file()' causes  phpcs --standard=MEQP2  warning
-            $logLines = file($logFile);
-            foreach ($logLines as $line) {
-                $lineMatches = [];
-                if (preg_match('/ non_cacheable_layout (\{.+\})(?:\s|$)/', $line, $lineMatches)) {
-                    $data = json_decode($lineMatches[1], true);
-                    if (empty($data['Md'])) {
-                        continue;
-                    }
-                    if (!isset($moduleCount[$data['Md']])) {
-                        $moduleCount[$data['Md']] = 0;
-                    }
-                    $moduleCount[$data['Md']]++;
-                }
+            if ($now - strtotime($date) > 7 * 86400) {
+                // Older than 7 days
+                continue;
             }
-            foreach ($moduleCount as $module => $count) {
-                $output .= sprintf(__("%s: non cacheable %s page loads: %d\n"), $date, $module, $count);
-            }
+            $output .= $this->processLogFile($date, $logFile);
         }
 
         if (empty($output)) {
@@ -83,5 +72,36 @@ class NonCacheableLayouts extends \MageHost\PerformanceDashboard\Model\Dashboard
             $this->setStatus(self::STATUS_PROBLEM);
         }
         return $this;
+    }
+
+    /**
+     * Process one logfile
+     *
+     * @param $date string
+     * @param $logFile string
+     * @return string
+     */
+    private function processLogFile($date, $logFile) {
+        $output = '';
+        $moduleCount = [];
+        // Using 'file()' causes  phpcs --standard=MEQP2  warning
+        $logLines = file($logFile);
+        foreach ($logLines as $line) {
+            $lineMatches = [];
+            if (preg_match('/ non_cacheable_layout (\{.+\})(?:\s|$)/', $line, $lineMatches)) {
+                $data = json_decode($lineMatches[1], true);
+                if (empty($data['Md'])) {
+                    continue;
+                }
+                if (!isset($moduleCount[$data['Md']])) {
+                    $moduleCount[$data['Md']] = 0;
+                }
+                $moduleCount[$data['Md']]++;
+            }
+        }
+        foreach ($moduleCount as $module => $count) {
+            $output .= sprintf(__("%s: non cacheable %s page loads: %d\n"), $date, $module, $count);
+        }
+        return $output;
     }
 }

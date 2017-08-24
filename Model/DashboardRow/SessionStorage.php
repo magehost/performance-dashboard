@@ -35,6 +35,7 @@ class SessionStorage extends \MageHost\PerformanceDashboard\Model\DashboardRow i
     public function load()
     {
         $this->setTitle('Session Storage');
+        $this->setButtons('http://devdocs.magento.com/guides/v2.1/config-guide/redis/redis-session.html');
 
         /** @see \Magento\Framework\Session\SaveHandler::__construct() */
         $defaultSaveHandler = ini_get('session.save_handler') ?:

@@ -36,6 +36,9 @@ class AppStateMode extends \MageHost\PerformanceDashboard\Model\DashboardRow imp
     public function load()
     {
         $this->setTitle('Magento Mode');
+        $this->setButtons('http://devdocs.magento.com/guides/v2.0/config-guide/prod/prod_perf-optimize.html'.
+            '#production-mode');
+
         $this->setInfo(sprintf(
             __("Magento is running in '%s' mode"),
             $this->appState->getMode()
@@ -44,7 +47,7 @@ class AppStateMode extends \MageHost\PerformanceDashboard\Model\DashboardRow imp
             $this->setStatus(self::STATUS_OK);
         } else {
             $this->setStatus(self::STATUS_PROBLEM);
-            $this->setAction(__("Switch mode to Production"));
+            $this->setAction(__("Switch to Production Mode"));
         }
     }
 }

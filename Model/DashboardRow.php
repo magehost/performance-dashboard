@@ -19,6 +19,7 @@ abstract class DashboardRow extends \Magento\Framework\DataObject implements
     public $warnings = '';
     public $info = '';
     public $actions = '';
+    public $buttons = [];
 
     public function groupProcess()
     {
@@ -31,5 +32,13 @@ abstract class DashboardRow extends \Magento\Framework\DataObject implements
         };
         $this->setInfo($this->problems . $this->warnings . $this->info);
         $this->setAction($this->actions);
+        if ($this->getButtons()) {
+            $existingButtons = $this->getButtons();
+            if (!is_array($existingButtons) || isset($existingButtons['url'])) {
+                $existingButtons = [$existingButtons];
+            }
+            $this->buttons = array_merge($this->buttons, $existingButtons);
+        }
+        $this->setButtons($this->buttons);
     }
 }

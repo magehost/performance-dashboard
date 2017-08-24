@@ -41,6 +41,12 @@ class AsyncIndexes extends \MageHost\PerformanceDashboard\Model\DashboardRow imp
     public function load()
     {
         $this->setTitle(__("Asynchronous Indexing"));
+        $this->buttons[] = [
+            'label' => 'Index Management',
+            'url' => 'indexer/indexer/list'
+        ];
+        $this->buttons[] = 'http://devdocs.magento.com/guides/v2.0/config-guide/prod/prod_perf-optimize.html'.
+            '#magento---performance-optimizations';
 
         if (! $this->scopeConfig->getValue('dev/grid/async_indexing')) {
             $this->warnings .= __("'Asynchronous indexing' is not enabled");

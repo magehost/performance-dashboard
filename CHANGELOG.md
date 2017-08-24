@@ -1,8 +1,16 @@
+### 1.11.0 (2017-08-24)
+
+  * Solved Issue #2: Removed check for Flat Category & Product Indexes
+  * Added DevDocs links
+  * Added links to config, cache & index management
+  * Split PHP Version & Configuration rows
+  * Show current PHP Configuration
+
 ### 1.10.0 (2017-08-21)
 
   * Added check for Async Indexes
   * Added check for Minify HTML
-  * Added check for Aync sending of sales emails
+  * Added check for Async sending of sales emails
   * Moved PHP check to top of list
   * Moved 'grouped' processing of info/problems/warnings/actions to Abstract class
   

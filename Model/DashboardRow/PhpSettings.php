@@ -5,7 +5,7 @@ namespace MageHost\PerformanceDashboard\Model\DashboardRow;
 /**
  * Class PhpSettings
  *
- * Dashboard row to check PHP version and settings
+ * Dashboard row to check PHP configuration
  *
  * @package MageHost\PerformanceDashboard\Model\DashboardRow
  */
@@ -28,16 +28,10 @@ class PhpSettings extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
      */
     public function load()
     {
-        $this->setTitle(__('PHP Settings'));
+        $this->setTitle(__('PHP Configuration'));
+        $this->buttons[] = 'http://devdocs.magento.com/guides/v2.0/config-guide/prod/prod_perf-optimize.html'.
+            '#server---php-configuration';
 
-        $phpVersionSplit = explode('-', PHP_VERSION, 2);
-        $showVersion = reset($phpVersionSplit);
-        if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
-            $this->info .= sprintf(__("PHP Version: %s\n"), $showVersion);
-        } else {
-            $this->problems .= sprintf(__("PHP Version %s is older than 7.0")."\n", $showVersion);
-            $this->actions .= __("Upgrade to PHP 7.0 or higher")."\n";
-        }
         foreach ($this->exactValues as $key => $value) {
             $curValue = ini_get($key);
             if (false === $curValue) {
@@ -47,6 +41,7 @@ class PhpSettings extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
                 $this->problems .= $this->getProblem($key, $curValue);
                 $this->actions .= sprintf(__("Change '%s' to '%s'")."\n", $key, $value);
             }
+            $this->info .= sprintf(__("%s = %s")."\n", $key, $curValue);
         }
         foreach ($this->minimalValues as $key => $value) {
             $curValue = ini_get($key);
@@ -57,6 +52,7 @@ class PhpSettings extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
                 $this->problems .= $this->getProblem($key, $curValue);
                 $this->actions .= sprintf(__("Change '%s' to '%s' or higher")."\n", $key, $value);
             }
+            $this->info .= sprintf(__("%s = %s")."\n", $key, $curValue);
         }
 
         $this->groupProcess();

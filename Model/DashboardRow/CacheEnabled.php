@@ -35,21 +35,21 @@ class CacheEnabled extends \MageHost\PerformanceDashboard\Model\DashboardRow imp
     public function load()
     {
         $this->setTitle('Cache Enabled');
-        $info = [];
-        $action = [];
+        $this->buttons[] = [
+            'label' => __('Cache Management'),
+            'url' => 'adminhtml/cache/index'
+        ];
+
         foreach ($this->cacheTypeList->getTypes() as $type) {
             if (! $type->getStatus()) {
-                $info[] = sprintf(__('Cache is disabled: %s'), $type->getCacheType());
-                $action[] = sprintf(__("Enable %s cache"), $type->getCacheType());
+                $this->problems .= sprintf(__('Cache is disabled: %s')."\n", $type->getCacheType());
+                $this->actions .= sprintf(__("Enable %s cache")."\n", $type->getCacheType());
             }
         }
-        if (empty($action)) {
-            $this->setInfo(__('All cache is enabled'));
-            $this->setStatus(self::STATUS_OK);
-        } else {
-            $this->setInfo(implode("\n", $info));
-            $this->setAction(implode("\n", $action));
-            $this->setStatus(self::STATUS_PROBLEM);
+        if (empty($this->actions)) {
+            $this->info .= __('All cache is enabled')."\n";
         }
+
+        $this->groupProcess();
     }
 }

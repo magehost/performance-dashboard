@@ -69,6 +69,14 @@
                             <argument name="truncate" xsi:type="number">2048</argument>
                         </arguments>
                     </block>
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="buttons">
+                        <arguments>
+                            <argument name="header" xsi:type="string" translate="true">Links</argument>
+                            <argument name="index" xsi:type="string">buttons</argument>
+                            <argument name="align" xsi:type="string">left</argument>
+                            <argument name="renderer" xsi:type="string">MageHost\PerformanceDashboard\Block\Backend\Dashboard\Grid\Column\Renderer\Buttons</argument>
+                        </arguments>
+                    </block>
                 </block>
             </block>
         </referenceBlock>
