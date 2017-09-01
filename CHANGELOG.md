@@ -1,16 +1,10 @@
-### 1.11.3 (2017-09-01)
-
-  * Bugfix for Magento 2.2 RC
-  
-### 1.11.2 (2017-09-01)
-
-  * Bugfix for Magento 2.2 RC
-  
-### 1.11.1 (2017-09-01)
+### 1.11.4 (2017-09-01)
 
   * Changed composer requirements to allow newer versions
   * Updated Manuals
-
+  * PHPDoc type fixes for Magento 2.2 RC
+  * Works on Magento 2.2 RC
+  
 ### 1.11.0 (2017-08-24)
 
   * Solved Issue #2: Removed check for Flat Category & Product Indexes
