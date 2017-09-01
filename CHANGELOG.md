@@ -1,3 +1,7 @@
+### 1.11.3 (2017-09-01)
+
+  * Bugfix for Magento 2.2 RC
+  
 ### 1.11.2 (2017-09-01)
 
   * Bugfix for Magento 2.2 RC

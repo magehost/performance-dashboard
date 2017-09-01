@@ -20,11 +20,11 @@ class Handler extends \Monolog\Handler\RotatingFileHandler
      *
      * @param \Magento\Framework\Filesystem\DirectoryList $directoryList
      * @param string $filename
-     * @param int $maxFiles
-     * @param bool|int $level
-     * @param bool $bubble
-     * @param null $filePermission
-     * @param bool $useLocking
+     * @param integer $maxFiles
+     * @param integer $level
+     * @param Boolean $bubble
+     * @param int|null $filePermission
+     * @param Boolean $useLocking
      */
     public function __construct(
         \Magento\Framework\Filesystem\DirectoryList $directoryList,
