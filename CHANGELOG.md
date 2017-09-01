@@ -1,3 +1,8 @@
+### 1.11.1 (2017-09-01)
+
+  * Changed composer requirements to allow newer versions
+  * Updated Manuals
+
 ### 1.11.0 (2017-08-24)
 
   * Solved Issue #2: Removed check for Flat Category & Product Indexes
