@@ -1,3 +1,7 @@
+### 1.11.5 (2017-09-07)
+
+  * Fix error during setup:di:compile, was double dependency in Buttons Renderer 
+  
 ### 1.11.4 (2017-09-01)
 
   * Changed composer requirements to allow newer versions

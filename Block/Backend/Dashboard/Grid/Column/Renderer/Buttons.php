@@ -8,25 +8,6 @@ namespace MageHost\PerformanceDashboard\Block\Backend\Dashboard\Grid\Column\Rend
  */
 class Buttons extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
-    /** @var \Magento\Framework\UrlInterface */
-    private $urlBuilder;
-
-    /**
-     * Buttons constructor.
-     *
-     * @param \Magento\Framework\UrlInterface $urlBuilder
-     * @param \Magento\Backend\Block\Context $context
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Framework\UrlInterface $urlBuilder,
-        \Magento\Backend\Block\Context $context,
-        array $data = []
-    ) {
-        $this->urlBuilder = $urlBuilder;
-        parent::__construct($context, $data);
-    }
-
     /**
      * Render grid row
      *
@@ -70,7 +51,7 @@ class Buttons extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstrac
             }
         } else {
             $routeParams = empty($button['url_params']) ? null : $button['url_params'];
-            $button['url'] = $this->urlBuilder->getUrl($button['url'], $routeParams);
+            $button['url'] = $this->_urlBuilder->getUrl($button['url'], $routeParams);
             $target = empty($button['target']) ? '_top' : $button['target'];
         }
         $result .= sprintf('<a href="%s" target="%s">', $button['url'], $target);
