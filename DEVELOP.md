@@ -1,3 +1,10 @@
+## Dev Environment
+```
+cd ~/magento2
+mkdir -p app/code/MageHost
+git clone https://github.com/magehost/performance-dashboard app/code/MageHost/PerformanceDashboard
+```
+
 ## Before Release
 ```
 composer config repositories.magehost_performance-dashboard vcs https://github.com/magento/marketplace-eqp
