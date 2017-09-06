@@ -3,6 +3,10 @@
 cd ~/magento2
 mkdir -p app/code/MageHost
 git clone https://github.com/magehost/performance-dashboard app/code/MageHost/PerformanceDashboard
+php bin/magento module:enable MageHost_PerformanceDashboard
+php bin/magento setup:upgrade
+php bin/magento setup:di:compile
+php bin/magento setup:static-content:deploy
 ```
 
 ## Before Release
