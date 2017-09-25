@@ -18,20 +18,26 @@ class NonCacheableLayouts extends \MageHost\PerformanceDashboard\Model\Dashboard
     /** @var \MageHost\PerformanceDashboard\Logger\Handler */
     private $logHandler;
 
+    /** @var \\Magento\Framework\Filesystem\File\ReadFactory */
+    private $readFactory;
+
     /**
      * Constructor.
      *
      * @param \Magento\Framework\Filesystem\DirectoryList $directoryList
      * @param \MageHost\PerformanceDashboard\Logger\Handler $logHandler
+     * @param \Magento\Framework\Filesystem\File\ReadFactory $readFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Filesystem\DirectoryList $directoryList,
         \MageHost\PerformanceDashboard\Logger\Handler $logHandler,
+        \Magento\Framework\Filesystem\File\ReadFactory $readFactory,
         array $data = []
     ) {
         $this->directoryList = $directoryList;
         $this->logHandler = $logHandler;
+        $this->readFactory = $readFactory;
         parent::__construct($data);
     }
 
@@ -41,8 +47,7 @@ class NonCacheableLayouts extends \MageHost\PerformanceDashboard\Model\Dashboard
     public function load()
     {
         $this->setTitle('Non Cacheable Layouts');
-        $this->setButtons('http://devdocs.magento.com/guides/v2.1/config-guide/cache/cache-priv-over.html'.
-            '#config-cache-over-cacheable');
+        $this->setButtons('[devdocs-guides]/config-guide/cache/cache-priv-over.html#config-cache-over-cacheable');
 
         $output = '';
         $logFiles = $this->logHandler->getLogFiles();
@@ -81,11 +86,13 @@ class NonCacheableLayouts extends \MageHost\PerformanceDashboard\Model\Dashboard
      * @param $logFile string
      * @return string
      */
-    private function processLogFile($date, $logFile) {
+    private function processLogFile($date, $logFile)
+    {
         $output = '';
         $moduleCount = [];
-        // Using 'file()' causes  phpcs --standard=MEQP2  warning
-        $logLines = file($logFile);
+        $fileReader = $this->readFactory->create($logFile, \Magento\Framework\Filesystem\DriverPool::FILE);
+        $logLines = explode("\n", $fileReader->readAll());
+        $fileReader->close();
         foreach ($logLines as $line) {
             $lineMatches = [];
             if (preg_match('/ non_cacheable_layout (\{.+\})(?:\s|$)/', $line, $lineMatches)) {
@@ -100,7 +107,7 @@ class NonCacheableLayouts extends \MageHost\PerformanceDashboard\Model\Dashboard
             }
         }
         foreach ($moduleCount as $module => $count) {
-            $output .= sprintf(__("%s: non cacheable %s page loads: %d\n"), $date, $module, $count);
+            $output .= sprintf(__("%s: non cacheable %s page loads:&nbsp;%d\n"), $date, $module, $count);
         }
         return $output;
     }

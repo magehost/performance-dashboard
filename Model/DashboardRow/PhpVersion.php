@@ -18,7 +18,7 @@ class PhpVersion extends \MageHost\PerformanceDashboard\Model\DashboardRow imple
     public function load()
     {
         $this->setTitle(__('PHP Version'));
-        $this->setButtons('http://devdocs.magento.com/guides/v2.0/config-guide/prod/prod_perf-optimize.html' .
+        $this->setButtons('[devdocs-guides]/config-guide/prod/prod_perf-optimize.html' .
             '#server---software-recommendations');
 
         $phpVersionSplit = explode('-', PHP_VERSION, 2);

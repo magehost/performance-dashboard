@@ -2,6 +2,8 @@
 
 namespace MageHost\PerformanceDashboard\Logger;
 
+use Magento\Framework\Filesystem\Glob;
+
 /**
  * Class Handler
  *
@@ -55,7 +57,6 @@ class Handler extends \Monolog\Handler\RotatingFileHandler
      */
     public function getLogFiles()
     {
-        // Using 'glob()' causes  phpcs --standard=MEQP2  warning
-        return glob($this->getGlobPattern());
+        return Glob::glob($this->getGlobPattern());
     }
 }

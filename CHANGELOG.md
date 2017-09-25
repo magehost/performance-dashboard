@@ -1,3 +1,13 @@
+### 1.12.0 (2017-09-25)
+
+  * Submitted to the Magento Marketplace for approval
+  * Links to DevDocs now contain the actual Magento version
+  * Magento 2.2: Removed dev/.../... config settings. Does no longer exist in production mode.
+  * Added DevDocs link explaining Cache types
+  * Moved ideas for future checks to [Wiki](https://github.com/magehost/performance-dashboard/wiki/Ideas-for-future-checks)
+  * Moved Development instructions to [Wiki](https://github.com/magehost/performance-dashboard/wiki/Development)
+  * Using Magento's wrapper functions instead of `glob()` and `file()`
+
 ### 1.11.5 (2017-09-07)
 
   * Fix error during setup:di:compile, was double dependency in Buttons Renderer 

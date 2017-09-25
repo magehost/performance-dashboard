@@ -20,22 +20,28 @@ class Collection extends \Magento\Framework\Data\Collection
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface  */
     private $scopeConfig;
 
+    /** @var \Magento\Framework\App\ProductMetadataInterface */
+    private $productMetadata;
+
     /**
      * Constructor
      * @param \Magento\Framework\Data\Collection\EntityFactory $entityFactory
      * @param \MageHost\PerformanceDashboard\Model\DashboardRowFactory $rowFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\ProductMetadataInterface $productMetadata
      * @param \Psr\Log\LoggerInterface $logger
      */
     public function __construct(
         \Magento\Framework\Data\Collection\EntityFactory $entityFactory,
         \MageHost\PerformanceDashboard\Model\DashboardRowFactory $rowFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\ProductMetadataInterface $productMetadata,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->rowFactory = $rowFactory;
         $this->scopeConfig = $scopeConfig;
         $this->logger = $logger;
+        $this->productMetadata = $productMetadata;
         parent::__construct($entityFactory);
     }
 
@@ -59,12 +65,6 @@ class Collection extends \Magento\Framework\Data\Collection
                     )
                 );
             }
-
-            // http://devdocs.magento.com/guides/v2.0/config-guide/prod/prod_perf-optimize.html
-            // Idea: Check if Default Cache + Session + FPC are on different Redis instances
-            // Idea: FPC hit / miss percentage
-            // Idea: Cache flushes per hour
-
             $this->addItem($this->rowFactory->create('PhpVersion'));
             $this->addItem($this->rowFactory->create('PhpSettings'));
             $this->addItem($this->rowFactory->create('AppStateMode'));
@@ -72,7 +72,6 @@ class Collection extends \Magento\Framework\Data\Collection
             $this->addItem($this->rowFactory->create('ComposerAutoloader'));
             $this->addItemsConfig();
             $this->addItem($this->rowFactory->create('AsyncIndexes'));
-
             $this->_setIsLoaded(true);
         }
         return $this;
@@ -88,7 +87,7 @@ class Collection extends \Magento\Framework\Data\Collection
             [
                 'identifier' => 'default',
                 'name' => 'Magento Cache',
-                'buttons' => 'http://devdocs.magento.com/guides/v2.1/config-guide/redis/redis-pg-cache.html'
+                'buttons' => '[devdocs-guides]/config-guide/redis/redis-pg-cache.html'
             ]
         ));
         if (\Magento\PageCache\Model\Config::BUILT_IN ==
@@ -98,7 +97,7 @@ class Collection extends \Magento\Framework\Data\Collection
                 [
                     'identifier' => 'page_cache',
                     'name' => 'Full Page Cache',
-                    'buttons' => 'http://devdocs.magento.com/guides/v2.1/config-guide/redis/redis-pg-cache.html'
+                    'buttons' => '[devdocs-guides]/config-guide/redis/redis-pg-cache.html'
                 ]
             ));
         }
@@ -119,75 +118,77 @@ class Collection extends \Magento\Framework\Data\Collection
                 'path' => 'system/full_page_cache/caching_application',
                 'recommended' => \Magento\PageCache\Model\Config::VARNISH,
                 'source' => 'Magento\PageCache\Model\System\Config\Source\Application',
-                'buttons' => 'http://devdocs.magento.com/guides/v2.0/config-guide/varnish/config-varnish.html'
+                'buttons' => '[devdocs-guides]/config-guide/varnish/config-varnish.html'
             ]
         ));
-        $this->addItem($this->rowFactory->create(
-            'ConfigSetting',
-            [
-                'title' => 'Enable JavaScript Bundling',
-                'path' => 'dev/js/enable_js_bundling',
-                'recommended' => true,
-                'buttons' => 'http://devdocs.magento.com/guides/v2.1/frontend-dev-guide/themes/js-bundling.html'
-            ]
-        ));
-        $this->addItem($this->rowFactory->create(
-            'ConfigSetting',
-            [
-                'title' => 'Merge JavaScript Files',
-                'path' => 'dev/js/merge_files',
-                'recommended' => true,
-                'buttons' => 'http://devdocs.magento.com/guides/v2.0/config-guide/prod/prod_perf-optimize.html'.
-                    '#magento---performance-optimizations'
-            ]
-        ));
-        $this->addItem($this->rowFactory->create(
-            'ConfigSetting',
-            [
-                'title' => 'Minify JavaScript Files',
-                'path' => 'dev/js/minify_files',
-                'recommended' => true,
-                'buttons' => 'http://devdocs.magento.com/guides/v2.0/config-guide/prod/prod_perf-optimize.html'.
-                    '#magento---performance-optimizations'
-            ]
-        ));
-        $this->addItem($this->rowFactory->create(
-            'ConfigSetting',
-            [
-                'title' => 'Merge CSS Files',
-                'path' => 'dev/css/merge_css_files',
-                'recommended' => true,
-                'buttons' => 'http://devdocs.magento.com/guides/v2.0/config-guide/prod/prod_perf-optimize.html'.
-                    '#magento---performance-optimizations'
-            ]
-        ));
-        $this->addItem($this->rowFactory->create(
-            'ConfigSetting',
-            [
-                'title' => 'Minify CSS Files',
-                'path' => 'dev/css/minify_files',
-                'recommended' => true,
-                'buttons' => 'http://devdocs.magento.com/guides/v2.0/config-guide/prod/prod_perf-optimize.html'.
-                    '#magento---performance-optimizations'
-            ]
-        ));
-        $this->addItem($this->rowFactory->create(
-            'ConfigSetting',
-            [
-                'title' => 'Minify HTML',
-                'path' => 'dev/template/minify_html',
-                'recommended' => true,
-                'buttons' => 'http://devdocs.magento.com/guides/v2.0/config-guide/prod/prod_perf-optimize.html'.
-                    '#magento---performance-optimizations'
-            ]
-        ));
+        if (version_compare($this->productMetadata->getVersion(), '2.2.0.dev', '<')) {
+            $this->addItem($this->rowFactory->create(
+                'ConfigSetting',
+                [
+                    'title' => 'Enable JavaScript Bundling',
+                    'path' => 'dev/js/enable_js_bundling',
+                    'recommended' => true,
+                    'buttons' => '[devdocs-guides]/frontend-dev-guide/themes/js-bundling.html'
+                ]
+            ));
+            $this->addItem($this->rowFactory->create(
+                'ConfigSetting',
+                [
+                    'title' => 'Merge JavaScript Files',
+                    'path' => 'dev/js/merge_files',
+                    'recommended' => true,
+                    'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
+                        '#magento---performance-optimizations'
+                ]
+            ));
+            $this->addItem($this->rowFactory->create(
+                'ConfigSetting',
+                [
+                    'title' => 'Minify JavaScript Files',
+                    'path' => 'dev/js/minify_files',
+                    'recommended' => true,
+                    'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
+                        '#magento---performance-optimizations'
+                ]
+            ));
+            $this->addItem($this->rowFactory->create(
+                'ConfigSetting',
+                [
+                    'title' => 'Merge CSS Files',
+                    'path' => 'dev/css/merge_css_files',
+                    'recommended' => true,
+                    'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
+                        '#magento---performance-optimizations'
+                ]
+            ));
+            $this->addItem($this->rowFactory->create(
+                'ConfigSetting',
+                [
+                    'title' => 'Minify CSS Files',
+                    'path' => 'dev/css/minify_files',
+                    'recommended' => true,
+                    'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
+                        '#magento---performance-optimizations'
+                ]
+            ));
+            $this->addItem($this->rowFactory->create(
+                'ConfigSetting',
+                [
+                    'title' => 'Minify HTML',
+                    'path' => 'dev/template/minify_html',
+                    'recommended' => true,
+                    'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
+                        '#magento---performance-optimizations'
+                ]
+            ));
+        };
         $this->addItem($this->rowFactory->create(
             'ConfigSetting',
             [
                 'title' => 'Asynchronous sending of sales emails',
                 'path' => 'sales_email/general/async_sending',
                 'recommended' => true,
-                'buttons' => 'http://devdocs.magento.com/guides/v2.0/config-guide/prod/prod_perf-optimize.html'.
+                'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
                     '#stores---configuration---sales---sales-emails'
             ]
         ));

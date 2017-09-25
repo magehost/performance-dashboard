@@ -8,6 +8,25 @@ namespace MageHost\PerformanceDashboard\Block\Backend\Dashboard\Grid\Column\Rend
  */
 class Buttons extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
+    /** @var \Magento\Framework\App\ProductMetadataInterface */
+    private $productMetadata;
+
+    /**
+     * Buttons constructor.
+     *
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Framework\App\ProductMetadataInterface $productMetadata
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Framework\App\ProductMetadataInterface $productMetadata,
+        \Magento\Backend\Block\Context $context,
+        array $data = []
+    ) {
+        $this->productMetadata = $productMetadata;
+        parent::__construct($context, $data);
+    }
+
     /**
      * Render grid row
      *
@@ -38,11 +57,18 @@ class Buttons extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstrac
      * @param $button
      * @return string
      */
-    private function getButtonHtml($button) {
+    private function getButtonHtml($button)
+    {
         if (empty($button['url'])) {
             return '';
         }
         $result = '';
+        $magentoVersionArray = explode('.', $this->productMetadata->getVersion());
+        $button['url'] = str_replace(
+            '[devdocs-guides]',
+            sprintf('http://devdocs.magento.com/guides/v%d.%d', $magentoVersionArray[0], $magentoVersionArray[1]),
+            $button['url']
+        );
         if (preg_match('#^https?://#', $button['url'])) {
             $target = empty($button['target']) ? '_blank' : $button['target'];
             if (empty($button['label']) &&

@@ -36,8 +36,7 @@ class ComposerAutoloader extends \MageHost\PerformanceDashboard\Model\DashboardR
     public function load()
     {
         $this->setTitle(__("Composer autoloader"));
-        $this->setButtons('http://devdocs.magento.com/guides/v2.0/config-guide/prod/prod_perf-optimize.html'.
-            '#server---composer-optimization');
+        $this->setButtons('[devdocs-guides]/config-guide/prod/prod_perf-optimize.html#server---composer-optimization');
 
         /** @noinspection PhpUndefinedClassInspection */
         /** @var null|\Composer\Autoload\ClassLoader $classLoader */

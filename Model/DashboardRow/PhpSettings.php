@@ -29,8 +29,7 @@ class PhpSettings extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
     public function load()
     {
         $this->setTitle(__('PHP Configuration'));
-        $this->buttons[] = 'http://devdocs.magento.com/guides/v2.0/config-guide/prod/prod_perf-optimize.html'.
-            '#server---php-configuration';
+        $this->buttons[] = '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html#server---php-configuration';
 
         foreach ($this->exactValues as $key => $value) {
             $curValue = ini_get($key);

@@ -39,6 +39,10 @@ class CacheEnabled extends \MageHost\PerformanceDashboard\Model\DashboardRow imp
             'label' => __('Cache Management'),
             'url' => 'adminhtml/cache/index'
         ];
+        $this->buttons[] = [
+            'url' => '[devdocs-guides]/config-guide/cli/config-cli-subcommands-cache.html' .
+                '#config-cli-subcommands-cache-clean-over'
+        ];
 
         foreach ($this->cacheTypeList->getTypes() as $type) {
             if (! $type->getStatus()) {
