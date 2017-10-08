@@ -4,7 +4,7 @@ Performance Dashboard Extension for Magento 2
 The free Performance Dashboard Extension by MageHost.pro adds a screen to the Magento Store Admin called "Performance Dashboard". In this screen you get a clear overview of areas where the performance of your Magento 2 can be improved.
 
 # Install #
-## Via Composer ##
+## Install via Composer ##
 
 ```
 composer config repositories.magehost_performance-dashboard vcs https://github.com/magehost/performance-dashboard.git
@@ -21,7 +21,7 @@ php bin/magento setup:static-content:deploy
 * In Admin go to _System > Tools > Performance Dashboard_.
 
 # Uninstall #
-## When installed via Composer ##
+## Uninstall when installed via Composer ##
 ```
 php bin/magento module:disable MageHost_PerformanceDashboard
 composer remove magehost/performance-dashboard
