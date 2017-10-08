@@ -19,10 +19,11 @@ php bin/magento setup:static-content:deploy
 
 * In Admin go to *_System > Tools > Performance Dashboard_*.
 
-# Uninstall when installed via Composer #
+# Uninstall #
 ```
 php bin/magento module:disable MageHost_PerformanceDashboard
 composer remove magehost/performance-dashboard
+composer config --unset repositories.magehost_performance-dashboard
 php bin/magento setup:upgrade
 php bin/magento setup:di:compile
 php bin/magento setup:static-content:deploy
