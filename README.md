@@ -50,10 +50,10 @@ Checks executed:
 * Is Composer's autoloader optimized?
 * Is the Full Page Cache using Varnish?
 * For Magento < 2.2:
-* * Is merging JavaScript files enabled?
-* * Is minify of JavaScript files enabled?
-* * Is merging CSS files enabled?
-* * Is minify of CSS files enabled?
-* * Is minify of HTML enabled?
+  * Is merging JavaScript files enabled?
+  * Is minify of JavaScript files enabled?
+  * Is merging CSS files enabled?
+  * Is minify of CSS files enabled?
+  * Is minify of HTML enabled?
 * Asynchronous sending of sales emails enabled?
 * All indexes set to Asynchronous?
