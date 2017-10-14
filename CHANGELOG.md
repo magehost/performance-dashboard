@@ -1,6 +1,6 @@
 ### 1.12.0 (2017-09-25)
 
-  * Submitted to the Magento Marketplace for approval
+  * Approved for Magento Marketplace, is called 1.11.4 there
   * Links to DevDocs now contain the actual Magento version
   * Magento 2.2: Removed dev/.../... config settings. Does no longer exist in production mode.
   * Added DevDocs link explaining Cache types
