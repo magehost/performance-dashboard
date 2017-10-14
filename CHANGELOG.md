@@ -1,3 +1,8 @@
+### 1.12.1 (2017-10-14)
+
+  * Updated documents
+  * Bump version for resubmit to Magento Marketplace
+
 ### 1.12.0 (2017-09-25)
 
   * Approved for Magento Marketplace, is called 1.11.4 there
