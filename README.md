@@ -39,7 +39,8 @@ Using our experience as [Magento Hosting professionals](https://magehost.pro) we
 Based on this list we have created a dashboard which automatically tests these various config settings and other setup choices.
 Checks executed:
 
-* PHP Version & Settings
+* Is PHP 7 in use?
+* Are the PHP perfomance settings correct?
 * Is Magento in Production mode?
 * Is the Magento Cache stored in Redis?
 * Is the Full Page Cache stored in Redis?
@@ -48,12 +49,11 @@ Checks executed:
 * A check which logs CMS and Catalog pages which can't be cached in full-page-cache because of `cacheable="false"`.
 * Is Composer's autoloader optimized?
 * Is the Full Page Cache using Varnish?
-* Are Flat Catalog Categories enabled?
-* Are Flat Catalog Products enabled?
-* Is merging JavaScript files enabled?
-* Is minify of JavaScript files enabled?
-* Is merging CSS files enabled?
-* Is minify of CSS files enabled?
-* Is minify of HTML enabled?
+* For Magento < 2.2:
+  * Is merging JavaScript files enabled?
+  * Is minify of JavaScript files enabled?
+  * Is merging CSS files enabled?
+  * Is minify of CSS files enabled?
+  * Is minify of HTML enabled?
 * Asynchronous sending of sales emails enabled?
 * All indexes set to Asynchronous?
