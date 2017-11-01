@@ -1,3 +1,9 @@
+### 1.12.2 (2017-11-01)
+
+  * Recognise 'db' as (non optimal) session storage
+  * Issue #3: Published to Packagist.org. Thanks @paales.
+  * Issue #3: Improved composer instructions. Thanks @paales.
+  
 ### 1.12.1 (2017-10-14)
 
   * Updated documents

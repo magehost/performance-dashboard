@@ -53,6 +53,7 @@ class SessionStorage extends \MageHost\PerformanceDashboard\Model\DashboardRow i
                 $this->setInfo(sprintf(__('Sessions are saved in %s'), ucfirst($saveHandler)));
                 break;
             case 'files':
+            case 'db':
                 $this->setStatus(self::STATUS_PROBLEM);
                 $this->setInfo(sprintf(__('Sessions are saved in %s'), ucfirst($saveHandler)));
                 $this->setAction('Save sessions in Redis or Memcached');
