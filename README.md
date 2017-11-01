@@ -6,7 +6,8 @@ The free Performance Dashboard Extension by MageHost.pro adds a screen to the Ma
 # Install via Composer #
 
 ```
-composer require magehost/performance-dashboard
+composer require --no-update magehost/performance-dashboard:1.*
+composer update magehost/performance-dashboard
 php bin/magento module:enable MageHost_PerformanceDashboard
 php bin/magento setup:upgrade
 php bin/magento setup:di:compile
