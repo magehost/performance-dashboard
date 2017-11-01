@@ -1,3 +1,7 @@
+### 1.12.3 (2017-11-01)
+
+  * Changed composer install into 1.* so it doesn't get locked to minor version
+  
 ### 1.12.2 (2017-11-01)
 
   * Recognise 'db' as (non optimal) session storage
