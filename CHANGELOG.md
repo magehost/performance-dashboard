@@ -1,4 +1,4 @@
-### 1.12.3 (2017-11-01)
+### 1.12.3 (2017-11-01) => reverted
 
   * Changed composer install into 1.* so it doesn't get locked to minor version
   
