@@ -37,6 +37,7 @@ Based on this list we have created a dashboard which automatically tests these v
 Checks executed:
 
 * Is PHP 7 in use?
+* Is HTTP/2 in use?
 * Are the PHP perfomance settings correct?
 * Is Magento in Production mode?
 * Is the Magento Cache stored in Redis?
@@ -47,9 +48,11 @@ Checks executed:
 * Is Composer's autoloader optimized?
 * Is the Full Page Cache using Varnish?
 * For Magento < 2.2:
-  * Is merging JavaScript files enabled?
+  * If not on HTTP/2:
+    * Is JavaScript bundling enabled?
+    * Is merging JavaScript files enabled?
+    * Is merging CSS files enabled?
   * Is minify of JavaScript files enabled?
-  * Is merging CSS files enabled?
   * Is minify of CSS files enabled?
   * Is minify of HTML enabled?
 * Asynchronous sending of sales emails enabled?

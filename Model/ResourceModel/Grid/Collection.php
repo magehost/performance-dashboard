@@ -68,6 +68,7 @@ class Collection extends \Magento\Framework\Data\Collection
             $this->addItem($this->rowFactory->create('PhpVersion'));
             $this->addItem($this->rowFactory->create('PhpSettings'));
             $this->addItem($this->rowFactory->create('AppStateMode'));
+            $this->addItem($this->rowFactory->create('HttpVersion'));
             $this->addItemsCache();
             $this->addItem($this->rowFactory->create('ComposerAutoloader'));
             $this->addItemsConfig();
@@ -122,40 +123,42 @@ class Collection extends \Magento\Framework\Data\Collection
             ]
         ));
         if (version_compare($this->productMetadata->getVersion(), '2.2.0.dev', '<')) {
-            $this->addItem($this->rowFactory->create(
-                'ConfigSetting',
-                [
-                    'title' => 'Enable JavaScript Bundling',
-                    'path' => 'dev/js/enable_js_bundling',
-                    'recommended' => true,
-                    'buttons' => '[devdocs-guides]/frontend-dev-guide/themes/js-bundling.html'
-                ]
-            ));
-            $this->addItem($this->rowFactory->create(
-                'ConfigSetting',
-                [
-                    'title' => 'Merge JavaScript Files',
-                    'path' => 'dev/js/merge_files',
-                    'recommended' => true,
-                    'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
-                        '#magento---performance-optimizations'
-                ]
-            ));
+            if (!$this->runningHttp2()) {
+                $this->addItem($this->rowFactory->create(
+                    'ConfigSetting',
+                    [
+                        'title' => 'Enable JavaScript Bundling',
+                        'path' => 'dev/js/enable_js_bundling',
+                        'recommended' => true,
+                        'buttons' => '[devdocs-guides]/frontend-dev-guide/themes/js-bundling.html'
+                    ]
+                ));
+                $this->addItem($this->rowFactory->create(
+                    'ConfigSetting',
+                    [
+                        'title' => 'Merge JavaScript Files',
+                        'path' => 'dev/js/merge_files',
+                        'recommended' => true,
+                        'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
+                            '#magento---performance-optimizations'
+                    ]
+                ));
+                $this->addItem($this->rowFactory->create(
+                    'ConfigSetting',
+                    [
+                        'title' => 'Merge CSS Files',
+                        'path' => 'dev/css/merge_css_files',
+                        'recommended' => true,
+                        'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
+                            '#magento---performance-optimizations'
+                    ]
+                ));
+            }
             $this->addItem($this->rowFactory->create(
                 'ConfigSetting',
                 [
                     'title' => 'Minify JavaScript Files',
                     'path' => 'dev/js/minify_files',
-                    'recommended' => true,
-                    'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
-                        '#magento---performance-optimizations'
-                ]
-            ));
-            $this->addItem($this->rowFactory->create(
-                'ConfigSetting',
-                [
-                    'title' => 'Merge CSS Files',
-                    'path' => 'dev/css/merge_css_files',
                     'recommended' => true,
                     'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
                         '#magento---performance-optimizations'
@@ -192,5 +195,11 @@ class Collection extends \Magento\Framework\Data\Collection
                     '#stores---configuration---sales---sales-emails'
             ]
         ));
+    }
+
+    private function runningHttp2()
+    {
+        $httpVersion = $this->rowFactory->create('HttpVersion')->getHttpVersion();
+        return (!empty($httpVersion) && version_compare($httpVersion, '2.0', '>='));
     }
 }
