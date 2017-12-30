@@ -1,3 +1,9 @@
+### 1.13.0 (2017-12-31)
+
+  * Added check if web server is running HTTP/2
+  * Disabled checks for JS/CSS Bundling/Merging if on HTTP/2
+  * Fixes issue #4. Thanks to @JeroenVanLeusden for reporting.
+
 ### 1.12.3 (2017-11-01) => reverted
 
   * Changed composer install into 1.* so it doesn't get locked to minor version

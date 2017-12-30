@@ -37,6 +37,7 @@ Based on this list we have created a dashboard which automatically tests these v
 Checks executed:
 
 * Is PHP 7 in use?
+* Is HTTP/2 in use?
 * Are the PHP perfomance settings correct?
 * Is Magento in Production mode?
 * Is the Magento Cache stored in Redis?
