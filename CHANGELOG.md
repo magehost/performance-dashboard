@@ -1,3 +1,7 @@
+### 1.13.1 (2018-07-03)
+
+  * Bumping version to enable Magento 2.3 compatibility in MarketPlace
+  
 ### 1.13.0 (2017-12-31)
 
   * Added check if web server is running HTTP/2
