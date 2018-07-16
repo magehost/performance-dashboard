@@ -59,8 +59,8 @@ class NonCacheableLayouts extends \MageHost\PerformanceDashboard\Model\Dashboard
                 continue;
             }
             $date = $fileMatches[1];
-            if ($now - strtotime($date) > 7 * 86400) {
-                // Older than 7 days
+            if ($now - strtotime($date) > 3 * 86400) {
+                // Older than 3 days
                 continue;
             }
             $output .= $this->processLogFile($date, $logFile);

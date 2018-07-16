@@ -1,3 +1,8 @@
+### 1.14.1 (2018-07-16)
+
+  * Added check if frontend is HTTPS, required for HTTP/2
+  * Fixed #6: Lowered history for logging Non Cacheable Layouts to 3 days.
+  
 ### 1.14.0 (2018-07-16)
 
   * Added alternative way of checking HTTP/2

@@ -4,7 +4,7 @@
     <type name="MageHost\PerformanceDashboard\Logger\Handler">
         <arguments>
             <argument name="filename" xsi:type="string">mh_noncacheable.log</argument>
-            <argument name="maxFiles" xsi:type="number">7</argument>
+            <argument name="maxFiles" xsi:type="number">3</argument>
         </arguments>
     </type>
     <type name="MageHost\PerformanceDashboard\Logger\Logger">

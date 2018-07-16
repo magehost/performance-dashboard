@@ -41,7 +41,19 @@ class HttpVersion extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
         $this->setTitle(__('HTTP Version'));
         $this->setButtons('https://css-tricks.com/http2-real-world-performance-test-analysis/');
 
-        // We assume if the Admin runs on HTTP/2, the frontend does too.
+        $frontUrl = $this->storeManager->getStore()->getBaseUrl('link', false);
+        if ( preg_match('|^http://|', $frontUrl) ) {
+            $this->setStatus(self::STATUS_PROBLEM);
+            $this->setInfo(sprintf(__("Your frontend is not HTTPS")."\n"));
+            $this->setAction(__("Update 'Base URL' to use HTTPS.\n".
+                "This is required for HTTP/2\n"));
+            $this->setButtons([
+                'label' => __('Default Config'),
+                'url' => sprintf('adminhtml/system_config/edit/section/%s', 'web'),
+                'url_params' => [ '_fragment'=> sprintf('%s_%s-link', 'web', 'insecure') ]
+            ]);
+            return;
+        }
 
         $httpVersion = $this->getHttpVersion();
         if (null === $httpVersion) {
@@ -63,6 +75,7 @@ class HttpVersion extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
     {
         // We are looking for HTTP/2 or higher.
         // The $_SERVER['SERVER_PROTOCOL'] is the first place to look.
+        // We assume if the current request on the Admin runs on HTTP/2, the frontend does too.
 
         $serverProtocol = $this->request->getServerValue('SERVER_PROTOCOL');
         if (!empty($serverProtocol)) {
@@ -85,7 +98,7 @@ class HttpVersion extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
         // We will use Curl to do a HEAD request to the frontend using HTTP/2.
         // This will not work when you are debugging using XDebug because it can't handle 2 requests a the same time.
 
-        $url = $this->storeManager->getStore()->getBaseUrl();
+        $frontUrl = $this->storeManager->getStore()->getBaseUrl();
 
         try {
             if (!defined('CURL_HTTP_VERSION_2_0')) {
@@ -94,7 +107,7 @@ class HttpVersion extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
             // magento-coding-standard discourages use of Curl but it is the best way to check for HTTP/2.
             $curl = curl_init();
             curl_setopt_array($curl, [
-                CURLOPT_URL => $url,
+                CURLOPT_URL => $frontUrl,
                 CURLOPT_NOBODY => true,
                 CURLOPT_HEADER => true,
                 CURLOPT_RETURNTRANSFER => true,
@@ -107,7 +120,7 @@ class HttpVersion extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
             $httpResponse = curl_exec($curl);
             curl_close($curl);
         } catch (\Exception $e) {
-            $msg = sprintf("%s: Error fetching '%s': %s", __CLASS__, $url, $e->getMessage());
+            $msg = sprintf("%s: Error fetching '%s': %s", __CLASS__, $frontUrl, $e->getMessage());
             $this->logger->info($msg);
         }
 
