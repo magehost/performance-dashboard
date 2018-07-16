@@ -42,7 +42,7 @@ class HttpVersion extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
         $this->setButtons('https://css-tricks.com/http2-real-world-performance-test-analysis/');
 
         $frontUrl = $this->storeManager->getStore()->getBaseUrl('link', false);
-        if ( preg_match('|^http://|', $frontUrl) ) {
+        if (preg_match('|^http://|', $frontUrl)) {
             $this->setStatus(self::STATUS_PROBLEM);
             $this->setInfo(sprintf(__("Your frontend is not HTTPS")."\n"));
             $this->setAction(__("Update 'Base URL' to use HTTPS.\n".
