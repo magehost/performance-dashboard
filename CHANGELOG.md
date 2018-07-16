@@ -1,3 +1,7 @@
+### 1.14.0 (2018-07-16)
+
+  * Added alternative way of checking HTTP/2
+
 ### 1.13.0 (2017-12-31)
 
   * Added check if web server is running HTTP/2
