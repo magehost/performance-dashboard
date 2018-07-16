@@ -1,3 +1,7 @@
+### 1.14.2 (2018-07-16)
+
+  * Fixed config link on HTTP/2 check for HTTPS requirement
+  
 ### 1.14.1 (2018-07-16)
 
   * Added check if frontend is HTTPS, required for HTTP/2

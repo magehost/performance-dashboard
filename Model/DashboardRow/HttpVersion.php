@@ -49,8 +49,8 @@ class HttpVersion extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
                 "This is required for HTTP/2\n"));
             $this->setButtons([
                 'label' => __('Default Config'),
-                'url' => sprintf('adminhtml/system_config/edit/section/%s', 'web'),
-                'url_params' => [ '_fragment'=> sprintf('%s_%s-link', 'web', 'insecure') ]
+                'url' => 'adminhtml/system_config/edit/section/web',
+                'url_params' => [ '_fragment'=> 'web_unsecure-link' ]
             ]);
             return;
         }
