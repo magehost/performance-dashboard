@@ -1,7 +1,7 @@
 Performance Dashboard Extension for Magento 2
 =====================
 
-The free Performance Dashboard Extension by MageHost.pro adds a screen to the Magento Store Admin called "Performance Dashboard". In this screen you get a clear overview of areas where the performance of your Magento 2 can be improved.
+The free Performance Dashboard Extension by [MageHost.pro](https://magehost.pro) adds a screen to the Magento Store Admin called "Performance Dashboard". In this screen you get a clear overview of areas where the performance of your Magento 2 can be improved.
 
 # Install via Composer #
 
