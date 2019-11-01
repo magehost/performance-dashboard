@@ -1,8 +1,23 @@
 <?php
+/**
+ * Performance Dashboard Extension for Magento 2
+ *
+ * PHP version 5
+ *
+ * @category  MageHost
+ * @package   MageHost\PerformanceDashboard
+ * @author    Jeroen Vermeulen <jeroen@magehost.pro>
+ * @copyright 2019 MageHost BV (https://magehost.pro)
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ * @link      https://github.com/magehost/performance-dashboard
+ */
 
 namespace MageHost\PerformanceDashboard\Logger;
 
+use Magento\Framework\Exception\FileSystemException;
+use Magento\Framework\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem\Glob;
+use Monolog\Handler\RotatingFileHandler;
 
 /**
  * Class Handler
@@ -10,42 +25,66 @@ use Magento\Framework\Filesystem\Glob;
  * Log handler creating rotating logs.
  * We use it to log detected performance problems in the frontend.
  *
- * @package MageHost\PerformanceDashboard\Logger
+ * @category MageHost
+ * @package  MageHost\PerformanceDashboard\Logger
+ * @author   Jeroen Vermeulen <jeroen@magehost.pro>
+ * @license  https://opensource.org/licenses/MIT  MIT License
+ * @link     https://github.com/magehost/performance-dashboard
  */
-class Handler extends \Monolog\Handler\RotatingFileHandler
+class Handler extends RotatingFileHandler
 {
-    /** @var \Magento\Framework\Filesystem\DirectoryList */
-    private $directoryList;
+    /**
+     * Application file system directories dictionary.
+     *
+     * @var DirectoryList
+     */
+    private $_directoryList;
 
     /**
      * Constructor
      *
-     * @param \Magento\Framework\Filesystem\DirectoryList $directoryList
-     * @inheritdoc
+     * @param DirectoryList $directoryList  Application file system directories
+     *                                      dictionary.
+     * @param string        $filename       @inheritdoc
+     * @param int           $maxFiles       @inheritdoc
+     * @param int           $level          @inheritdoc
+     * @param bool          $bubble         @inheritdoc
+     * @param int|null      $filePermission @inheritdoc
+     * @param bool          $useLocking     @inheritdoc
      */
     public function __construct(
-        \Magento\Framework\Filesystem\DirectoryList $directoryList,
+        DirectoryList $directoryList,
         $filename,
         $maxFiles = 0,
-        $level = \MageHost\PerformanceDashboard\Logger\Logger::DEBUG,
+        $level = Logger::DEBUG,
         $bubble = true,
         $filePermission = null,
         $useLocking = false
     ) {
-        $this->directoryList = $directoryList;
-        parent::__construct($filename, $maxFiles, $level, $bubble, $filePermission, $useLocking);
+        $this->_directoryList = $directoryList;
+        parent::__construct(
+            $filename, $maxFiles, $level, $bubble, $filePermission, $useLocking
+        );
     }
 
     /**
-     * @inheritdoc
+     * Get timed filename.
+     * Example:  /full/path/to/var/log/mh_noncacheable-2019-10-31.log
      *
-     * phpcs --standard=MEQP2  warns because it is protected, like parent class.
+     * Running  phpcs --standard=MEQP2  warns because it is protected,
+     * like the parent class.
+     *
+     * @return string
+     * @throws FileSystemException
      */
     protected function getTimedFilename()
     {
         if ('/' != substr($this->filename, 0, 1)) {
             // Prepend Magento log dir
-            $this->filename = sprintf("%s/%s", $this->directoryList->getPath('log'), $this->filename);
+            $this->filename = sprintf(
+                "%s/%s", $this->_directoryList->getPath('log'),
+                $this->filename
+            );
         }
         return parent::getTimedFilename();
     }

@@ -1,38 +1,67 @@
 <?php
+/**
+ * Performance Dashboard Extension for Magento 2
+ *
+ * PHP version 5
+ *
+ * @category     MageHost
+ * @package      MageHost\PerformanceDashboard
+ * @author       Jeroen Vermeulen <jeroen@magehost.pro>
+ * @copyright    2019 MageHost BV (https://magehost.pro)
+ * @license      https://opensource.org/licenses/MIT  MIT License
+ * @link         https://github.com/magehost/performance-dashboard
+ * @noinspection PhpUndefinedMethodInspection
+ */
 
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
+
+use MageHost\PerformanceDashboard\Logger\Handler;
+use MageHost\PerformanceDashboard\Model\DashboardRow;
+use MageHost\PerformanceDashboard\Model\DashboardRowInterface;
+use Magento\Framework\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem\DriverPool;
+use Magento\Framework\Filesystem\File\ReadFactory;
 
 /**
  * Class NonCacheableLayouts
  *
  * Dashboard row to show if non cacheable layouts were detected in the frontend.
  *
- * @package MageHost\PerformanceDashboard\Model\DashboardRow
+ * @category MageHost
+ * @package  MageHost\PerformanceDashboard\Model\DashboardRow
+ * @author   Jeroen Vermeulen <jeroen@magehost.pro>
+ * @license  https://opensource.org/licenses/MIT  MIT License
+ * @link     https://github.com/magehost/performance-dashboard
  */
-class NonCacheableLayouts extends \MageHost\PerformanceDashboard\Model\DashboardRow implements
-    \MageHost\PerformanceDashboard\Model\DashboardRowInterface
+class NonCacheableLayouts extends DashboardRow implements DashboardRowInterface
 {
-    /** @var \Magento\Framework\Filesystem\DirectoryList */
+    /**
+     * @var DirectoryList
+     */
     private $directoryList;
 
-    /** @var \MageHost\PerformanceDashboard\Logger\Handler */
+    /**
+     * @var Handler
+     */
     private $logHandler;
 
-    /** @var \\Magento\Framework\Filesystem\File\ReadFactory */
+    /**
+     * @var ReadFactory
+     */
     private $readFactory;
 
     /**
      * Constructor.
      *
-     * @param \Magento\Framework\Filesystem\DirectoryList $directoryList
-     * @param \MageHost\PerformanceDashboard\Logger\Handler $logHandler
-     * @param \Magento\Framework\Filesystem\File\ReadFactory $readFactory
-     * @param array $data
+     * @param DirectoryList    $directoryList
+     * @param Handler  $logHandler
+     * @param ReadFactory $readFactory
+     * @param array                                          $data
      */
     public function __construct(
-        \Magento\Framework\Filesystem\DirectoryList $directoryList,
-        \MageHost\PerformanceDashboard\Logger\Handler $logHandler,
-        \Magento\Framework\Filesystem\File\ReadFactory $readFactory,
+        DirectoryList $directoryList,
+        Handler $logHandler,
+        ReadFactory $readFactory,
         array $data = []
     ) {
         $this->directoryList = $directoryList;
@@ -82,15 +111,15 @@ class NonCacheableLayouts extends \MageHost\PerformanceDashboard\Model\Dashboard
     /**
      * Process one logfile
      *
-     * @param $date string
-     * @param $logFile string
+     * @param  $date    string
+     * @param  $logFile string
      * @return string
      */
     private function processLogFile($date, $logFile)
     {
         $output = '';
         $moduleCount = [];
-        $fileReader = $this->readFactory->create($logFile, \Magento\Framework\Filesystem\DriverPool::FILE);
+        $fileReader = $this->readFactory->create($logFile, DriverPool::FILE);
         $logLines = explode("\n", $fileReader->readAll());
         $fileReader->close();
         foreach ($logLines as $line) {

@@ -1,16 +1,35 @@
 <?php
+/**
+ * Performance Dashboard Extension for Magento 2
+ *
+ * PHP version 5
+ *
+ * @category     MageHost
+ * @package      MageHost\PerformanceDashboard
+ * @author       Jeroen Vermeulen <jeroen@magehost.pro>
+ * @copyright    2019 MageHost BV (https://magehost.pro)
+ * @license      https://opensource.org/licenses/MIT  MIT License
+ * @link         https://github.com/magehost/performance-dashboard
+ * @noinspection PhpUndefinedMethodInspection
+ */
 
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
+
+use MageHost\PerformanceDashboard\Model\DashboardRow;
+use MageHost\PerformanceDashboard\Model\DashboardRowInterface;
 
 /**
  * Class PhpVersion
  *
  * Dashboard row to check PHP version
  *
- * @package MageHost\PerformanceDashboard\Model\DashboardRow
+ * @category MageHost
+ * @package  MageHost\PerformanceDashboard\Model\DashboardRow
+ * @author   Jeroen Vermeulen <jeroen@magehost.pro>
+ * @license  https://opensource.org/licenses/MIT  MIT License
+ * @link     https://github.com/magehost/performance-dashboard
  */
-class PhpVersion extends \MageHost\PerformanceDashboard\Model\DashboardRow implements
-    \MageHost\PerformanceDashboard\Model\DashboardRowInterface
+class PhpVersion extends DashboardRow implements DashboardRowInterface
 {
     /**
      * Load Row, is called by DashboardRowFactory
@@ -18,8 +37,10 @@ class PhpVersion extends \MageHost\PerformanceDashboard\Model\DashboardRow imple
     public function load()
     {
         $this->setTitle(__('PHP Version'));
-        $this->setButtons('[devdocs-guides]/config-guide/prod/prod_perf-optimize.html' .
-            '#server---software-recommendations');
+        $this->setButtons(
+            '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html' .
+            '#server---software-recommendations'
+        );
 
         $phpVersionSplit = explode('-', PHP_VERSION, 2);
         $showVersion = reset($phpVersionSplit);

@@ -38,7 +38,7 @@ Checks executed:
 
 * Is PHP 7 in use?
 * Is HTTP/2 in use?
-* Are the PHP perfomance settings correct?
+* Are the PHP performance settings correct?
 * Is Magento in Production mode?
 * Is the Magento Cache stored in Redis?
 * Is the Full Page Cache stored in Redis?

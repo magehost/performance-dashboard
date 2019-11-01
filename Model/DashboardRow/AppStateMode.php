@@ -1,48 +1,75 @@
 <?php
+/**
+ * Performance Dashboard Extension for Magento 2
+ *
+ * PHP version 5
+ *
+ * @category     MageHost
+ * @package      MageHost\PerformanceDashboard
+ * @author       Jeroen Vermeulen <jeroen@magehost.pro>
+ * @copyright    2019 MageHost BV (https://magehost.pro)
+ * @license      https://opensource.org/licenses/MIT  MIT License
+ * @link         https://github.com/magehost/performance-dashboard
+ * @noinspection PhpUndefinedMethodInspection
+ */
 
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
+
+use MageHost\PerformanceDashboard\Model\DashboardRow;
+use MageHost\PerformanceDashboard\Model\DashboardRowInterface;
+use Magento\Framework\App\State;
 
 /**
  * Class AppStateMode
  *
  * Dashboard row to show Magento Mode: developer / production / default
  *
- * @package MageHost\PerformanceDashboard\Model\DashboardRow
+ * @category MageHost
+ * @package  MageHost\PerformanceDashboard\Model\DashboardRow
+ * @author   Jeroen Vermeulen <jeroen@magehost.pro>
+ * @license  https://opensource.org/licenses/MIT  MIT License
+ * @link     https://github.com/magehost/performance-dashboard
  */
-class AppStateMode extends \MageHost\PerformanceDashboard\Model\DashboardRow implements
-    \MageHost\PerformanceDashboard\Model\DashboardRowInterface
+class AppStateMode extends DashboardRow implements DashboardRowInterface
 {
-    /** @var \Magento\Framework\App\State */
-    private $appState;
+    /**
+     * Application state flags.
+     * 
+     * @var State
+     */
+    private $_appState;
 
     /**
      * Constructor.
      *
-     * @param \Magento\Framework\App\State $appState
-     * @param array $data
+     * @param State $appState - Application state flags
+     * @param array                        $data     - Data for object
      */
     public function __construct(
-        \Magento\Framework\App\State $appState,
+        State $appState,
         array $data = []
     ) {
     
-        $this->appState = $appState;
+        $this->_appState = $appState;
         parent::__construct($data);
     }
 
     /**
      * Load Row, is called by DashboardRowFactory
+     *
+     * @return void
      */
     public function load()
     {
+        $appMode = $this->_appState->getMode();
         $this->setTitle('Magento Mode');
-        $this->setButtons('[devdocs-guides]/config-guide/prod/prod_perf-optimize.html#production-mode');
+        $this->setButtons(
+            '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html' .
+            '#production-mode'
+        );
 
-        $this->setInfo(sprintf(
-            __("Magento is running in '%s' mode"),
-            $this->appState->getMode()
-        ));
-        if (\Magento\Framework\App\State::MODE_PRODUCTION == $this->appState->getMode()) {
+        $this->setInfo(sprintf(__("Magento is running in '%s' mode"), $appMode));
+        if (State::MODE_PRODUCTION == $appMode) {
             $this->setStatus(self::STATUS_OK);
         } else {
             $this->setStatus(self::STATUS_PROBLEM);

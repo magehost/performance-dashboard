@@ -1,30 +1,60 @@
 <?php
+/**
+ * Performance Dashboard Extension for Magento 2
+ *
+ * PHP version 5
+ *
+ * @category     MageHost
+ * @package      MageHost\PerformanceDashboard
+ * @author       Jeroen Vermeulen <jeroen@magehost.pro>
+ * @copyright    2019 MageHost BV (https://magehost.pro)
+ * @license      https://opensource.org/licenses/MIT  MIT License
+ * @link         https://github.com/magehost/performance-dashboard
+ * @noinspection PhpUndefinedMethodInspection
+ */
 
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
+
+use Exception;
+use MageHost\PerformanceDashboard\Model\DashboardRow;
+use MageHost\PerformanceDashboard\Model\DashboardRowInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Store\Model\StoreManagerInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class HttpVersion
  *
  * Dashboard row to check HTTP version
  *
- * @package MageHost\PerformanceDashboard\Model\DashboardRow
+ * @category MageHost
+ * @package  MageHost\PerformanceDashboard\Model\DashboardRow
+ * @author   Jeroen Vermeulen <jeroen@magehost.pro>
+ * @license  https://opensource.org/licenses/MIT  MIT License
+ * @link     https://github.com/magehost/performance-dashboard
  */
-class HttpVersion extends \MageHost\PerformanceDashboard\Model\DashboardRow implements
-    \MageHost\PerformanceDashboard\Model\DashboardRowInterface
+class HttpVersion extends DashboardRow implements DashboardRowInterface
 {
-    /** @var \Magento\Framework\App\RequestInterface */
+    /**
+     * @var RequestInterface
+     */
     private $request;
 
-    /** @var \Magento\Store\Model\StoreManagerInterface */
+    /**
+     * @var StoreManagerInterface
+     */
     private $storeManager;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /**
+     * @var LoggerInterface
+     */
     private $logger;
 
     public function __construct(
-        \Magento\Framework\App\RequestInterface $request,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Psr\Log\LoggerInterface $logger,
+        RequestInterface $request,
+        StoreManagerInterface $storeManager,
+        LoggerInterface $logger,
         array $data
     ) {
         $this->request = $request;
@@ -35,6 +65,7 @@ class HttpVersion extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
 
     /**
      * Load Row, is called by DashboardRowFactory
+     * @throws NoSuchEntityException
      */
     public function load()
     {
@@ -45,32 +76,50 @@ class HttpVersion extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
         if (preg_match('|^http://|', $frontUrl)) {
             $this->setStatus(self::STATUS_PROBLEM);
             $this->setInfo(sprintf(__("Your frontend is not HTTPS")."\n"));
-            $this->setAction(__("Update 'Base URL' to use HTTPS.\n".
-                "This is required for HTTP/2\n"));
-            $this->setButtons([
+            $this->setAction(
+                __(
+                    "Update 'Base URL' to use HTTPS.\n".
+                    "This is required for HTTP/2\n"
+                )
+            );
+            $this->setButtons(
+                [
                 'label' => __('Default Config'),
                 'url' => 'adminhtml/system_config/edit/section/web',
                 'url_params' => [ '_fragment'=> 'web_unsecure-link' ]
-            ]);
+                ]
+            );
             return;
         }
 
         $httpVersion = $this->getHttpVersion();
         if (null === $httpVersion) {
             $this->setStatus(self::STATUS_UNKNOWN);
-            $this->setInfo(__("Could not check if you are running HTTP/2\n".
-                "\$_SERVER['SERVER_PROTOCOL'] may be missing.\n"));
+            $this->setInfo(
+                __(
+                    "Could not check if you are running HTTP/2\n".
+                    "\$_SERVER['SERVER_PROTOCOL'] may be missing.\n"
+                )
+            );
         } elseif (floatval($httpVersion) >= 2) {
             $this->setStatus(self::STATUS_OK);
             $this->setInfo(sprintf(__("HTTP Version: %s\n"), $httpVersion));
         } else {
             $this->setStatus(self::STATUS_PROBLEM);
             $this->setInfo(sprintf(__("Your connection is HTTP %s")."\n", $httpVersion));
-            $this->setAction(__("Upgrade to a web server supporting HTTP/2.\n".
-                "Check if HTTP/2 is enabled in your server config.\n"));
+            $this->setAction(
+                __(
+                    "Upgrade to a web server supporting HTTP/2.\n".
+                    "Check if HTTP/2 is enabled in your server config.\n"
+                )
+            );
         }
     }
 
+    /**
+     * @return string|null
+     * @throws NoSuchEntityException
+     */
     public function getHttpVersion()
     {
         // We are looking for HTTP/2 or higher.
@@ -88,11 +137,15 @@ class HttpVersion extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
 
         // However, the webserver may be behind a reverse proxy.
         // If the reverse proxy is talking HTTP/2 to the client we are still happy.
-        // It doen't matter if the internal connection to the webserver is HTTP/1.
+        // It doesn't matter if the internal connection to the webserver is HTTP/1.
 
         return $this->getHttpVersionUsingRequest();
     }
 
+    /**
+     * @return string|null
+     * @throws NoSuchEntityException
+     */
     public function getHttpVersionUsingRequest()
     {
         // We will use Curl to do a HEAD request to the frontend using HTTP/2.
@@ -106,7 +159,8 @@ class HttpVersion extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
             }
             // magento-coding-standard discourages use of Curl but it is the best way to check for HTTP/2.
             $curl = curl_init();
-            curl_setopt_array($curl, [
+            curl_setopt_array(
+                $curl, [
                 CURLOPT_URL => $frontUrl,
                 CURLOPT_NOBODY => true,
                 CURLOPT_HEADER => true,
@@ -116,10 +170,11 @@ class HttpVersion extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
                 CURLOPT_SSL_VERIFYHOST => false,
                 CURLOPT_CONNECTTIMEOUT => 2, // seconds
                 CURLOPT_TIMEOUT => 10 // seconds
-            ]);
+                ]
+            );
             $httpResponse = curl_exec($curl);
             curl_close($curl);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $msg = sprintf("%s: Error fetching '%s': %s", __CLASS__, $frontUrl, $e->getMessage());
             $this->logger->info($msg);
         }

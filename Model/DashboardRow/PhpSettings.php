@@ -1,16 +1,34 @@
 <?php
+/**
+ * Performance Dashboard Extension for Magento 2
+ *
+ * PHP version 5
+ *
+ * @category  MageHost
+ * @package   MageHost\PerformanceDashboard
+ * @author    Jeroen Vermeulen <jeroen@magehost.pro>
+ * @copyright 2019 MageHost BV (https://magehost.pro)
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ * @link      https://github.com/magehost/performance-dashboard
+ */
 
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
+
+use MageHost\PerformanceDashboard\Model\DashboardRow;
+use MageHost\PerformanceDashboard\Model\DashboardRowInterface;
 
 /**
  * Class PhpSettings
  *
  * Dashboard row to check PHP configuration
  *
- * @package MageHost\PerformanceDashboard\Model\DashboardRow
+ * @category MageHost
+ * @package  MageHost\PerformanceDashboard\Model\DashboardRow
+ * @author   Jeroen Vermeulen <jeroen@magehost.pro>
+ * @license  https://opensource.org/licenses/MIT  MIT License
+ * @link     https://github.com/magehost/performance-dashboard
  */
-class PhpSettings extends \MageHost\PerformanceDashboard\Model\DashboardRow implements
-    \MageHost\PerformanceDashboard\Model\DashboardRowInterface
+class PhpSettings extends DashboardRow implements DashboardRowInterface
 {
     private $exactValues = [
         'opcache.enable_cli' => 1,
@@ -28,6 +46,7 @@ class PhpSettings extends \MageHost\PerformanceDashboard\Model\DashboardRow impl
      */
     public function load()
     {
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->setTitle(__('PHP Configuration'));
         $this->buttons[] = '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html#server---php-configuration';
 

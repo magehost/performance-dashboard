@@ -1,38 +1,73 @@
 <?php
+/**
+ * Performance Dashboard Extension for Magento 2
+ *
+ * PHP version 5
+ *
+ * @category     MageHost
+ * @package      MageHost\PerformanceDashboard
+ * @author       Jeroen Vermeulen <jeroen@magehost.pro>
+ * @copyright    2019 MageHost BV (https://magehost.pro)
+ * @license      https://opensource.org/licenses/MIT  MIT License
+ * @link         https://github.com/magehost/performance-dashboard
+ * @noinspection PhpUndefinedMethodInspection
+ */
 
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
+
+use InvalidArgumentException;
+use MageHost\PerformanceDashboard\Model\DashboardRow;
+use MageHost\PerformanceDashboard\Model\DashboardRowInterface;
+use Magento\Config\Model\Config\SourceFactory;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Phrase;
+use Magento\Store\Api\Data\StoreInterface;
+use Magento\Store\Api\Data\WebsiteInterface;
+use Magento\Store\Model\ScopeInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Class ConfigSetting
  *
  * Dashboard rows to check optimal config settings.
  *
- * @package MageHost\PerformanceDashboard\Model\DashboardRow
+ * @category MageHost
+ * @package  MageHost\PerformanceDashboard\Model\DashboardRow
+ * @author   Jeroen Vermeulen <jeroen@magehost.pro>
+ * @license  https://opensource.org/licenses/MIT  MIT License
+ * @link     https://github.com/magehost/performance-dashboard
  */
-class ConfigSetting extends \MageHost\PerformanceDashboard\Model\DashboardRow implements
-    \MageHost\PerformanceDashboard\Model\DashboardRowInterface
+class ConfigSetting extends DashboardRow implements DashboardRowInterface
 {
-    /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
+    /**
+     * @var ScopeConfigInterface
+     */
     private $scopeConfig;
 
-    /** @var \Magento\Store\Model\StoreManagerInterface */
+    /**
+     * @var StoreManagerInterface
+     */
     private $storeManager;
 
-    /** @var \Magento\Config\Model\Config\SourceFactory */
+    /**
+     * @var SourceFactory
+     */
     private $sourceFactory;
 
     /**
      * Constructor.
      *
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Config\Model\Config\SourceFactory $sourceFactory
-     * @param array $data -- expects keys 'title', 'path' and 'recommended' to be set
+     * Expects data[] keys 'title', 'path' and 'recommended' to be set
+     *
+     * @param ScopeConfigInterface  $scopeConfig
+     * @param StoreManagerInterface $storeManager
+     * @param SourceFactory         $sourceFactory
+     * @param array                 $data
      */
     public function __construct(
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Config\Model\Config\SourceFactory $sourceFactory,
+        ScopeConfigInterface $scopeConfig,
+        StoreManagerInterface $storeManager,
+        SourceFactory $sourceFactory,
         array $data
     ) {
         $this->scopeConfig = $scopeConfig;
@@ -58,7 +93,9 @@ class ConfigSetting extends \MageHost\PerformanceDashboard\Model\DashboardRow im
                 'url_params' => [ '_fragment'=> sprintf('%s_%s-link', $pathParts[0], $pathParts[1]) ]
             ];
         }
-        /** @var \Magento\Store\Api\Data\WebsiteInterface $website */
+        /**
+         * @var WebsiteInterface $website
+        */
         foreach ($this->storeManager->getWebsites() as $website) {
             $websiteResult = $this->checkConfigSetting($this->getPath(), $this->getRecommended(), $website);
             if ($websiteResult['status'] > $defaultResult['status']) {
@@ -103,9 +140,9 @@ class ConfigSetting extends \MageHost\PerformanceDashboard\Model\DashboardRow im
     /**
      * Check a config setting for a specific scope
      *
-     * @param string $path
-     * @param mixed $recommended
-     * @param string|null $scope -- null = default scope
+     * @param  string      $path
+     * @param  mixed       $recommended
+     * @param  string|null $scope       -- null = default scope
      * @return array
      */
     private function checkConfigSetting(
@@ -116,15 +153,15 @@ class ConfigSetting extends \MageHost\PerformanceDashboard\Model\DashboardRow im
         $result = [];
 
         if (null === $scope) {
-            $scopeType = \Magento\Framework\App\Config\ScopeConfigInterface::SCOPE_TYPE_DEFAULT;
+            $scopeType = ScopeConfigInterface::SCOPE_TYPE_DEFAULT;
             $scopeCode = null;
             $showScope = __('in Default Config');
-        } elseif ($scope instanceof \Magento\Store\Api\Data\WebsiteInterface) {
-            $scopeType = \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE;
+        } elseif ($scope instanceof WebsiteInterface) {
+            $scopeType = ScopeInterface::SCOPE_WEBSITE;
             $scopeCode = $scope->getCode();
             $showScope = sprintf(__("for website '%s'"), $scope->getName());
-        } elseif ($scope instanceof \Magento\Store\Api\Data\StoreInterface) {
-            $scopeType = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        } elseif ($scope instanceof StoreInterface) {
+            $scopeType = ScopeInterface::SCOPE_STORE;
             $scopeCode = $scope->getCode();
             $showScope = sprintf(__("for store '%s'"), $scope->getName());
         } else {
@@ -157,10 +194,10 @@ class ConfigSetting extends \MageHost\PerformanceDashboard\Model\DashboardRow im
     /**
      * Format a value to show in frontend
      *
-     * @param mixed $value
-     * @param mixed $recommended
-     * @return \Magento\Framework\Phrase|string
-     * @throws \InvalidArgumentException
+     * @param  mixed $value
+     * @param  mixed $recommended
+     * @return Phrase|string
+     * @throws InvalidArgumentException
      */
     private function getShowValue($value, $recommended)
     {
@@ -169,7 +206,7 @@ class ConfigSetting extends \MageHost\PerformanceDashboard\Model\DashboardRow im
         } elseif (is_string($recommended) || is_int($recommended)) {
             $showValue = $value;
         } else {
-            throw new \InvalidArgumentException('Unsupported type of recommended value');
+            throw new InvalidArgumentException('Unsupported type of recommended value');
         }
         if ($this->getSource()) {
             $sourceModel = $this->sourceFactory->create($this->getSource());

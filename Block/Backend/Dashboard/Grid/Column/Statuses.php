@@ -1,15 +1,35 @@
 <?php
+/**
+ * Performance Dashboard Extension for Magento 2
+ *
+ * PHP version 5
+ *
+ * @category  MageHost
+ * @package   MageHost\PerformanceDashboard
+ * @author    Jeroen Vermeulen <jeroen@magehost.pro>
+ * @copyright 2019 MageHost BV (https://magehost.pro)
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ * @link      https://github.com/magehost/performance-dashboard
+ */
 
 namespace MageHost\PerformanceDashboard\Block\Backend\Dashboard\Grid\Column;
+
+use MageHost\PerformanceDashboard\Model\DashboardRow;
+use Magento\Backend\Block\Widget\Grid\Column;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Class Statuses
  *
  * Column to show OK / WARNING / PROBLEM / UNKNOWN status in dashboard grid.
  *
- * @package MageHost\PerformanceDashboard\Block\Backend\Dashboard\Grid\Column
+ * @category MageHost
+ * @package  MageHost\PerformanceDashboard\Block\Backend\Dashboard\Grid\Column
+ * @author   Jeroen Vermeulen <jeroen@magehost.pro>
+ * @license  https://opensource.org/licenses/MIT  MIT License
+ * @link     https://github.com/magehost/performance-dashboard
  */
-class Statuses extends \Magento\Backend\Block\Widget\Grid\Column
+class Statuses extends Column
 {
     /**
      * Add to column decorated status
@@ -24,12 +44,15 @@ class Statuses extends \Magento\Backend\Block\Widget\Grid\Column
     /**
      * Decorate status column values
      *
-     * @param string $value
-     * @param  \Magento\Framework\Model\AbstractModel $row
-     * @param \Magento\Backend\Block\Widget\Grid\Column $column
-     * @param bool $isExport
-     * @return string
+     * @noinspection PhpUnused
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
+     * @param string        $value    - Column value
+     * @param AbstractModel $row      - Grid row
+     * @param Column        $column   - Grid column
+     * @param bool          $isExport - If exporting
+     *
+     * @return string
      */
     public function decorateStatus($value, $row, $column, $isExport)
     {
@@ -39,10 +62,10 @@ class Statuses extends \Magento\Backend\Block\Widget\Grid\Column
         }
         $cell = htmlentities($value);
         $severity = [
-            \MageHost\PerformanceDashboard\Model\DashboardRow::STATUS_OK => 'notice',
-            \MageHost\PerformanceDashboard\Model\DashboardRow::STATUS_WARNING => 'minor',
-            \MageHost\PerformanceDashboard\Model\DashboardRow::STATUS_PROBLEM => 'critical',
-            \MageHost\PerformanceDashboard\Model\DashboardRow::STATUS_UNKNOWN => 'minor'
+            DashboardRow::STATUS_OK => 'notice',
+            DashboardRow::STATUS_WARNING => 'minor',
+            DashboardRow::STATUS_PROBLEM => 'critical',
+            DashboardRow::STATUS_UNKNOWN => 'minor'
         ];
         if (isset($severity[$row->getStatus()])) {
             $cell = sprintf(

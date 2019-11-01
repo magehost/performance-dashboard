@@ -1,39 +1,65 @@
 <?php
+/**
+ * Performance Dashboard Extension for Magento 2
+ *
+ * PHP version 5
+ *
+ * @category  MageHost
+ * @package   MageHost\PerformanceDashboard
+ * @author    Jeroen Vermeulen <jeroen@magehost.pro>
+ * @copyright 2019 MageHost BV (https://magehost.pro)
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ * @link      https://github.com/magehost/performance-dashboard
+ */
 
 namespace MageHost\PerformanceDashboard\Controller\Adminhtml\Dashboard;
+
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\View\Result\Page;
+use Magento\Framework\View\Result\PageFactory;
 
 /**
  * Performance Dashboard Index Controller
  *
- * @package MageHost\PerformanceDashboard\Controller\Adminhtml\Dashboard
+ * @category MageHost
+ * @package  MageHost\PerformanceDashboard\Controller\Adminhtml\Dashboard
+ * @author   Jeroen Vermeulen <jeroen@magehost.pro>
+ * @license  https://opensource.org/licenses/MIT  MIT License
+ * @link     https://github.com/magehost/performance-dashboard
  */
-class Index extends \Magento\Backend\App\Action
+class Index extends Action
 {
-    /** @var \Magento\Framework\View\Result\PageFactory */
-    private $resultPageFactory;
+    /**
+     * Controller for the overview page of the Performance Dashboard
+     * 
+     * @var PageFactory
+     */
+    private $_resultPageFactory;
 
     /**
      * Constructor
      *
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
+     * @param Context        $context           -
+     * @param PageFactory $resultPageFactory -
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory
+        Context $context,
+        PageFactory $resultPageFactory
     ) {
     
         parent::__construct($context);
-        $this->resultPageFactory = $resultPageFactory;
+        $this->_resultPageFactory = $resultPageFactory;
     }
 
     /**
-     * Load the page defined in view/adminhtml/layout/magehost_performance_dashboard_index.xml
+     * Load the page defined in
+     * view/adminhtml/layout/magehost_performance_dashboard_index.xml
      *
-     * @return \Magento\Framework\View\Result\Page
+     * @return Page
      */
     public function execute()
     {
-        return $this->resultPageFactory->create();
+        return $this->_resultPageFactory->create();
     }
 }

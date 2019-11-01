@@ -1,36 +1,62 @@
 <?php
+/**
+ * Performance Dashboard Extension for Magento 2
+ *
+ * PHP version 5
+ *
+ * @category     MageHost
+ * @package      MageHost\PerformanceDashboard
+ * @author       Jeroen Vermeulen <jeroen@magehost.pro>
+ * @copyright    2019 MageHost BV (https://magehost.pro)
+ * @license      https://opensource.org/licenses/MIT  MIT License
+ * @link         https://github.com/magehost/performance-dashboard
+ * @noinspection PhpUndefinedMethodInspection
+ */
 
 namespace MageHost\PerformanceDashboard\Model\DashboardRow;
+
+use MageHost\PerformanceDashboard\Model\DashboardRow;
+use MageHost\PerformanceDashboard\Model\DashboardRowInterface;
+use Magento\Framework\App\Cache\TypeListInterface;
 
 /**
  * Class CacheEnabled
  *
  * Dashboard row to check if all caches are enabled.
  *
- * @package MageHost\PerformanceDashboard\Model\DashboardRow
+ * @category MageHost
+ * @package  MageHost\PerformanceDashboard\Model\DashboardRow
+ * @author   Jeroen Vermeulen <jeroen@magehost.pro>
+ * @license  https://opensource.org/licenses/MIT  MIT License
+ * @link     https://github.com/magehost/performance-dashboard
  */
-class CacheEnabled extends \MageHost\PerformanceDashboard\Model\DashboardRow implements
-    \MageHost\PerformanceDashboard\Model\DashboardRowInterface
+class CacheEnabled extends DashboardRow implements DashboardRowInterface
 {
-    /** @var \Magento\Framework\App\Cache\TypeListInterface */
-    private $cacheTypeList;
+    /**
+     * List of Magento application caches
+     *
+     * @var TypeListInterface
+     */
+    private $_cacheTypeList;
 
     /**
      * Constructor.
      *
-     * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
-     * @param array $data
+     * @param TypeListInterface $cacheTypeList -
+     * @param array                                          $data          -
      */
     public function __construct(
-        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
+        TypeListInterface $cacheTypeList,
         array $data = []
     ) {
-        $this->cacheTypeList = $cacheTypeList;
+        $this->_cacheTypeList = $cacheTypeList;
         parent::__construct($data);
     }
 
     /**
      * Load Row, is called by DashboardRowFactory
+     *
+     * @return void
      */
     public function load()
     {
@@ -40,14 +66,19 @@ class CacheEnabled extends \MageHost\PerformanceDashboard\Model\DashboardRow imp
             'url' => 'adminhtml/cache/index'
         ];
         $this->buttons[] = [
-            'url' => '[devdocs-guides]/config-guide/cli/config-cli-subcommands-cache.html' .
-                '#config-cli-subcommands-cache-clean-over'
+            'url' =>
+                '[devdocs-guides]/config-guide/cli/config-cli-subcommands-cache.html'
+                . '#config-cli-subcommands-cache-clean-over'
         ];
 
-        foreach ($this->cacheTypeList->getTypes() as $type) {
+        foreach ($this->_cacheTypeList->getTypes() as $type) {
             if (! $type->getStatus()) {
-                $this->problems .= sprintf(__('Cache is disabled: %s')."\n", $type->getCacheType());
-                $this->actions .= sprintf(__("Enable %s cache")."\n", $type->getCacheType());
+                $this->problems .= sprintf(
+                    __('Cache is disabled: %s')."\n", $type->getCacheType()
+                );
+                $this->actions .= sprintf(
+                    __("Enable %s cache")."\n", $type->getCacheType()
+                );
             }
         }
         if (empty($this->actions)) {

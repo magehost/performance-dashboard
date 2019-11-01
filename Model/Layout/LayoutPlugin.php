@@ -1,27 +1,61 @@
 <?php
+/**
+ * Performance Dashboard Extension for Magento 2
+ *
+ * PHP version 5
+ *
+ * @category  MageHost
+ * @package   MageHost\PerformanceDashboard
+ * @author    Jeroen Vermeulen <jeroen@magehost.pro>
+ * @copyright 2019 MageHost BV (https://magehost.pro)
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ * @link      https://github.com/magehost/performance-dashboard
+ */
 
 namespace MageHost\PerformanceDashboard\Model\Layout;
+
+use MageHost\PerformanceDashboard\Logger\Logger;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Filesystem\DirectoryList;
+use Magento\Framework\View\Layout;
+use Magento\PageCache\Model\Config;
 
 /**
  * Class LayoutPlugin
  *
  * Frontend interceptor to check if a non cacheable layout was used.
+ *
+ * @category MageHost
+ * @package  MageHost\PerformanceDashboard\Model\Layout
+ * @author   Jeroen Vermeulen <jeroen@magehost.pro>
+ * @license  https://opensource.org/licenses/MIT  MIT License
+ * @link     https://github.com/magehost/performance-dashboard
  */
 class LayoutPlugin
 {
-    /** @var \Magento\PageCache\Model\Config */
+    /**
+     * @var Config
+     */
     private $config;
 
-    /** @var \Magento\Framework\Filesystem\DirectoryList */
+    /**
+     * @var DirectoryList
+     */
     private $directoryList;
 
-    /** @var \Magento\Framework\App\RequestInterface */
+    /**
+     * @var RequestInterface
+     */
     private $request;
 
-    /** @var \MageHost\PerformanceDashboard\Logger\Logger */
+    /**
+     * @var Logger
+     */
     private $logger;
 
-    /** @var array */
+    /**
+     * @var array 
+     */
     private $cacheableModules = ['cms','catalog'];
 
     const LOG_PREFIX = 'mh_noncacheable';
@@ -29,16 +63,16 @@ class LayoutPlugin
     /**
      * Constructor.
      *
-     * @param \Magento\PageCache\Model\Config $config
-     * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Framework\Filesystem\DirectoryList $directoryList
-     * @param \MageHost\PerformanceDashboard\Logger\Logger $logger
+     * @param Config              $config
+     * @param RequestInterface      $request
+     * @param DirectoryList  $directoryList
+     * @param Logger $logger
      */
     public function __construct(
-        \Magento\PageCache\Model\Config $config,
-        \Magento\Framework\App\RequestInterface $request,
-        \Magento\Framework\Filesystem\DirectoryList $directoryList,
-        \MageHost\PerformanceDashboard\Logger\Logger $logger
+        Config $config,
+        RequestInterface $request,
+        DirectoryList $directoryList,
+        Logger $logger
     ) {
         $this->config = $config;
         $this->request = $request;
@@ -47,11 +81,11 @@ class LayoutPlugin
     }
 
     /**
-     * @param \Magento\Framework\View\Layout $subject
-     * @param mixed $result
+     * @param  Layout $subject
+     * @param  mixed                          $result
      * @return mixed
      */
-    public function afterGenerateXml(\Magento\Framework\View\Layout $subject, $result)
+    public function afterGenerateXml(Layout $subject, $result)
     {
         $module = $this->request->getModuleName();
         if (!$subject->isCacheable() && in_array($module, $this->cacheableModules)) {

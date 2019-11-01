@@ -18,7 +18,9 @@
         "magento/module-store": ">=100.0",
         "magento/module-page-cache": ">=100.0",
         "monolog/monolog": ">=1.11",
-        "psr/log": ">=1.0"
+        "psr/log": ">=1.0",
+        "ext-curl": "*",
+        "ext-json": "*"
     },
     "autoload": {
         "files": [

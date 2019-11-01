@@ -1,14 +1,33 @@
 <?php
+/**
+ * Performance Dashboard Extension for Magento 2
+ *
+ * PHP version 5
+ *
+ * @category     MageHost
+ * @package      MageHost\PerformanceDashboard
+ * @author       Jeroen Vermeulen <jeroen@magehost.pro>
+ * @copyright    2019 MageHost BV (https://magehost.pro)
+ * @license      https://opensource.org/licenses/MIT  MIT License
+ * @link         https://github.com/magehost/performance-dashboard
+ * @noinspection PhpUndefinedMethodInspection
+ */
 
 namespace MageHost\PerformanceDashboard\Model;
+
+use Magento\Framework\DataObject;
 
 /**
  * Class DashboardRow
  *
- * @package MageHost\PerformanceDashboard\Model
+ * @category MageHost
+ * @package  MageHost\PerformanceDashboard\Model
+ * @author   Jeroen Vermeulen <jeroen@magehost.pro>
+ * @license  https://opensource.org/licenses/MIT  MIT License
+ * @link     https://github.com/magehost/performance-dashboard
  */
-abstract class DashboardRow extends \Magento\Framework\DataObject implements
-    \MageHost\PerformanceDashboard\Model\DashboardRowInterface
+abstract class DashboardRow extends DataObject implements
+    DashboardRowInterface
 {
     const STATUS_OK = 0;
     const STATUS_WARNING = 1;
