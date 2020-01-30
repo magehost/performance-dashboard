@@ -38,8 +38,7 @@ class PhpVersion extends DashboardRow implements DashboardRowInterface
     {
         $this->setTitle(__('PHP Version'));
         $this->setButtons(
-            '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html' .
-            '#server---software-recommendations'
+            '[devdocs-guides]/install-gde/system-requirements-tech.html#php'
         );
 
         $phpVersionSplit = explode('-', PHP_VERSION, 2);

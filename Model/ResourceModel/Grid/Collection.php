@@ -108,6 +108,7 @@ class Collection extends \Magento\Framework\Data\Collection
             /** @noinspection PhpUnhandledExceptionInspection */
             $this->addItem($this->rowFactory->create('HttpVersion'));
             $this->addItemsCache();
+            $this->addItemsSearch();
             /** @noinspection PhpUnhandledExceptionInspection */
             $this->addItem($this->rowFactory->create('ComposerAutoloader'));
             $this->addItemsConfig();
@@ -152,6 +153,30 @@ class Collection extends \Magento\Framework\Data\Collection
         $this->addItem($this->rowFactory->create('CacheEnabled'));
         $this->addItem($this->rowFactory->create('SessionStorage'));
         $this->addItem($this->rowFactory->create('NonCacheableLayouts'));
+    }
+
+    /**
+     * Add search related dashboard items
+     *
+     * @throws \Exception
+     * @throws UnexpectedValueException
+     */
+    private function addItemsSearch()
+    {
+        if (version_compare($this->productMetadata->getVersion(), '2.3.1', '>=')) {
+            $this->addItem(
+                $this->rowFactory->create(
+                    'ConfigSetting',
+                    [
+                        'title' => 'Catalog Search Engine',
+                        'path' => 'catalog/search/engine',
+                        'recommended' => 'elasticsearch6',
+                        'source' => 'Magento\Search\Model\Adminhtml\System\Config\Source\Engine',
+                        'buttons' => '[devdocs-guides]/config-guide/elasticsearch/es-overview.html'
+                    ]
+                )
+            );
+        }
     }
 
     /**
@@ -256,7 +281,7 @@ class Collection extends \Magento\Framework\Data\Collection
                 'title' => 'Asynchronous sending of sales emails',
                 'path' => 'sales_email/general/async_sending',
                 'recommended' => true,
-                'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
+                'buttons' => '[user-guides]/configuration/sales/sales-emails.html'.
                     '#stores---configuration---sales---sales-emails'
                 ]
             )

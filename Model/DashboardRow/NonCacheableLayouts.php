@@ -76,7 +76,7 @@ class NonCacheableLayouts extends DashboardRow implements DashboardRowInterface
     public function load()
     {
         $this->setTitle('Non Cacheable Layouts');
-        $this->setButtons('[devdocs-guides]/config-guide/cache/cache-priv-over.html#config-cache-over-cacheable');
+        $this->setButtons('[devdocs-guides]/frontend-dev-guide/cache_for_frontdevs.html#cache-over-cacheable');
 
         $output = '';
         $logFiles = $this->logHandler->getLogFiles();

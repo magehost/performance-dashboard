@@ -64,7 +64,7 @@ class AppStateMode extends DashboardRow implements DashboardRowInterface
         $appMode = $this->_appState->getMode();
         $this->setTitle('Magento Mode');
         $this->setButtons(
-            '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html' .
+            '[devdocs-guides]/config-guide/cli/config-cli-subcommands-mode.html' .
             '#production-mode'
         );
 

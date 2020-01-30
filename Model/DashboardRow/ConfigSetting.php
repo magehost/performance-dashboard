@@ -210,9 +210,12 @@ class ConfigSetting extends DashboardRow implements DashboardRowInterface
         }
         if ($this->getSource()) {
             $sourceModel = $this->sourceFactory->create($this->getSource());
-            $sourceArray = $sourceModel->toArray();
-            if (isset($sourceArray[$showValue])) {
-                $showValue = $sourceArray[$showValue];
+            $sourceArray = $sourceModel->toOptionArray();
+            foreach ($sourceArray as $item) {
+                if ($item['value'] == $showValue && !empty($item['label'])) {
+                    $showValue = $item['label'];
+                    break;
+                }
             }
         }
         return $showValue;

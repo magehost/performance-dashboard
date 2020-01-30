@@ -103,6 +103,14 @@ class Buttons extends AbstractRenderer
             ),
             $button['url']
         );
+        $button['url'] = str_replace(
+            '[user-guides]',
+            sprintf(
+                'https://docs.magento.com/%s/%s/user_guide',
+                'm2', 'ce'
+            ),
+            $button['url']
+        );
         if (preg_match('#^https?://#', $button['url'])) {
             $target = empty($button['target']) ? '_blank' : $button['target'];
             if (empty($button['label']) 

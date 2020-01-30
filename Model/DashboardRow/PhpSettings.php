@@ -32,6 +32,7 @@ class PhpSettings extends DashboardRow implements DashboardRowInterface
 {
     private $exactValues = [
         'opcache.enable_cli' => 1,
+        'opcache.save_comments' => 1,
         // opcache.validate_timestamps = 0  // If you have very fast disk access you don't need this.
         'opcache.consistency_checks' => 0
     ];
@@ -48,7 +49,8 @@ class PhpSettings extends DashboardRow implements DashboardRowInterface
     {
         /** @noinspection PhpUndefinedMethodInspection */
         $this->setTitle(__('PHP Configuration'));
-        $this->buttons[] = '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html#server---php-configuration';
+        $this->buttons[] = '[devdocs-guides]/install-gde/prereq/php-settings.html' .
+        '#php-required-opcache';
 
         foreach ($this->exactValues as $key => $value) {
             $curValue = ini_get($key);

@@ -122,8 +122,8 @@ class AsyncIndexes extends DashboardRow implements DashboardRowInterface
             }
         }
         $this->buttons[]
-            = '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html' .
-              '#magento---performance-optimizations';
+            = '[devdocs-guides]/performance-best-practices/configuration.html' .
+              '#indexers';
 
         $this->groupProcess();
     }
