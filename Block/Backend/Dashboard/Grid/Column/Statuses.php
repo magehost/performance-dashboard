@@ -44,7 +44,7 @@ class Statuses extends Column
     /**
      * Decorate status column values
      *
-     * @noinspection PhpUnused
+     * @noinspection                                  PhpUnused
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
      * @param string        $value    - Column value

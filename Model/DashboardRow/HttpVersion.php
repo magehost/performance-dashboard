@@ -65,6 +65,7 @@ class HttpVersion extends DashboardRow implements DashboardRowInterface
 
     /**
      * Load Row, is called by DashboardRowFactory
+     *
      * @throws NoSuchEntityException
      */
     public function load()
@@ -160,7 +161,8 @@ class HttpVersion extends DashboardRow implements DashboardRowInterface
             // magento-coding-standard discourages use of Curl but it is the best way to check for HTTP/2.
             $curl = curl_init();
             curl_setopt_array(
-                $curl, [
+                $curl,
+                [
                 CURLOPT_URL => $frontUrl,
                 CURLOPT_NOBODY => true,
                 CURLOPT_HEADER => true,

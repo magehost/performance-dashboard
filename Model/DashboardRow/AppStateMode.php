@@ -34,7 +34,7 @@ class AppStateMode extends DashboardRow implements DashboardRowInterface
 {
     /**
      * Application state flags.
-     * 
+     *
      * @var State
      */
     private $_appState;
@@ -43,7 +43,7 @@ class AppStateMode extends DashboardRow implements DashboardRowInterface
      * Constructor.
      *
      * @param State $appState - Application state flags
-     * @param array                        $data     - Data for object
+     * @param array $data     - Data for object
      */
     public function __construct(
         State $appState,

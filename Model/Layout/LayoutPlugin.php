@@ -54,7 +54,7 @@ class LayoutPlugin
     private $logger;
 
     /**
-     * @var array 
+     * @var array
      */
     private $cacheableModules = ['cms','catalog'];
 
@@ -63,10 +63,10 @@ class LayoutPlugin
     /**
      * Constructor.
      *
-     * @param Config              $config
-     * @param RequestInterface      $request
-     * @param DirectoryList  $directoryList
-     * @param Logger $logger
+     * @param Config           $config
+     * @param RequestInterface $request
+     * @param DirectoryList    $directoryList
+     * @param Logger           $logger
      */
     public function __construct(
         Config $config,
@@ -82,7 +82,7 @@ class LayoutPlugin
 
     /**
      * @param  Layout $subject
-     * @param  mixed                          $result
+     * @param  mixed  $result
      * @return mixed
      */
     public function afterGenerateXml(Layout $subject, $result)

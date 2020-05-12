@@ -36,7 +36,7 @@ class AsyncIndexes extends DashboardRow implements DashboardRowInterface
 {
     /**
      * Collection of indexers
-     * 
+     *
      * @var Collection
      */
     private $_indexerCollection;
@@ -85,7 +85,9 @@ class AsyncIndexes extends DashboardRow implements DashboardRowInterface
         $this->setTitle(__("Asynchronous Indexing"));
 
         if (version_compare(
-            $this->_productMetadata->getVersion(), '2.2.0.dev', '<'
+            $this->_productMetadata->getVersion(),
+            '2.2.0.dev',
+            '<'
         )
         ) {
             if (!$this->_scopeConfig->getValue('dev/grid/async_indexing')) {

@@ -33,17 +33,6 @@ use MageHost\PerformanceDashboard\Model\DashboardRowInterface;
 class ComposerAutoloader extends DashboardRow implements DashboardRowInterface
 {
     /**
-     * Constructor.
-     *
-     * @param array $data - Data for object
-     */
-    public function __construct(
-        array $data = []
-    ) {
-        parent::__construct($data);
-    }
-
-    /**
      * Load Row, is called by DashboardRowFactory
      *
      * @return void
@@ -65,7 +54,7 @@ class ComposerAutoloader extends DashboardRow implements DashboardRowInterface
         $classLoader = null;
         foreach (spl_autoload_functions() as $function) {
 
-            if (is_array($function) 
+            if (is_array($function)
                 && $function[0] instanceof ClassLoader
             ) {
                 $classLoader = $function[0];
@@ -79,8 +68,10 @@ class ComposerAutoloader extends DashboardRow implements DashboardRowInterface
             return;
         }
 
-        if (array_key_exists('Magento\Config\Model\Config',
-            $classLoader->getClassMap())) {
+        if (array_key_exists(
+            \Magento\Config\Model\Config::class,
+            $classLoader->getClassMap()
+        )) {
             $this->setStatus(self::STATUS_OK);
             $this->setInfo(__("Composer's autoloader is optimized"));
         } else {

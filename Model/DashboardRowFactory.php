@@ -32,6 +32,8 @@ use UnexpectedValueException;
 class DashboardRowFactory
 {
     /**
+     * We need the ObjectManager because this is a factory class
+     *
      * @var ObjectManagerInterface
      */
     private $objectManager;

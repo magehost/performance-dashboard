@@ -43,7 +43,7 @@ class SessionStorage extends DashboardRow implements DashboardRowInterface
      * Constructor
      *
      * @param DeploymentConfig $deploymentConfig
-     * @param array                                   $data
+     * @param array            $data
      */
     public function __construct(
         DeploymentConfig $deploymentConfig,
@@ -67,25 +67,26 @@ class SessionStorage extends DashboardRow implements DashboardRowInterface
         $defaultSaveHandler = ini_get('session.save_handler') ?:
             SaveHandlerInterface::DEFAULT_HANDLER;
         $saveHandler = $this->deploymentConfig->get(
-            Config::PARAM_SESSION_SAVE_METHOD, $defaultSaveHandler
+            Config::PARAM_SESSION_SAVE_METHOD,
+            $defaultSaveHandler
         );
 
         switch ($saveHandler) {
-        case 'redis':
-        case 'memcache':
-        case 'memcached':
-            $this->setStatus(self::STATUS_OK);
-            $this->setInfo(sprintf(__('Sessions are saved in %s'), ucfirst($saveHandler)));
-            break;
-        case 'files':
-        case 'db':
-            $this->setStatus(self::STATUS_PROBLEM);
-            $this->setInfo(sprintf(__('Sessions are saved in %s'), ucfirst($saveHandler)));
-            $this->setAction('Save sessions in Redis or Memcached');
-            break;
-        default:
-            $this->setInfo(sprintf(__('Unknown session save handler: %s'), $saveHandler));
-            $this->setStatus(self::STATUS_UNKNOWN);
+            case 'redis':
+            case 'memcache':
+            case 'memcached':
+                $this->setStatus(self::STATUS_OK);
+                $this->setInfo(sprintf(__('Sessions are saved in %s'), ucfirst($saveHandler)));
+                break;
+            case 'files':
+            case 'db':
+                $this->setStatus(self::STATUS_PROBLEM);
+                $this->setInfo(sprintf(__('Sessions are saved in %s'), ucfirst($saveHandler)));
+                $this->setAction('Save sessions in Redis or Memcached');
+                break;
+            default:
+                $this->setInfo(sprintf(__('Unknown session save handler: %s'), $saveHandler));
+                $this->setStatus(self::STATUS_UNKNOWN);
         }
     }
 }

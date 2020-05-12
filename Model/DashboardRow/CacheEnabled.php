@@ -43,7 +43,7 @@ class CacheEnabled extends DashboardRow implements DashboardRowInterface
      * Constructor.
      *
      * @param TypeListInterface $cacheTypeList -
-     * @param array                                          $data          -
+     * @param array             $data          -
      */
     public function __construct(
         TypeListInterface $cacheTypeList,
@@ -74,10 +74,12 @@ class CacheEnabled extends DashboardRow implements DashboardRowInterface
         foreach ($this->_cacheTypeList->getTypes() as $type) {
             if (! $type->getStatus()) {
                 $this->problems .= sprintf(
-                    __('Cache is disabled: %s')."\n", $type->getCacheType()
+                    __('Cache is disabled: %s')."\n",
+                    $type->getCacheType()
                 );
                 $this->actions .= sprintf(
-                    __("Enable %s cache")."\n", $type->getCacheType()
+                    __("Enable %s cache")."\n",
+                    $type->getCacheType()
                 );
             }
         }

@@ -1,3 +1,9 @@
+### 1.15.0 (2020-05-12)
+
+  * Added ElasticSearch check
+  * Improved DevDoc URLs
+  * Magento2 Coding Standard
+  
 ### 1.14.2 (2018-07-16)
 
   * Fixed config link on HTTP/2 check for HTTPS requirement

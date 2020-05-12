@@ -57,11 +57,11 @@ class Collection extends \Magento\Framework\Data\Collection
     /**
      * Constructor
      *
-     * @param EntityFactory         $entityFactory
-     * @param DashboardRowFactory $rowFactory
-     * @param ScopeConfigInterface       $scopeConfig
-     * @param ProductMetadataInterface          $productMetadata
-     * @param LoggerInterface                                 $logger
+     * @param EntityFactory            $entityFactory
+     * @param DashboardRowFactory      $rowFactory
+     * @param ScopeConfigInterface     $scopeConfig
+     * @param ProductMetadataInterface $productMetadata
+     * @param LoggerInterface          $logger
      */
     public function __construct(
         EntityFactory $entityFactory,
@@ -80,8 +80,8 @@ class Collection extends \Magento\Framework\Data\Collection
     /**
      * Load data
      *
-     * @param bool $printQuery
-     * @param bool $logQuery
+     * @param  bool $printQuery
+     * @param  bool $logQuery
      * @return $this
      * @throws \Exception
      * @throws \UnexpectedValueException
@@ -171,7 +171,7 @@ class Collection extends \Magento\Framework\Data\Collection
                         'title' => 'Catalog Search Engine',
                         'path' => 'catalog/search/engine',
                         'recommended' => 'elasticsearch6',
-                        'source' => 'Magento\Search\Model\Adminhtml\System\Config\Source\Engine',
+                        'source' => \Magento\Search\Model\Adminhtml\System\Config\Source\Engine::class,
                         'buttons' => '[devdocs-guides]/config-guide/elasticsearch/es-overview.html'
                     ]
                 )
@@ -194,7 +194,7 @@ class Collection extends \Magento\Framework\Data\Collection
                 'title' => 'Full Page Caching Application',
                 'path' => 'system/full_page_cache/caching_application',
                 'recommended' => Config::VARNISH,
-                'source' => 'Magento\PageCache\Model\System\Config\Source\Application',
+                'source' => \Magento\PageCache\Model\System\Config\Source\Application::class,
                 'buttons' => '[devdocs-guides]/config-guide/varnish/config-varnish.html'
                 ]
             )

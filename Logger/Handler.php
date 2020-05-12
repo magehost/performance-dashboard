@@ -63,7 +63,12 @@ class Handler extends RotatingFileHandler
     ) {
         $this->_directoryList = $directoryList;
         parent::__construct(
-            $filename, $maxFiles, $level, $bubble, $filePermission, $useLocking
+            $filename,
+            $maxFiles,
+            $level,
+            $bubble,
+            $filePermission,
+            $useLocking
         );
     }
 
@@ -82,7 +87,8 @@ class Handler extends RotatingFileHandler
         if ('/' != substr($this->filename, 0, 1)) {
             // Prepend Magento log dir
             $this->filename = sprintf(
-                "%s/%s", $this->_directoryList->getPath('log'),
+                "%s/%s",
+                $this->_directoryList->getPath('log'),
                 $this->filename
             );
         }

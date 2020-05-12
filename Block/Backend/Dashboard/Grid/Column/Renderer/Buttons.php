@@ -93,13 +93,15 @@ class Buttons extends AbstractRenderer
         }
         $result = '';
         $magentoVersionArray = explode(
-            '.', $this->_productMetadata->getVersion()
+            '.',
+            $this->_productMetadata->getVersion()
         );
         $button['url'] = str_replace(
             '[devdocs-guides]',
             sprintf(
                 'http://devdocs.magento.com/guides/v%d.%d',
-                $magentoVersionArray[0], $magentoVersionArray[1]
+                $magentoVersionArray[0],
+                $magentoVersionArray[1]
             ),
             $button['url']
         );
@@ -107,13 +109,14 @@ class Buttons extends AbstractRenderer
             '[user-guides]',
             sprintf(
                 'https://docs.magento.com/%s/%s/user_guide',
-                'm2', 'ce'
+                'm2',
+                'ce'
             ),
             $button['url']
         );
         if (preg_match('#^https?://#', $button['url'])) {
             $target = empty($button['target']) ? '_blank' : $button['target'];
-            if (empty($button['label']) 
+            if (empty($button['label'])
                 && false !== strpos($button['url'], '//devdocs.magento.com/')
             ) {
                 $button['label'] = 'DevDocs';
@@ -122,7 +125,8 @@ class Buttons extends AbstractRenderer
             $routeParams = empty($button['url_params']) ?
                 null : $button['url_params'];
             $button['url'] = $this->_urlBuilder->getUrl(
-                $button['url'], $routeParams
+                $button['url'],
+                $routeParams
             );
             $target = empty($button['target']) ? '_top' : $button['target'];
         }
@@ -131,7 +135,8 @@ class Buttons extends AbstractRenderer
         // To show button:
         // <button style="padding: 0.2rem 0.5em; font-size: 1.3rem">%s</button>
         $result .= sprintf(
-            '%s', str_replace(' ', '&nbsp;', $label)
+            '%s',
+            str_replace(' ', '&nbsp;', $label)
         );
         $result .= '</a>';
         return $result;

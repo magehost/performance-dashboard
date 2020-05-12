@@ -34,7 +34,7 @@ class CacheStorage extends DashboardRow implements DashboardRowInterface
 {
     /**
      * In-memory readonly pool of all cache front-end instances known to the system
-     * 
+     *
      * @var Pool
      */
     private $_cacheFrontendPool;
@@ -44,8 +44,8 @@ class CacheStorage extends DashboardRow implements DashboardRowInterface
      *
      * Expects $data keys 'identifier' and 'name' to be set.
      *
-     * @param Pool $cacheFrontendPool -
-     * @param array                                      $data              -
+     * @param Pool  $cacheFrontendPool -
+     * @param array $data              -
      */
     public function __construct(
         Pool $cacheFrontendPool,
@@ -91,7 +91,8 @@ class CacheStorage extends DashboardRow implements DashboardRowInterface
             $this->setStatus(self::STATUS_UNKNOWN);
             $this->setInfo(
                 sprintf(
-                    __("Unknown cache storage: '%s'"), get_class($currentBackend)
+                    __("Unknown cache storage: '%s'"),
+                    get_class($currentBackend)
                 )
             );
         }

@@ -53,10 +53,10 @@ class NonCacheableLayouts extends DashboardRow implements DashboardRowInterface
     /**
      * Constructor.
      *
-     * @param DirectoryList    $directoryList
-     * @param Handler  $logHandler
-     * @param ReadFactory $readFactory
-     * @param array                                          $data
+     * @param DirectoryList $directoryList
+     * @param Handler       $logHandler
+     * @param ReadFactory   $readFactory
+     * @param array         $data
      */
     public function __construct(
         DirectoryList $directoryList,

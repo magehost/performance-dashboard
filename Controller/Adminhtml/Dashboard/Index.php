@@ -32,7 +32,7 @@ class Index extends Action
 {
     /**
      * Controller for the overview page of the Performance Dashboard
-     * 
+     *
      * @var PageFactory
      */
     private $_resultPageFactory;
@@ -40,7 +40,7 @@ class Index extends Action
     /**
      * Constructor
      *
-     * @param Context        $context           -
+     * @param Context     $context           -
      * @param PageFactory $resultPageFactory -
      */
     public function __construct(

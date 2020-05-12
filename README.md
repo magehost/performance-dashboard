@@ -47,6 +47,8 @@ Checks executed:
 * A check which logs CMS and Catalog pages which can't be cached in full-page-cache because of `cacheable="false"`.
 * Is Composer's autoloader optimized?
 * Is the Full Page Cache using Varnish?
+* For Magento >= 2.3.1:
+  * Is Elastic Search in use?
 * For Magento < 2.2:
   * If not on HTTP/2:
     * Is JavaScript bundling enabled?
