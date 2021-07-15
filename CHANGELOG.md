@@ -1,3 +1,7 @@
+### 1.15.1 (2021-07-15)
+
+  * Made ElasticSearch check Magento 2.4 compatible
+
 ### 1.15.0 (2020-05-12)
 
   * Added ElasticSearch check
