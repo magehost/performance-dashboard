@@ -163,7 +163,7 @@ class Collection extends \Magento\Framework\Data\Collection
      */
     private function addItemsSearch()
     {
-        if (version_compare($this->productMetadata->getVersion(), '2.3.1', '>=')) {
+        if (version_compare($this->productMetadata->getVersion(), '2.3.1', '>=') && version_compare($this->productMetadata->getVersion(), '2.4.0', '<')) {
             $this->addItem(
                 $this->rowFactory->create(
                     'ConfigSetting',
@@ -171,6 +171,21 @@ class Collection extends \Magento\Framework\Data\Collection
                         'title' => 'Catalog Search Engine',
                         'path' => 'catalog/search/engine',
                         'recommended' => 'elasticsearch6',
+                        'source' => \Magento\Search\Model\Adminhtml\System\Config\Source\Engine::class,
+                        'buttons' => '[devdocs-guides]/config-guide/elasticsearch/es-overview.html'
+                    ]
+                )
+            );
+        }
+
+        if (version_compare($this->productMetadata->getVersion(), '2.4.0', '>=')) {
+            $this->addItem(
+                $this->rowFactory->create(
+                    'ConfigSetting',
+                    [
+                        'title' => 'Catalog Search Engine',
+                        'path' => 'catalog/search/engine',
+                        'recommended' => 'elasticsearch7',
                         'source' => \Magento\Search\Model\Adminhtml\System\Config\Source\Engine::class,
                         'buttons' => '[devdocs-guides]/config-guide/elasticsearch/es-overview.html'
                     ]
