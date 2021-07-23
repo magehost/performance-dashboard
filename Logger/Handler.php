@@ -84,12 +84,12 @@ class Handler extends RotatingFileHandler
      */
     protected function getTimedFilename()
     {
-        if ('/' != substr($this->filename, 0, 1)) {
-            // Prepend Magento log dir
+        if (strpos($this->filename, $this->_directoryList->getPath('log')) === false) {
+            // Fix dir location
             $this->filename = sprintf(
                 "%s/%s",
                 $this->_directoryList->getPath('log'),
-                $this->filename
+                basename($this->filename)
             );
         }
         return parent::getTimedFilename();
