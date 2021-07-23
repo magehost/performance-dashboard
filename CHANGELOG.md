@@ -1,3 +1,7 @@
+### 1.15.2 (2021-07-15)
+
+  * Fixed logger path
+
 ### 1.15.1 (2021-07-15)
 
   * Made ElasticSearch check Magento 2.4 compatible
