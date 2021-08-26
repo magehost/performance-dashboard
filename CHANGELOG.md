@@ -1,3 +1,9 @@
+### 1.15.3 (2021-08-26)
+
+  * Added MySQL default settings check
+  * Added move_script_to_bottom check
+  * Removed merge and bundling checks since they often hurt performance
+
 ### 1.15.2 (2021-07-23)
 
   * Fixed logger path

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Performance Dashboard Extension for Magento 2
  *
@@ -93,7 +94,7 @@ class Collection extends \Magento\Framework\Data\Collection
                 $this->logger->debug(
                     sprintf(
                         "%s::%s does not get its data from direct database queries," .
-                        "it is gathered from several internal Magento objects and logging.",
+                            "it is gathered from several internal Magento objects and logging.",
                         __CLASS__,
                         __FUNCTION__
                     )
@@ -103,6 +104,8 @@ class Collection extends \Magento\Framework\Data\Collection
             $this->addItem($this->rowFactory->create('PhpVersion'));
             /** @noinspection PhpUnhandledExceptionInspection */
             $this->addItem($this->rowFactory->create('PhpSettings'));
+            /** @noinspection PhpUnhandledExceptionInspection */
+            $this->addItem($this->rowFactory->create('MySQLSettings'));
             /** @noinspection PhpUnhandledExceptionInspection */
             $this->addItem($this->rowFactory->create('AppStateMode'));
             /** @noinspection PhpUnhandledExceptionInspection */
@@ -131,21 +134,20 @@ class Collection extends \Magento\Framework\Data\Collection
             $this->rowFactory->create(
                 'CacheStorage',
                 [
-                'identifier' => 'default',
-                'name' => 'Magento Cache',
-                'buttons' => '[devdocs-guides]/config-guide/redis/redis-pg-cache.html'
+                    'identifier' => 'default',
+                    'name' => 'Magento Cache',
+                    'buttons' => '[devdocs-guides]/config-guide/redis/redis-pg-cache.html'
                 ]
             )
         );
-        if (Config::BUILT_IN ==$this->scopeConfig->getValue('system/full_page_cache/caching_application')
-        ) {
+        if (Config::BUILT_IN == $this->scopeConfig->getValue('system/full_page_cache/caching_application')) {
             $this->addItem(
                 $this->rowFactory->create(
                     'CacheStorage',
                     [
-                    'identifier' => 'page_cache',
-                    'name' => 'Full Page Cache',
-                    'buttons' => '[devdocs-guides]/config-guide/redis/redis-pg-cache.html'
+                        'identifier' => 'page_cache',
+                        'name' => 'Full Page Cache',
+                        'buttons' => '[devdocs-guides]/config-guide/redis/redis-pg-cache.html'
                     ]
                 )
             );
@@ -206,11 +208,11 @@ class Collection extends \Magento\Framework\Data\Collection
             $this->rowFactory->create(
                 'ConfigSetting',
                 [
-                'title' => 'Full Page Caching Application',
-                'path' => 'system/full_page_cache/caching_application',
-                'recommended' => Config::VARNISH,
-                'source' => \Magento\PageCache\Model\System\Config\Source\Application::class,
-                'buttons' => '[devdocs-guides]/config-guide/varnish/config-varnish.html'
+                    'title' => 'Full Page Caching Application',
+                    'path' => 'system/full_page_cache/caching_application',
+                    'recommended' => Config::VARNISH,
+                    'source' => \Magento\PageCache\Model\System\Config\Source\Application::class,
+                    'buttons' => '[devdocs-guides]/config-guide/varnish/config-varnish.html'
                 ]
             )
         );
@@ -220,10 +222,10 @@ class Collection extends \Magento\Framework\Data\Collection
                     $this->rowFactory->create(
                         'ConfigSetting',
                         [
-                        'title' => 'Enable JavaScript Bundling',
-                        'path' => 'dev/js/enable_js_bundling',
-                        'recommended' => true,
-                        'buttons' => '[devdocs-guides]/frontend-dev-guide/themes/js-bundling.html'
+                            'title' => 'Enable JavaScript Bundling',
+                            'path' => 'dev/js/enable_js_bundling',
+                            'recommended' => true,
+                            'buttons' => '[devdocs-guides]/frontend-dev-guide/themes/js-bundling.html'
                         ]
                     )
                 );
@@ -231,11 +233,11 @@ class Collection extends \Magento\Framework\Data\Collection
                     $this->rowFactory->create(
                         'ConfigSetting',
                         [
-                        'title' => 'Merge JavaScript Files',
-                        'path' => 'dev/js/merge_files',
-                        'recommended' => true,
-                        'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
-                            '#magento---performance-optimizations'
+                            'title' => 'Merge JavaScript Files',
+                            'path' => 'dev/js/merge_files',
+                            'recommended' => true,
+                            'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html' .
+                                '#magento---performance-optimizations'
                         ]
                     )
                 );
@@ -243,11 +245,11 @@ class Collection extends \Magento\Framework\Data\Collection
                     $this->rowFactory->create(
                         'ConfigSetting',
                         [
-                        'title' => 'Merge CSS Files',
-                        'path' => 'dev/css/merge_css_files',
-                        'recommended' => true,
-                        'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
-                            '#magento---performance-optimizations'
+                            'title' => 'Merge CSS Files',
+                            'path' => 'dev/css/merge_css_files',
+                            'recommended' => true,
+                            'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html' .
+                                '#magento---performance-optimizations'
                         ]
                     )
                 );
@@ -256,11 +258,11 @@ class Collection extends \Magento\Framework\Data\Collection
                 $this->rowFactory->create(
                     'ConfigSetting',
                     [
-                    'title' => 'Minify JavaScript Files',
-                    'path' => 'dev/js/minify_files',
-                    'recommended' => true,
-                    'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
-                        '#magento---performance-optimizations'
+                        'title' => 'Minify JavaScript Files',
+                        'path' => 'dev/js/minify_files',
+                        'recommended' => true,
+                        'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html' .
+                            '#magento---performance-optimizations'
                     ]
                 )
             );
@@ -268,11 +270,11 @@ class Collection extends \Magento\Framework\Data\Collection
                 $this->rowFactory->create(
                     'ConfigSetting',
                     [
-                    'title' => 'Minify CSS Files',
-                    'path' => 'dev/css/minify_files',
-                    'recommended' => true,
-                    'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
-                        '#magento---performance-optimizations'
+                        'title' => 'Minify CSS Files',
+                        'path' => 'dev/css/minify_files',
+                        'recommended' => true,
+                        'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html' .
+                            '#magento---performance-optimizations'
                     ]
                 )
             );
@@ -280,11 +282,11 @@ class Collection extends \Magento\Framework\Data\Collection
                 $this->rowFactory->create(
                     'ConfigSetting',
                     [
-                    'title' => 'Minify HTML',
-                    'path' => 'dev/template/minify_html',
-                    'recommended' => true,
-                    'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html'.
-                        '#magento---performance-optimizations'
+                        'title' => 'Minify HTML',
+                        'path' => 'dev/template/minify_html',
+                        'recommended' => true,
+                        'buttons' => '[devdocs-guides]/config-guide/prod/prod_perf-optimize.html' .
+                            '#magento---performance-optimizations'
                     ]
                 )
             );
@@ -293,11 +295,11 @@ class Collection extends \Magento\Framework\Data\Collection
             $this->rowFactory->create(
                 'ConfigSetting',
                 [
-                'title' => 'Asynchronous sending of sales emails',
-                'path' => 'sales_email/general/async_sending',
-                'recommended' => true,
-                'buttons' => '[user-guides]/configuration/sales/sales-emails.html'.
-                    '#stores---configuration---sales---sales-emails'
+                    'title' => 'Asynchronous sending of sales emails',
+                    'path' => 'sales_email/general/async_sending',
+                    'recommended' => true,
+                    'buttons' => '[user-guides]/configuration/sales/sales-emails.html' .
+                        '#stores---configuration---sales---sales-emails'
                 ]
             )
         );

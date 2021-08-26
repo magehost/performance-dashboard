@@ -39,6 +39,7 @@ Checks executed:
 * Is PHP 7 in use?
 * Is HTTP/2 in use?
 * Are the PHP performance settings correct?
+* Are the MySQL performance settings tuned?
 * Is Magento in Production mode?
 * Is the Magento Cache stored in Redis?
 * Is the Full Page Cache stored in Redis?
@@ -49,10 +50,10 @@ Checks executed:
 * Is the Full Page Cache using Varnish?
 * For Magento >= 2.3.1:
   * Is Elastic Search in use?
+* For Magento >= 2.3.2:
+  * Is JavaScript defered?
 * For Magento < 2.2:
   * If not on HTTP/2:
-    * Is JavaScript bundling enabled?
-    * Is merging JavaScript files enabled?
     * Is merging CSS files enabled?
   * Is minify of JavaScript files enabled?
   * Is minify of CSS files enabled?
