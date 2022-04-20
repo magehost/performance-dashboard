@@ -82,7 +82,7 @@ class Handler extends RotatingFileHandler
      * @return string
      * @throws FileSystemException
      */
-    protected function getTimedFilename()
+    protected function getTimedFilename(): string
     {
         if (strpos($this->filename, $this->_directoryList->getPath('log')) === false) {
             // Fix dir location
