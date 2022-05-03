@@ -102,6 +102,14 @@ class Handler extends RotatingFileHandler
      */
     public function getLogFiles()
     {
+        if (strpos($this->filename, $this->_directoryList->getPath('log')) === false) {
+            // Fix dir location
+            $this->filename = sprintf(
+                "%s/%s",
+                $this->_directoryList->getPath('log'),
+                basename($this->filename)
+            );
+        }
         return Glob::glob($this->getGlobPattern());
     }
 }
