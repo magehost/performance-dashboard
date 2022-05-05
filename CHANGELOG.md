@@ -1,3 +1,6 @@
+### 1.15.4 (2022-05-03)
+  * Fixed Log Handler compatibility with Magento 2.4.4
+
 ### 1.15.3 (2021-08-26)
 
   * Added MySQL default settings check
