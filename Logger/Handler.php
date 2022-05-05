@@ -73,29 +73,6 @@ class Handler extends RotatingFileHandler
     }
 
     /**
-     * Get timed filename.
-     * Example:  /full/path/to/var/log/mh_noncacheable-2019-10-31.log
-     *
-     * Running  phpcs --standard=MEQP2  warns because it is protected,
-     * like the parent class.
-     *
-     * @return string
-     * @throws FileSystemException
-     */
-    protected function getTimedFilename()
-    {
-        if (strpos($this->filename, $this->_directoryList->getPath('log')) === false) {
-            // Fix dir location
-            $this->filename = sprintf(
-                "%s/%s",
-                $this->_directoryList->getPath('log'),
-                basename($this->filename)
-            );
-        }
-        return parent::getTimedFilename();
-    }
-
-    /**
      * Receive currently stored log files
      *
      * @return array
