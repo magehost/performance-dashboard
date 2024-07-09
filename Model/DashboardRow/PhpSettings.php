@@ -53,6 +53,9 @@ class PhpSettings extends DashboardRow implements DashboardRowInterface
         '#php-required-opcache';
 
         foreach ($this->exactValues as $key => $value) {
+            if (version_compare(phpversion(), '8.3.0', '>=') && $key == 'opcache.consistency_checks') {
+                continue;
+            }
             $curValue = ini_get($key);
             if (false === $curValue) {
                 $this->problems .= $this->getProblem($key, $curValue);
