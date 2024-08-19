@@ -77,13 +77,14 @@ class MySQLSettings extends DashboardRow implements DashboardRowInterface
         $info = '';
         foreach ($this->defaultValues as $key => $value) {
             $currentValue = $connection->fetchRow('SHOW VARIABLES LIKE \'' . $key . '\'');
-            if (is_array($currentValue) == false) continue;
-            if ($currentValue['Value'] <= $value) {
-                $this->problems .= $key . ' lower than - or equal to the default value: '
-                    . $currentValue['Value'];
-                $this->actions .= 'Ask your hosting to tune ' . $key;
+            if (is_array($currentValue) && isset($currentValue['Value'])) {
+                if ($currentValue['Value'] <= $value) {
+                    $this->problems .= $key . ' lower than - or equal to the default value: '
+                        . $currentValue['Value'];
+                    $this->actions .= 'Ask your hosting to tune ' . $key;
+                }
+                $info .= $key . ' = ' . $currentValue['Value'] . "\n";
             }
-            $info .= $key . ' = ' . $currentValue['Value'] . "\n";
         }
 
         if ($this->problems == '') {
